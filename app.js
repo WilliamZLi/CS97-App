@@ -9,7 +9,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://<user>:<password>@cs97-cluster.gukdx.mongodb.net/test?retryWrites=true&w=majority";
+const uri = "mongodb+srv://test:passw0rd@cs97-cluster.gukdx.mongodb.net/test?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
