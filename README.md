@@ -9,6 +9,7 @@ private key > The private key acts as the password when making API requests.
 
 Run with windows powershell:
 SET=DEBUG=\<directory\>:*
+
 npm run dev
 
 Notes:
