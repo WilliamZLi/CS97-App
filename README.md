@@ -14,7 +14,6 @@ npm run dev
 Notes:
 using nodemon (run dev) as apparently it helps restart the server if changes are made
 run with npm run dev -V (verbose mode) if you want to check if it's working
-in app.js (main file) change \<user\> and \<password\> to your own mongodb user/pass
 routing: from what i can tell, to route (make a new page) you need:
 in app.js:
 var \<name\>Router = require('./routes/\<name\>');
