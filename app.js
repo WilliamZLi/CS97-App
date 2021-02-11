@@ -8,7 +8,9 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://<user>:<password>@cs97-cluster.gukdx.mongodb.net/test?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true });
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -22,10 +24,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+client.connect((err) => {
+  if (err) return console.error(err);
+  console.log('Connected to Database');
+  const db = client.db('test');
+  const coll = db.collection('col');
+  app.post('/quotes', (req, res) => {
+  coll.insertOne(req.body)
+    .then(result => {
+      res.redirect('/')
+    })
+    .catch(error => console.error(error))
+})
 });
+app.get('/quotes', function(req, res) {
+  res.send('Hello World')
+})
+// catch 404 and forward to error handler
+/*app.use(function(req, res, next) {
+  next(createError(404));
+}); */
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -37,5 +55,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;
