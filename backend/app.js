@@ -1,21 +1,27 @@
 var createError = require('http-errors');
 var express = require('express');
+var cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+require('dotenv').config();
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var testAPIRouter = require('./routes/testAPI');
 
 var app = express();
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://test:passw0rd@cs97-cluster.gukdx.mongodb.net/test?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -23,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/testAPI', testAPIRouter);
 
 client.connect((err) => {
   if (err) return console.error(err);
@@ -40,12 +47,7 @@ client.connect((err) => {
 app.get('/quotes', function(req, res) {
   res.send('Hello World')
 })
-// catch 404 and forward to error handler
-/*app.use(function(req, res, next) {
-  next(createError(404));
-}); */
 
-// error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -56,6 +58,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// catch 404 and forward to error handler
+/*app.use(function(req, res, next) {
+  next(createError(404));
+}); */
 
+// error handler
 
 module.exports = app;
