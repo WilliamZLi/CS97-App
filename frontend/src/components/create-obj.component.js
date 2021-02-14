@@ -37,6 +37,7 @@ export default class CreateObj extends Component {
     };
     if (objObject.name === "" || objObject.body === "") {
       alert('Cannot submit an empty form')
+      return;
     }
     axios.post('http://localhost:5000/objs/create-obj', objObject)
       .then(res => console.log(res.data));
