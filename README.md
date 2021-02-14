@@ -19,7 +19,7 @@ Run the app locally (you have private access to repo):
     - Follow the link "http://localhost:3000"
 
 3. Run the backend of the app
-    - open another terminal and and cd into the backend directory
+    - open another terminal and cd into the backend directory
     - go to the CS97-App directory and run `cd backend`
     - run the command `npm start`
 
