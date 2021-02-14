@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 export default class CreateObj extends Component {
 
@@ -30,9 +31,15 @@ export default class CreateObj extends Component {
   onSubmit(e) {
     e.preventDefault()
 
-    console.log(`Obj successfully created!`);
-    console.log(`Name: ${this.state.name}`);
-    console.log(`Body: ${this.state.body}`);
+    const objObject = {
+      name: this.state.name,
+      body: this.state.body
+    };
+    if (objObject.name === "" || objObject.body == "") {
+      alert('Cannot submit an empty form')
+    }
+    axios.post('http://localhost:5000/objs/create-obj', objObject)
+      .then(res => console.log(res.data));
     this.setState({name: '', body: ''})
   }
 

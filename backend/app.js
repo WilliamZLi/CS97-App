@@ -8,14 +8,22 @@ var logger = require('morgan');
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var testAPIRouter = require('./routes/testAPI');
+var objRouter = require('./routes/obj.route');
+
+const uri = "mongodb+srv://test:passw0rd@cs97-cluster.gukdx.mongodb.net/test?retryWrites=true&w=majority";
+var db = require('./db');
+db.connect(uri, function(err) {
+  if (err) {
+    console.log('Unable to connect to Mongo.')
+    process.exit(1)
+  } else {
+      console.log('Listening on port 5000...')
+    }
+})
 
 var app = express();
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://test:passw0rd@cs97-cluster.gukdx.mongodb.net/test?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+const { NotExtended } = require('http-errors');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -26,27 +34,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/testAPI', testAPIRouter);
-
-client.connect((err) => {
-  if (err) return console.error(err);
-  console.log('Connected to Database');
-  const db = client.db('test');
-  const coll = db.collection('col');
-  app.post('/quotes', (req, res) => {
-  coll.insertOne(req.body)
-    .then(result => {
-      res.redirect('/')
-    })
-    .catch(error => console.error(error))
-})
-});
-app.get('/quotes', function(req, res) {
-  res.send('Hello World')
-})
+app.use('/objs', objRouter);
 
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
