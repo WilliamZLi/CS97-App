@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+axios.defaults.withCredentials = true
 
 export default class CreateObj extends Component {
 
@@ -40,7 +41,7 @@ export default class CreateObj extends Component {
       return;
     }
     axios.post('http://localhost:5000/objs/create-obj', objObject)
-      .then(res => console.log(res.data));
+      .then(res => console.log(res));
     this.setState({name: '', body: ''})
   }
 

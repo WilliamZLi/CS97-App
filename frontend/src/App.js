@@ -12,8 +12,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import CreateObj from "./components/create-obj.component";
 import EditObj from "./components/edit-obj.component";
 import ObjList from "./components/obj-list.component";
+import Register from "./components/register.component";
+import Login from "./components/login.component";
 
-function App() {
+function  App() {
   return (<Router>
     <div className="App">
       <header className="App-header">
@@ -21,7 +23,7 @@ function App() {
           <Container>
 
             <Navbar.Brand>
-              <Link to={"/create-obj"} className="nav-link">
+              <Link to={"/"} className="nav-link">
                 React MERN Stack App
               </Link>
             </Navbar.Brand>
@@ -33,11 +35,11 @@ function App() {
                 </Link>
               </Nav>
 
-              {/* <Nav>
-                <Link to={"/edit-obj/:id"} className="nav-link">
-                  Edit Student
+              { <Nav>
+                <Link to={"/login"} className="nav-link">
+                  Login
                 </Link>
-              </Nav> */}
+              </Nav> }
 
               <Nav>
                 <Link to={"/obj-list"} className="nav-link">
@@ -55,10 +57,11 @@ function App() {
           <Col md={12}>
             <div className="wrapper">
               <Switch>
-                <Route exact path='/' component={CreateObj} />
+                <Route exact path='/' component={Register} />
                 <Route path="/create-obj" component={CreateObj} />
                 <Route path="/edit-obj/:id" component={EditObj} />
                 <Route path="/obj-list" component={ObjList} />
+                <Route path="/login" component={Login} />
               </Switch>
             </div>
           </Col>
