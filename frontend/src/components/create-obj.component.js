@@ -13,7 +13,6 @@ export default class CreateObj extends Component {
     this.onChangeObjName = this.onChangeObjName.bind(this);
     this.onChangeObjBody = this.onChangeObjBody.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-
     // Setting up state
     this.state = {
       name: '',
@@ -41,8 +40,14 @@ export default class CreateObj extends Component {
       return;
     }
     axios.post('http://localhost:5000/objs/create-obj', objObject)
-      .then(res => console.log(res));
-    this.setState({name: '', body: ''})
+      .then(res => {
+        console.log(res)
+        this.setState({name: '', body: ''})
+      })
+      .catch(err => {
+        console.log(err)
+        alert(err.response.data.message)
+      })
   }
 
   render() {

@@ -50,7 +50,8 @@ export default class Login extends Component {
         })
       .catch(err => { // if error, notify user
           console.log(err)
-          alert(JSON.stringify(err))
+          this.setState({name: '', password: ''})
+          alert(err.response.data.message)
         })
   }
 

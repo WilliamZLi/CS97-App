@@ -4,6 +4,8 @@ var session = require('express-session');
 var cors = require('cors');
 var path = require('path');
 var logger = require('morgan');
+const multer = require('multer');
+
 const MongoStore = require('connect-mongo')(session);
 require('dotenv').config();
 
@@ -22,7 +24,7 @@ var passport = require("./passport/setup");
 var authRouter = require("./routes/auth");
 var indexRouter = require('./routes/index');
 var objRouter = require('./routes/obj.route');
-var usrRouter = require('./routes/usr')
+
 var logRouter = require('./routes/log')
 
 
@@ -56,7 +58,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use("/auth", authRouter);
 app.use('/', indexRouter);
 app.use('/objs', objRouter);
-app.use('/usr', usrRouter);
+
 app.use('/log', logRouter);
 
 app.use(function(err, req, res, next) {

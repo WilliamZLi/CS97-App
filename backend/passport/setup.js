@@ -31,11 +31,12 @@ passport.use(
         User = mango.get().db('app').collection('users')
         User.findOne({ "name": name })
             .then(user => {
-                // Create new User
+                // check out user
                 console.log('localstrat')
                 console.log(user)
                 if (user === null) {
-                    return done(null, fasle, { message: 'User not found' })
+                    console.log('null usr, returning false')
+                    return done(null, false, { message: 'User not found' })
                 } else {
                     console.log('usr found')
                     // Match password

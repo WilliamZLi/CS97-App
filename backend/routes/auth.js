@@ -49,13 +49,14 @@ router.post("/login", (req, res, next) => {
     console.log('made it to auth.js/login')
     console.log(req.session)
     passport.authenticate("local", function (err, user, info) {
+        console.log(err,user,info)
         if (err) {
             return res.status(401).json({ errors: err });
         }
-        if (user === null) {
+        if (user === false || user === null) {
             return res.status(402).json({message: `No user found`})
         }
-        console.log(user)
+        console.log('after auth', user)
         req.logIn(user, function (err) {
             if (err) {
                 console.log(err)
