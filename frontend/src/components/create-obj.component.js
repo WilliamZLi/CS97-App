@@ -51,6 +51,7 @@ export default class CreateObj extends Component {
         this.setState({ name: "", body: "", button: true, file: null })
       })
       .catch(err => {
+        this.setState({ button: true})
         console.log(err)
         alert(err.response.data.message)
       })
