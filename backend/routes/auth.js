@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var passport = require("passport");
 const bcrypt = require("bcryptjs");
+const { authenticate } = require("passport");
 mango = require('../db')
 
 router.post("/regis", (req, res, next) => {
@@ -47,7 +48,11 @@ router.post("/regis", (req, res, next) => {
 
 router.post("/login", (req, res, next) => {
     console.log('made it to auth.js/login')
-    console.log(req.session)
+    if(req.isAuthenticated())
+    {
+        return res.status(402).json({message: 'already logged in'})
+    }
+    
     passport.authenticate("local", function (err, user, info) {
         console.log(err,user,info)
         if (err) {
