@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
@@ -15,34 +15,40 @@ export default class CreateObj extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     // Setting up state
     this.state = {
-      name: '',
-      body: ''
+      name: "",
+      body: "",
+      file: null,
+      button: true
     }
   }
 
   onChangeObjName(e) {
-    this.setState({name: e.target.value})
+    this.setState({ name: e.target.value })
   }
 
   onChangeObjBody(e) {
-    this.setState({body: e.target.value})
+    console.log(e)
+    this.setState({ file: e.target.files[0], body: e.target.value })
   }
 
   onSubmit(e) {
     e.preventDefault()
-
-    const objObject = {
-      name: this.state.name,
-      body: this.state.body
-    };
-    if (objObject.name === "" || objObject.body === "") {
+    if (this.state.name === "" || this.state.body === "") {
       alert('Cannot submit an empty form')
       return;
     }
-    axios.post('http://localhost:5000/objs/create-obj', objObject)
+    this.setState({ button: false })
+
+    console.log(this.state.file)
+    const formData = new FormData();
+    formData.append('photo', this.state.file);
+    formData.append('caption', this.state.name);
+    console.log(formData)
+
+    axios.post('http://localhost:5000/objs/create-obj', formData, { headers: { 'content-type': 'multipart/form-data' } })
       .then(res => {
         console.log(res)
-        this.setState({name: '', body: ''})
+        this.setState({ name: "", body: "", button: true, file: null })
       })
       .catch(err => {
         console.log(err)
@@ -52,19 +58,19 @@ export default class CreateObj extends Component {
 
   render() {
     return (<div className="form-wrapper">
-      <Form onSubmit={this.onSubmit}>
+      <Form onSubmit={this.onSubmit} enctype="multipart/form-data">
         <Form.Group controlId="Name">
-          <Form.Label>Name</Form.Label>
-          <Form.Control type="text" value={this.state.name} onChange={this.onChangeObjName}/>
+          <Form.Label>Caption</Form.Label>
+          <Form.Control type="text" value={this.state.name} onChange={this.onChangeObjName} />
         </Form.Group>
 
-        <Form.Group controlId="Name">
-          <Form.Label>Body</Form.Label>
-          <Form.Control type="text" value={this.state.body} onChange={this.onChangeObjBody}/>
+        <Form.Group controlId="photo">
+          <Form.Label>Photo</Form.Label>
+          <Form.Control type="file" name="photo" value={this.state.body} onChange={this.onChangeObjBody} />
         </Form.Group>
 
-        <Button variant="danger" size="lg" block="block" type="submit">
-          Create Object
+        <Button variant="danger" size="lg" block="block" type="submit" id="button">
+          {this.state.button ? 'Upload' : 'Submitting...'}
         </Button>
       </Form>
     </div>);

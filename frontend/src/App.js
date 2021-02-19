@@ -11,7 +11,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import CreateObj from "./components/create-obj.component";
 import EditObj from "./components/edit-obj.component";
-import ObjList from "./components/obj-list.component";
+import Logout from "./components/logout.component";
 import Register from "./components/register.component";
 import Login from "./components/login.component";
 
@@ -24,7 +24,7 @@ function  App() {
 
             <Navbar.Brand>
               <Link to={"/"} className="nav-link">
-                React MERN Stack App
+                Register/Home?
               </Link>
             </Navbar.Brand>
 
@@ -42,8 +42,8 @@ function  App() {
               </Nav> }
 
               <Nav>
-                <Link to={"/obj-list"} className="nav-link">
-                  Object List
+                <Link to={"/logout"} className="nav-link">
+                  Logout
                 </Link>
               </Nav>
             </Nav>
@@ -60,7 +60,7 @@ function  App() {
                 <Route exact path='/' component={Register} />
                 <Route path="/create-obj" component={CreateObj} />
                 <Route path="/edit-obj/:id" component={EditObj} />
-                <Route path="/obj-list" component={ObjList} />
+                <Route path="/logout" component={Logout} />
                 <Route path="/login" component={Login} />
               </Switch>
             </div>
