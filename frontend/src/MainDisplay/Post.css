@@ -1,0 +1,42 @@
+.post {
+  display: flex;
+  align-items: flex-start;
+  padding-bottom: 10px;
+  background: linear-gradient(
+    to right bottom,
+    rgb(255, 255, 255, 0.7),
+    rgb(255, 255, 255, 0.3)
+  );
+  border-radius: 1rem;
+  margin-top: 20px;
+}
+
+.post__body {
+  flex: 1;
+  padding: 10px;
+}
+
+.post__headerDescription {
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.post__headerText > h3 {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.post__body > img {
+  border-radius: 20px;
+  width: 100%;
+}
+
+.post__footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.post__avatar {
+  padding: 20px;
+}

@@ -1,0 +1,29 @@
+.sidebarOption {
+  margin-left: 30px;
+  margin-right: 30px;
+  display: flex;
+  align-items: baseline;
+  cursor: pointer;
+}
+
+.sidebarOption:hover {
+  background-color: #e8f5fe;
+  border-radius: 30px;
+  color: #50b7f5;
+  transition: color 100ms ease-out;
+}
+
+span.icon {
+  font-size: 20px;
+  padding: 30px;
+}
+
+.sidebarOption > h2 {
+  font-weight: 800;
+  font-size: 20px;
+  margin-right: 30px;
+}
+
+.sidebarOption--active {
+  color: #50b7f5;
+}
