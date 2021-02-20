@@ -8,6 +8,8 @@ import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
+import MainPage from "./MainDisplay/MainPage";
+
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import CreateObj from "./components/create-obj.component";
@@ -21,60 +23,7 @@ axios.defaults.withCredentials = true;
 
 function App() {
   return (<Router>
-    <div className="App">
-      <header className="App-header">
-        <Navbar bg="dark" variant="dark">
-          <Container>
-
-            <Navbar.Brand>
-              <Link to={"/"} className="nav-link">
-                Home
-              </Link>
-            </Navbar.Brand>
-
-            <Nav className="justify-content-end">
-              <Nav>
-                <Link to={"/create-obj"} className="nav-link">
-                  Post
-                </Link>
-              </Nav>
-              <Nav className="justify-content-end">
-                <Nav>
-                  <Link to={"/list-obj"} className="nav-link">
-                    Gallery
-                </Link>
-                </Nav>
-              </Nav>
-
-              <Nav>
-                <Link to={"/logout"} className="nav-link">
-                  Logout
-                </Link>
-              </Nav>
-            </Nav>
-
-          </Container>
-        </Navbar>
-      </header>
-
-      <Container>
-        <Row>
-          <Col md={12}>
-            <div className="wrapper">
-              <Switch>
-                <Route exact path='/' component={Home} />
-                <Route exact path="/create-obj" component={CreateObj} />
-                <Route exact path="/list-obj" component={ListObj} />
-                <Route exact path="/logout" component={Logout} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />
-                <Route path="" component={NotFound} />
-              </Switch>
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+    <MainPage/>
   </Router>);
 }
 
