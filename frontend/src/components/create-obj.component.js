@@ -59,7 +59,7 @@ export default class CreateObj extends Component {
 
   render() {
     return (<div className="form-wrapper">
-      <Form onSubmit={this.onSubmit} enctype="multipart/form-data">
+      <Form onSubmit={this.onSubmit} encType="multipart/form-data">
         <Form.Group controlId="Name">
           <Form.Label>Caption</Form.Label>
           <Form.Control type="text" value={this.state.name} onChange={this.onChangeObjName} />

@@ -46,7 +46,7 @@ export default class Register extends Component {
       .then(res => { // only remove if complete successfully
           console.log(res)
           this.setState({name: '', password: ''})
-          //this.setState({redirect: '/create-obj'}) 
+          this.setState({redirect: '/login'}) 
         })
       .catch(err => { // if error, notify user
           alert(err.response.data.message)

@@ -3,7 +3,6 @@ multer = require('multer');
 var mango = require('../db')
 router = express.Router();
 var ObjectId = require('mongodb').ObjectID;
-const fs = require("fs");
 
 var storage = multer.memoryStorage();
 var uploadMem = multer({

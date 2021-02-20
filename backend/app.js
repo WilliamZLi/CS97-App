@@ -4,7 +4,7 @@ var session = require('express-session');
 var cors = require('cors');
 var path = require('path');
 var logger = require('morgan');
-const multer = require('multer');
+
 
 const MongoStore = require('connect-mongo')(session);
 require('dotenv').config();
@@ -23,8 +23,8 @@ db.connect(ur, function(err) {
 var passport = require("./passport/setup");
 var authRouter = require("./routes/auth");
 var indexRouter = require('./routes/index');
-var objRouter = require('./routes/obj.route');
-
+var objCreateRouter = require('./routes/objcreate');
+var objListRouter = require('./routes/objlist')
 var logRouter = require('./routes/log')
 
 
@@ -57,10 +57,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use("/auth", authRouter);
 app.use('/', indexRouter);
-app.use('/objs', objRouter);
-
+app.use('/objs', objCreateRouter);
+app.use('/objs', objListRouter)
 app.use('/log', logRouter);
 
+
+
+
+//TO DELETE SESSION//
+//   req.session.destroy()
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+}); 
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -70,16 +80,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-
-//TO DELETE SESSION//
-//   req.session.destroy()
-
-// catch 404 and forward to error handler
-/*app.use(function(req, res, next) {
-  next(createError(404));
-}); */
-
 // error handler
 
 module.exports = app;

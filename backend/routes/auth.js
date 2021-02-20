@@ -14,7 +14,7 @@ router.post("/regis", (req, res, next) => {
             console.log('made it to findOne', user)
             if (user !== null) {
                 console.log('user id already found')
-                res.status(401).json({message: `Already a user with username: ${req.body.name}`})
+                res.status(401).json({ message: `Already a user with username: ${req.body.name}` })
             }
             else {
                 console.log('creating new user')
@@ -29,11 +29,11 @@ router.post("/regis", (req, res, next) => {
                         newUser.password = hash;
                         User.insertOne(newUser)
                             .then(user => {
-                                console.log('saved',user)
+                                console.log('saved', user)
                                 return res.json(user);
                             })
                             .catch(err => {
-                                console.log('savefail',err)
+                                console.log('savefail', err)
                                 return res.json(err);
                             });
                     });
@@ -48,37 +48,45 @@ router.post("/regis", (req, res, next) => {
 
 router.post("/login", (req, res, next) => {
     console.log('made it to auth.js/login')
-    if(req.isAuthenticated())
-    {
-        return res.status(402).json({message: 'already logged in'})
+    if (req.isAuthenticated()) {
+        return res.status(402).json({ message: 'already logged in' })
     }
-    
+
     passport.authenticate("local", function (err, user, info) {
-        console.log(err,user,info)
+        console.log(err, user, info)
         if (err) {
             return res.status(401).json({ errors: err });
         }
         if (user === false || user === null) {
-            return res.status(402).json({message: `No user found`})
+            return res.status(402).json({ message: `No user found` })
         }
         console.log('after auth', user)
         req.logIn(user, function (err) {
             if (err) {
                 console.log(err)
-                return res.status(403).json({errors: err});
+                return res.status(403).json({ errors: err });
             }
             console.log('at login')
             console.log(user)
             console.log(req.session)
             console.log(req.sessionID)
-            return res.status(200).json({success: `logged in ${user.name}`});
+            return res.status(200).json({ success: `logged in ${user.name}` });
         });
     })(req, res, next);
 });
 
-router.get('/logout', function(req, res){
+router.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
-  });
+});
 
-module.exports = router;
+
+router.post("/logged", (req, res) => {
+    console.log('made it to auth.js/login')
+    if (req.isAuthenticated()) {
+        return res.status(200).json({ message: 'logged in' })
+    }
+    else
+    return res.status(403).json({ message: 'not logged in' })
+})
+    module.exports = router;
