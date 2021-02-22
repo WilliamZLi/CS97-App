@@ -17,6 +17,7 @@ import Register from "./components/register.component";
 import Login from "./components/login.component";
 import NotFound from "./components/notfound.component";
 import Home from "./components/home.component";
+import Search from "./components/search.component";   // import Search
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -45,6 +46,13 @@ function App() {
                 </Link>
                 </Nav>
               </Nav>
+              <Nav className="justify-content-end">
+                <Nav>
+                  <Link to={"/search"} className="nav-link">
+                    Search
+                </Link>
+                </Nav>
+              </Nav>
 
               <Nav>
                 <Link to={"/logout"} className="nav-link">
@@ -68,6 +76,7 @@ function App() {
                 <Route exact path="/logout" component={Logout} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
+                <Route exact path="/search" component={Search} />
                 <Route path="" component={NotFound} />
               </Switch>
             </div>

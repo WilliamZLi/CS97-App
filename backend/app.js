@@ -24,8 +24,9 @@ var passport = require("./passport/setup");
 var authRouter = require("./routes/auth");
 var indexRouter = require('./routes/index');
 var objCreateRouter = require('./routes/objcreate');
-var objListRouter = require('./routes/objlist')
-var logRouter = require('./routes/log')
+var objListRouter = require('./routes/objlist');
+var logRouter = require('./routes/log');
+var searchRouter = require('./routes/search');
 
 
 
@@ -58,9 +59,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use("/auth", authRouter);
 app.use('/', indexRouter);
 app.use('/objs', objCreateRouter);
-app.use('/objs', objListRouter)
+app.use('/objs', objListRouter);
 app.use('/log', logRouter);
-
+app.use('/search', searchRouter);
 
 
 
