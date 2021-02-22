@@ -51,7 +51,8 @@ export default class Search extends Component {
       <Form onSubmit={this.onSubmit}>
         <Form.Group controlId="Search">
           <Form.Label>Search</Form.Label>
-          <Form.Control type="text" value={this.state.query} onChange={this.onChangeQuery}/>
+          <Form.Control type="text" placeholder="Enter user name" 
+                        value={this.state.query} onChange={this.onChangeQuery}/>
         </Form.Group>
 
         <Button variant="danger" size="lg" block="block" type="submit">
