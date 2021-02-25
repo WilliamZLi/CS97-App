@@ -1,14 +1,28 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
 axios.defaults.withCredentials = true;
+
+const Pend = props => ( // name, and 2 buttons
+    <tr>
+        <td>{props.pending}</td> 
+        <td>
+            <Button id={props.pending} onClick= {props.onAccept} >Accept</Button>
+        </td>
+        <td>
+            <Button onClick= {props.onReject}>Reject</Button>
+        </td>
+    </tr>
+)
+
 
 export default class Friends extends Component {
     constructor(props) {
         super(props)
 
         // Set up functions - set 'this' context to this class
-
-
+        this.onAccept = this.onAccept.bind(this);
+        this.onReject = this.onReject.bind(this);
         // Setting up state
         this.state = {
             initialized: false,
@@ -21,11 +35,12 @@ export default class Friends extends Component {
             .then(res => { // only remove if complete successfully
                 console.log(res.data.throwFriends === null)
                 console.log(res.data)
-                this.setState({ 
-  
-                    pending: res.data.throwFriends !== undefined ? res.data.throwFriends : [], 
-                    requests: res.data.catchFriends !== undefined ? res.data.catchFriends : [], 
-                    accepted: res.data.friends !== undefined ? res.data.friends : [] })
+                this.setState({
+
+                    pending: res.data.throwFriends !== undefined ? res.data.throwFriends : [],
+                    requests: res.data.catchFriends !== undefined ? res.data.catchFriends : [],
+                    accepted: res.data.friends !== undefined ? res.data.friends : []
+                })
                 console.log(this.state)
                 this.setState({ initialized: true })
             })
@@ -35,33 +50,39 @@ export default class Friends extends Component {
             })
     }
 
+    onAccept(e) {
+        console.log("clicky!")
+        console.log(e.target.id)
+        console.log(this.state.pending)
+      }
+      onReject(e) {
+        console.log("clacky!")
+      }
+
+    pendList() {
+        return this.state.pending.map(friend => {
+            return <Pend pending={friend} onAccept={this.onAccept} onReject = {this.onReject} key={friend} />
+        });
+    }
+
     render() {
         if (this.state.initialized === true) {
             console.log(this.state)
-            var pendingFriends = this.state.pending.map(friend => {
-                return <li key={friend}  className='pendingFriend' id={friend}>{friend}</li>
-            });
-            var requestingFriends = this.state.requests.map(friend => {
-                return <li key={friend} className='pendingFriend' id={friend}>{friend}</li>
-            });
-            var acceptedFriends = this.state.accepted.map(friend => {
-                return <li key={friend} className='pendingFriend' id={friend}>{friend}</li>
-            });
             return (
-                <div> Pending Requests
-                    <ul className="pendingFriends" id="pendingFriends" >
-                        {pendingFriends}
-                    </ul>
-                    Sent Requests
-                    <ul className="pendingFriends" id="pendingFriends" >
-                        {requestingFriends}
-                    </ul>
-                    Friends
-                    <ul className="pendingFriends" id="pendingFriends" >
-                        {acceptedFriends}
-                    </ul>
+                <div>
+                    <h3>Pending Friends</h3>
+                    <table className="table table-striped" style={{ marginTop: 20 }} >
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.pendList()}
+                        </tbody>
+                    </table>
                 </div>
-                
             )
         }
         else {
