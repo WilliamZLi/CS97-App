@@ -18,6 +18,7 @@ import Login from "./components/login.component";
 import NotFound from "./components/notfound.component";
 import Home from "./components/home.component";
 import Search from "./components/search.component";   // import Search
+import Friends from "./components/show-friend.component";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -39,19 +40,26 @@ function App() {
                   Post
                 </Link>
               </Nav>
-              <Nav className="justify-content-end">
-                <Nav>
-                  <Link to={"/list-obj"} className="nav-link">
-                    Gallery
+
+
+              <Nav>
+                <Link to={"/list-obj"} className="nav-link">
+                  Gallery
                 </Link>
-                </Nav>
               </Nav>
-              <Nav className="justify-content-end">
-                <Nav>
-                  <Link to={"/search"} className="nav-link">
-                    Search
+
+
+
+              <Nav>
+                <Link to={"/search"} className="nav-link">
+                  Search
                 </Link>
-                </Nav>
+              </Nav>
+
+              <Nav>
+                <Link to={"/friends"} className="nav-link">
+                  Friends
+                </Link>
               </Nav>
 
               <Nav>
@@ -59,6 +67,9 @@ function App() {
                   Logout
                 </Link>
               </Nav>
+
+
+
             </Nav>
 
           </Container>
@@ -77,6 +88,7 @@ function App() {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/search" component={Search} />
+                <Route exact path="/friends" component={Friends} />
                 <Route path="" component={NotFound} />
               </Switch>
             </div>

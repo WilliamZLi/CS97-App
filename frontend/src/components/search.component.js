@@ -15,6 +15,7 @@ export default class Search extends Component {
     // Setting up state
     this.state = {
       query: '',
+      capture: null
     }
   }
 
@@ -35,9 +36,9 @@ export default class Search extends Component {
     }
     axios.post('http://localhost:5000/search', searchString)
     .then(res => { // only remove if complete successfully
-        console.log(res)
-        this.setState({query: ''})
-        alert(res.data.message);
+        console.log(res.data)
+        this.setState({query: '', capture: res.data})
+        console.log(this.state.capture)
       })
     .catch(err => { // if error, notify user
         console.log(err)

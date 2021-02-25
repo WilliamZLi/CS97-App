@@ -7,13 +7,13 @@ router.post('/', function(req, res) {
     console.log(req.body.query);      // holds the search string
 
     Query = mango.get().db('app').collection('users');
-    Query.findOne({ "name": req.body.query })           // query users by name    
+    Query.findOne({ "name": req.body.query },{projection:{ name: 1 , friends: 1}}) // return only name + friends array   
         .then(user => {
           console.log("made it to find");
           console.log(user);
           if (user !== null) {
             console.log("found matching user");
-            res.status(200).json({ message: `Found matching user:  ${req.body.query}` });
+            res.json(user);
           }
           else {
             console.log("no matching user found");

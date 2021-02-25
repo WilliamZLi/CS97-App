@@ -27,7 +27,7 @@ var objCreateRouter = require('./routes/objcreate');
 var objListRouter = require('./routes/objlist');
 var logRouter = require('./routes/log');
 var searchRouter = require('./routes/search');
-
+var friendRouter = require('./routes/friends.js')
 
 
 var app = express();
@@ -62,7 +62,7 @@ app.use('/objs', objCreateRouter);
 app.use('/objs', objListRouter);
 app.use('/log', logRouter);
 app.use('/search', searchRouter);
-
+app.use('/friend', friendRouter)
 
 
 //TO DELETE SESSION//
