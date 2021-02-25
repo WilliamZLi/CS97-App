@@ -11,19 +11,79 @@ import "./App.css";
 import MainPage from "./MainDisplay/MainPage";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-import CreateObj from "./components/create-obj.component";
+import CreateObj from "./MainDisplay/PostBox"
 import ListObj from "./components/list-obj.component";
 import Logout from "./components/logout.component";
 import Register from "./components/register.component";
 import Login from "./components/login.component";
 import NotFound from "./components/notfound.component";
-import Home from "./components/home.component";
+import Home from "./MainDisplay/MainPage"
+import Sidebar from "./MainDisplay/Sidebar";
 axios.defaults.withCredentials = true;
 
 function App() {
   return (<Router>
-    <MainPage/>
+    <div className="App">
+      {/* { <header className="App-header">
+        <Navbar bg="dark" variant="dark">
+          <Container>
+            <Navbar.Brand>
+              <Link to={"/"} className="nav-link">
+                Home
+              </Link>
+            </Navbar.Brand>
+
+            <Nav className="justify-content-end">
+              <Nav>
+                <Link to={"/create-obj"} className="nav-link">
+                  Post
+                </Link>
+              </Nav> */}
+              <Nav className="justify-content-end">
+                <Nav>
+                  <Link to={"/list-obj"} className="nav-link">
+                    <Sidebar />                    
+                </Link>
+                </Nav>
+              </Nav>
+              {/* <Nav className="justify-content-end">
+                <Nav>
+                  <Link to={"/search"} className="nav-link">
+                    Search
+                </Link>
+                </Nav>
+              </Nav>
+
+              <Nav>
+                <Link to={"/logout"} className="nav-link">
+                  Logout
+                </Link>
+              </Nav>
+            </Nav>
+
+          </Container>
+        </Navbar>
+      </header>}  */}
+
+      <Container>
+        <Row>
+          <Col md={12}>
+            <div className="wrapper">
+              <Switch>
+                <Route exact path='/' component={Home} />
+                <Route exact path="/create-obj" component={CreateObj} />
+                <Route exact path="/list-obj" component={ListObj} />
+                <Route exact path="/logout" component={Logout} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />
+                {/* <Route exact path="/search" component={Search} /> */}
+                <Route path="" component={NotFound} />
+              </Switch>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   </Router>);
 }
 
