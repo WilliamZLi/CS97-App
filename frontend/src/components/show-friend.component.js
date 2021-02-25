@@ -25,29 +25,29 @@ export default class Friends extends Component {
         this.onReject = this.onReject.bind(this);
         // Setting up state
         this.state = {
-            initialized: false,
             pending: [], // people you friended
             requests: [], // people who friended you
             accepted: [], // people that you accepted/they accepted friend reqs
         }
-
+    }
+     componentDidMount()
+    {
         axios.post('http://localhost:5000/friend/showfriend')
-            .then(res => { // only remove if complete successfully
-                console.log(res.data.throwFriends === null)
-                console.log(res.data)
-                this.setState({
+        .then(res => { // only remove if complete successfully
+            console.log(res.data)
+            
+            this.setState({
 
-                    pending: res.data.throwFriends !== undefined ? res.data.throwFriends : [],
-                    requests: res.data.catchFriends !== undefined ? res.data.catchFriends : [],
-                    accepted: res.data.friends !== undefined ? res.data.friends : []
-                })
-                console.log(this.state)
-                this.setState({ initialized: true })
+                pending: res.data.throwFriends !== undefined ? res.data.throwFriends : [],
+                requests: res.data.catchFriends !== undefined ? res.data.catchFriends : [],
+                accepted: res.data.friends !== undefined ? res.data.friends : []
             })
-            .catch(err => { // if error, notify user
-                console.log(err)
-                alert(err)
-            })
+            console.log(this.state,'check1')
+        })
+        .catch(err => { // if error, notify user
+            console.log(err)
+            alert(err)
+        })
     }
 
     onAccept(e) {
@@ -66,7 +66,6 @@ export default class Friends extends Component {
     }
 
     render() {
-        if (this.state.initialized === true) {
             console.log(this.state)
             return (
                 <div>
@@ -84,10 +83,6 @@ export default class Friends extends Component {
                     </table>
                 </div>
             )
-        }
-        else {
-            return (<div>Loading...</div>)
-        }
 
     }
 }
