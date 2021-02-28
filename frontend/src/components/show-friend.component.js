@@ -3,26 +3,68 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 axios.defaults.withCredentials = true;
 
-const Pend = props => ( // name, and 2 buttons
+const Out = props => ( // name, and 2 buttons
     <tr>
-        <td>{props.pending}</td> 
+        <td>{props.name}</td>
         <td>
-            <Button id={props.pending} onClick= {props.onAccept} >Accept</Button>
+            Waiting For their Response
         </td>
         <td>
-            <Button onClick= {props.onReject}>Reject</Button>
+            <Button onClick={props.onReject} id={props.name}>Undo Request</Button>
         </td>
     </tr>
 )
 
+const In = props => ( // name, and 2 buttons
+    <tr>
+        <td>{props.name}</td>
+        <td>
+            <Button onClick={props.onAccept} id={props.name}>Accept Request</Button>
+        </td>
+        <td>
+            <Button onClick={props.onReject} id={props.name}>Reject Request</Button>
+        </td>
+    </tr>
+)
+
+const Friend = props => ( // name, and 2 buttons
+    <tr>
+        <td>{props.name}</td>
+        <td>
+            <Button onClick={props.onReject} id={props.name}>Unfriend</Button>
+        </td>
+    </tr>
+)
+
+var NoIn = props => (
+    <tr>
+        <td>Nothing here!</td>
+        <td>Go add some friends!</td>
+    </tr>
+)
+var NoOut = props => (
+    <tr>
+        <td>Nothing here!</td>
+        <td>All requests cleared!</td>
+    </tr>
+)
+
+var NoFren = props => (
+    <tr>
+        <td>Nothing here!</td>
+        <td>Go add some friends!</td>
+    </tr>
+)
 
 export default class Friends extends Component {
     constructor(props) {
         super(props)
 
         // Set up functions - set 'this' context to this class
-        this.onAccept = this.onAccept.bind(this);
-        this.onReject = this.onReject.bind(this);
+        this.undoReq = this.undoReq.bind(this);
+        this.acceptReq = this.acceptReq.bind(this);
+        this.rejectReq = this.rejectReq.bind(this);
+        this.unfriend = this.unfriend.bind(this);
         // Setting up state
         this.state = {
             pending: [], // people you friended
@@ -30,59 +72,157 @@ export default class Friends extends Component {
             accepted: [], // people that you accepted/they accepted friend reqs
         }
     }
-     componentDidMount()
-    {
+    fetchStatus() {
         axios.post('http://localhost:5000/friend/showfriend')
-        .then(res => { // only remove if complete successfully
-            console.log(res.data)
-            
-            this.setState({
+            .then(res => { // only remove if complete successfully
+                console.log(res.data)
 
-                pending: res.data.throwFriends !== undefined ? res.data.throwFriends : [],
-                requests: res.data.catchFriends !== undefined ? res.data.catchFriends : [],
-                accepted: res.data.friends !== undefined ? res.data.friends : []
+                this.setState({
+                    pending: res.data.throwFriends !== undefined ? res.data.throwFriends : [],
+                    requests: res.data.catchFriends !== undefined ? res.data.catchFriends : [],
+                    accepted: res.data.friends !== undefined ? res.data.friends : []
+                })
+                console.log(this.state, 'check1')
             })
-            console.log(this.state,'check1')
-        })
-        .catch(err => { // if error, notify user
-            console.log(err)
-            alert(err)
-        })
+            .catch(err => { // if error, notify user
+                console.log(err)
+                alert(err)
+            })
+    }
+    componentDidMount() {
+        this.fetchStatus()
     }
 
-    onAccept(e) {
-        console.log("clicky!")
+    unfriend(e) {
+        console.log('clicked unfriend!')
         console.log(e.target.id)
-        console.log(this.state.pending)
-      }
-      onReject(e) {
-        console.log("clacky!")
-      }
+        axios.post('http://localhost:5000/friend/unfriend', { id: e.target.id })
+            .then(res => {
+                console.log('successful!')
+                this.fetchStatus()
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
-    pendList() {
-        return this.state.pending.map(friend => {
-            return <Pend pending={friend} onAccept={this.onAccept} onReject = {this.onReject} key={friend} />
-        });
+    undoReq(e) {
+        console.log('clicked undo!')
+        console.log(e.target.id)
+
+        axios.post('http://localhost:5000/friend/undorequest', { id: e.target.id })
+            .then(res => {
+                console.log('successful!')
+                this.fetchStatus()
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    acceptReq(e) {
+        console.log('clicked accept!')
+        console.log(e.target.id)
+        axios.post('http://localhost:5000/friend/acceptreq', { id: e.target.id })
+            .then(res => {
+                console.log('successful!')
+                this.fetchStatus()
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+
+    rejectReq(e) {
+        console.log('clicked reject!')
+        console.log(e.target.id)
+        axios.post('http://localhost:5000/friend/rejectreq', { id: e.target.id })
+            .then(res => {
+                console.log('successful!')
+                this.fetchStatus()
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    outList() {
+        if (this.state.pending.length !== 0) {
+            return this.state.pending.map(friend => {
+                return <Out name={friend} onReject={this.undoReq} key={friend} />
+            });
+        }
+        else { // if no matching users, means not found
+            return <NoIn />
+        }
+    }
+    inList() {
+        if (this.state.requests.length !== 0) {
+            return this.state.requests.map(friend => {
+                return <In name={friend} onAccept={this.acceptReq} onReject={this.rejectReq} key={friend} />
+            });
+        }
+        else { // if no matching users, means not found
+            return <NoOut />
+        }
+    }
+
+    friendList() {
+        if (this.state.accepted.length !== 0) {
+            return this.state.accepted.map(friend => {
+                return <Friend name={friend} onReject={this.unfriend} key={friend} />
+            });
+        }
+        else { // if no matching users, means not found
+            return <NoFren />
+        }
     }
 
     render() {
-            console.log(this.state)
-            return (
-                <div>
-                    <h3>Pending Friends</h3>
-                    <table className="table table-striped" style={{ marginTop: 20 }} >
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.pendList()}
-                        </tbody>
-                    </table>
-                </div>
-            )
+        console.log(this.state)
+        return (
+            <div>
+                <h3>Sent Requests</h3>
+                <table className="table table-striped" style={{ marginTop: 20 }} >
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.outList()}
+                    </tbody>
+                </table>
+
+                <h3>Incoming Requests</h3>
+                <table className="table table-striped" style={{ marginTop: 20 }} >
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.inList()}
+                    </tbody>
+                </table>
+
+                <h3>Friends</h3>
+                <table className="table table-striped" style={{ marginTop: 20 }} >
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.friendList()}
+                    </tbody>
+                </table>
+            </div>
+        )
 
     }
 }

@@ -84,7 +84,7 @@ router.get('/logout', function (req, res) {
 router.post("/logged", (req, res) => {
     console.log('made it to auth.js/login')
     if (req.isAuthenticated()) {
-        return res.status(200).json({ message: 'logged in' })
+        return res.status(200).json({ message: 'logged in', id: req.session.passport.user})
     }
     else
     return res.status(403).json({ message: 'not logged in' })
