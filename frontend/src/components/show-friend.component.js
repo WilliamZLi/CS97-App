@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
+import {Link} from 'react-router-dom';
 axios.defaults.withCredentials = true;
 
 const Out = props => ( // name, and 2 buttons
@@ -31,7 +32,7 @@ const Friend = props => ( // name, and 2 buttons
     <tr>
         <td>{props.name}</td>
         <td>
-            <Button id={props.id}>View Profile</Button>
+            <Link to={"/profile/"+props.id} >Profile</Link>
         </td>
         <td>
             <Button onClick={props.onReject} id={props.id}>Unfriend</Button>
@@ -94,17 +95,17 @@ export default class Friends extends Component {
         await axios.post('http://localhost:5000/name/getnames', this.state.accepted)
             .then(res => {
                 console.log(res)
-                this.setState({ accepted: res.data })
+                this.setState({ accepted: res.data.sort((a, b) => (a.name > b.name) ? 1 : -1) }) // sort alphabetically
             })
         await axios.post('http://localhost:5000/name/getnames', this.state.requests)
             .then(res => {
                 console.log(res)
-                this.setState({ requests: res.data })
+                this.setState({ requests: res.data.sort((a, b) => (a.name > b.name) ? 1 : -1) }) // sort alphabetically
             })
         await axios.post('http://localhost:5000/name/getnames', this.state.pending)
             .then(res => {
                 console.log(res)
-                this.setState({ pending: res.data })
+                this.setState({ pending: res.data.sort((a, b) => (a.name > b.name) ? 1 : -1) }) // sort alphabetically
             })
         console.log(this.state)
     }
@@ -175,6 +176,7 @@ export default class Friends extends Component {
             return <NoIn    />
         }
     }
+    
     inList() {
         if (this.state.requests.length !== 0) {
             return this.state.requests.map(friend => {

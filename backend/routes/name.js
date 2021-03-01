@@ -23,4 +23,28 @@ router.route('/getnames').post(async function (req, res, next) {
     res.json(arrayList)
 });
 
+router.route('/getname').post(async function (req, res, next) {
+    const structure = req.body[0]
+    console.log('got to getname', structure)
+    if (ObjectId.isValid(structure)) {
+        names = mango.get().db('app').collection('users')
+        names.findOne({ _id: new ObjectId(structure) }, { projection: { name: 1 } })
+            .then(resul => {
+                console.log('valid obj',resul)
+                if (resul === null) {
+                    res.status(204).json()
+                }
+                else {
+                    res.json(resul)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    else
+    {
+        res.status(204).json()
+    }
+});
 module.exports = router;

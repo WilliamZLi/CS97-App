@@ -30,7 +30,6 @@ var searchRouter = require('./routes/search');
 var friendRouter = require('./routes/friends.js')
 var nameRouter = require('./routes/name.js')
 
-
 var app = express();
 
 const { NotExtended } = require('http-errors');
