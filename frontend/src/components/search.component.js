@@ -192,14 +192,14 @@ export default class Search extends Component {
     e.preventDefault();
 
     const searchString = {
-      query: this.state.query
+      query: this.state.query,
     }
 
     if (searchString === "") {
       alert('Cannot be an empty form')
       return;
     }
-    axios.post('http://localhost:5000/search', searchString)
+    axios.post('http://localhost:5000/search/', searchString)
       .then(res => { // only remove if complete successfully
         if (res.status === 204) { // if user not found, set array to blank
           this.setState({ query: '', capture: [] })
