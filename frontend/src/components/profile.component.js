@@ -24,7 +24,7 @@ var NoPost = props => (
     </tr>
 )
 
-class CreateObj extends Component {
+class Profile extends Component {
     constructor(props) {
         super(props)
 
@@ -35,7 +35,8 @@ class CreateObj extends Component {
             found: false,
             id: null,
             name: null,
-            gallery: []
+            gallery: [],
+            myProfile: false
         }
     }
     async getAll() {
@@ -43,6 +44,11 @@ class CreateObj extends Component {
         console.log(uid)
         var array = []
         array.push(uid)
+        await axios.post('http://localhost:5000/log')
+            .then(res => {
+                if(res.data.id === uid)
+                    this.setState({myProfile: true})
+            })
         await axios.post('http://localhost:5000/name/getname', array)
             .then(res => {
                 console.log(res)
@@ -56,7 +62,7 @@ class CreateObj extends Component {
             await axios.post('http://localhost:5000/objs/profile-obj', array)
                 .then(res => {
                     console.log(res.data)
-                    this.setState({ gallery: res.data })
+                    this.setState({ gallery: res.data.sort((a, b) => new Date(b.date) - new Date(a.date))})
                 })
                 .catch(err => {
                     console.log(err)
@@ -84,7 +90,7 @@ class CreateObj extends Component {
         if (this.state.found) {
             return (
                 <div className="form-wrapper">
-                    <header>{this.state.name}'s Profile</header>
+                    <header>{this.state.name}'s Profile {this.state.myProfile ? '(Your Profile)' : ''}</header>
                     <hr />
                     <h3>Posts</h3>
                     <table className="table table-striped" style={{ marginTop: 20 }} >
@@ -114,4 +120,4 @@ class CreateObj extends Component {
     }
 }
 
-export default withRouter(CreateObj)
+export default withRouter(Profile);

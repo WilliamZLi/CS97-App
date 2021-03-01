@@ -11,7 +11,7 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import CreateObj from "./components/create-obj.component";
-import ListObj from "./components/list-obj.component";
+import MyProfile from "./components/list-obj.component";
 import Logout from "./components/logout.component";
 import Register from "./components/register.component";
 import Login from "./components/login.component";
@@ -44,8 +44,8 @@ function App() {
 
 
               <Nav>
-                <Link to={"/list-obj"} className="nav-link">
-                  Gallery
+                <Link to={"/myProfile"} className="nav-link">
+                  My Profile
                 </Link>
               </Nav>
 
@@ -84,9 +84,9 @@ function App() {
               <Switch>
                 <Route exact path='/' component={Home} />
                 <Route exact path="/create-obj" component={CreateObj} />
-                <Route exact path="/list-obj" component={ListObj} />
                 <Route exact path="/logout" component={Logout} />
                 <Route exact path="/login" component={Login} />
+                <Route exact path="/MyProfile" component={MyProfile} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/search" component={Search} />
                 <Route exact path="/friends" component={Friends} />

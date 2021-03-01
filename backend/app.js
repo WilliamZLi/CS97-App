@@ -27,8 +27,8 @@ var objCreateRouter = require('./routes/objcreate');
 var objListRouter = require('./routes/objlist');
 var logRouter = require('./routes/log');
 var searchRouter = require('./routes/search');
-var friendRouter = require('./routes/friends.js')
-var nameRouter = require('./routes/name.js')
+var friendRouter = require('./routes/friends')
+var nameRouter = require('./routes/name')
 
 var app = express();
 
