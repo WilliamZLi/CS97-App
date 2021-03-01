@@ -1,0 +1,38 @@
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: 20px;
+  font-family: "Open Sans", "sans-serif";
+  font-weight: bold;
+}
+
+.form-control {
+  font-size: 16px;
+  padding: 0px 10px;
+  font-family: "Open Sans", "sans-serif";
+  background-color: #f3f3f3;
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.button {
+  font-family: "Open Sans", "sans-serif";
+  background: #0ed2f7;
+  border: none;
+  border-radius: 20px;
+  padding-top: 30px;
+}

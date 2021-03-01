@@ -47,20 +47,17 @@ export default class Login extends Component {
     } else if (this.state.loading_done) {
       return (
         <div className="form-wrapper">
-          <div>
-            <Form onSubmit={this.onSubmit}>
-              <Button size="lg" block="block" type="submit" className="button">
-                Login
-              </Button>
-            </Form>
-          </div>
-          <div>
-            <Form onSubmit={this.onSubmit2}>
-              <Button size="lg" block="block" type="submit" className="button">
-                Register
-              </Button>
-            </Form>
-          </div>
+          <Form onSubmit={this.onSubmit}>
+            <Button size="lg" block="block" type="submit" className="button">
+              Login
+            </Button>
+          </Form>
+
+          <Form onSubmit={this.onSubmit2}>
+            <Button size="lg" block="block" type="submit" className="button">
+              Register
+            </Button>
+          </Form>
         </div>
       );
     } else {

@@ -13,12 +13,20 @@
   border-radius: 1.5rem;
 }
 
-.form-wrapper > div {
+/* .form-wrapper > div {
   margin: 60px;
+} */
+
+.form-wrapper > Form {
+  margin: 0;
+  padding: 30px;
 }
 
 .button {
   background: #0ed2f7;
   border: none;
   border-radius: 20px;
+  margin: 0;
+  padding: 10px;
+  font-family: "Open Sans", "sans-serif";
 }

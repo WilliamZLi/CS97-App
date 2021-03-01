@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+
 .App {
   background: linear-gradient(to right top, #b2fefa, #0ed2f7);
   display: flex;
