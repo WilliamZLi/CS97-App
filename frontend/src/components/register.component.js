@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./login.css";
+
+import { IoMdArrowRoundBack } from "react-icons/io";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
@@ -14,6 +16,7 @@ export default class Register extends Component {
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmitBack = this.onSubmitBack.bind(this);
 
     // Setting up state
     this.state = {
@@ -29,6 +32,11 @@ export default class Register extends Component {
 
   onChangePassword(e) {
     this.setState({ password: e.target.value });
+  }
+
+  onSubmitBack(e) {
+    e.preventDefault();
+    this.setState({ redirect: "/" });
   }
 
   onSubmit(e) {
@@ -64,6 +72,13 @@ export default class Register extends Component {
     }
     return (
       <div className="form-wrapper">
+        <div className="header">
+          <Form onSubmit={this.onSubmitBack}>
+            <Button block="block" type="submit" className="backButton">
+              <IoMdArrowRoundBack className="arrowIcon" />
+            </Button>
+          </Form>
+        </div>
         <Form onSubmit={this.onSubmit}>
           <Form.Group controlId="Name">
             <Form.Label>Username</Form.Label>

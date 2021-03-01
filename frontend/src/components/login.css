@@ -30,9 +30,25 @@
 }
 
 .button {
+  font-weight: bold;
   font-family: "Open Sans", "sans-serif";
   background: #0ed2f7;
   border: none;
   border-radius: 20px;
   padding-top: 30px;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 40px;
+  background: #0ed2f7;
+  border: none;
+  border-radius: 15px;
+}
+
+.arrowIcon {
+  font-size: 25px;
 }

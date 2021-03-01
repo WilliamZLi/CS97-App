@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 import "./home.css";
-
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
