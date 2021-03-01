@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import userHome from "./components/user-home.component";
 import CreateObj from "./components/create-obj.component";
-import ListObj from "./components/list-obj.component";
+import MyProfile from "./components/list-obj.component";
 import Logout from "./components/logout.component";
 import Register from "./components/register.component";
 import Login from "./components/login.component";
@@ -20,6 +20,7 @@ import NotFound from "./components/notfound.component";
 import Home from "./components/home.component";
 import Search from "./components/search.component"; // import Search
 import Friends from "./components/show-friend.component";
+import Profile from "./components/profile.component";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -78,12 +79,13 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={userHome} />
           <Route exact path="/create-obj" component={CreateObj} />
-          <Route exact path="/list-obj" component={ListObj} />
           <Route exact path="/logout" component={Logout} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/friends" component={Friends} />
+          <Route exact path="/MyProfile" component={MyProfile} />
+          <Route exact path="/profile/:id" component={Profile} />
           <Route path="" component={NotFound} />
         </Switch>
         {/* </div> */}

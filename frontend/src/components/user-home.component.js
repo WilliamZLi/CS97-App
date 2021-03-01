@@ -31,7 +31,7 @@ export default class userHome extends Component {
                 </Nav>
 
                 <Nav>
-                  <Link to={"/list-obj"} className="nav-link">
+                  <Link to={"/myProfile"} className="nav-link">
                     Gallery
                   </Link>
                 </Nav>

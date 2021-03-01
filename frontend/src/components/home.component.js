@@ -23,7 +23,7 @@ export default class Home extends Component {
       .post("http://localhost:5000/auth/logged")
       .then((res) => {
         console.log(res);
-        this.setState({ redirect: "/create-obj", loading_done: true });
+        this.setState({ redirect: "/myProfile", loading_done: true });
       })
       .catch((err) => {
         console.log(err);

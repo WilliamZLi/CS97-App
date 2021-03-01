@@ -139,13 +139,13 @@ router.post('/rejectreq', async function (req, res) {
             console.log(err);
             res.status(401).json({ message: `??? Error in friend` });
         })
-    await Query.updateOne({ _id: new ObjectId(req.session.passport.user) }, { $pull: { catchFriends: req.body.id }}, { upsert: true })
+    await Query.updateOne({ _id: new ObjectId(req.session.passport.user) }, { $pull: { catchFriends: req.body.id } }, { upsert: true })
         .then(succ => { console.log('update successful') }) // remove pending from own catch pile
         .catch(err => {
             console.log(err);
             res.status(401).json({ message: `Error in requesting friend` });
         })
-    await Query.updateOne({ _id: new ObjectId(req.body.id) }, { $pull: { throwFriends: req.session.passport.user }}, { upsert: true })
+    await Query.updateOne({ _id: new ObjectId(req.body.id) }, { $pull: { throwFriends: req.session.passport.user } }, { upsert: true })
         .then(s2succ => {
             res.json({ message: "friend reject successful" }) // remove from their throw pile
         })
