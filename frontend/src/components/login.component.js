@@ -46,7 +46,7 @@ export default class Login extends Component {
       .then(res => { // only remove if complete successfully
           console.log(res)
           this.setState({name: '', password: ''})
-          this.setState({redirect: '/create-obj'}) 
+          this.setState({redirect: '/myProfile'}) 
         })
       .catch(err => { // if error, notify user
           console.log(err)
