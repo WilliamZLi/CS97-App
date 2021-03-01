@@ -7,7 +7,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 axios.defaults.withCredentials = true;
 
-export default class Login extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);

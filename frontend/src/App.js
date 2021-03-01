@@ -10,6 +10,7 @@ import "./App.css";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
+import userHome from "./components/user-home.component";
 import CreateObj from "./components/create-obj.component";
 import ListObj from "./components/list-obj.component";
 import Logout from "./components/logout.component";
@@ -26,56 +27,48 @@ function App() {
     <Router>
       <div className="App">
         {/* <header className="App-header">
-        <Navbar bg="dark" variant="dark">
-          <Container>
-
-            <Navbar.Brand>
-              <Link to={"/"} className="nav-link">
-                Home
-              </Link>
-            </Navbar.Brand>
-
-            <Nav className="justify-content-end">
-              <Nav>
-                <Link to={"/create-obj"} className="nav-link">
-                  Post
+          <Navbar bg="dark" variant="dark">
+            <Container>
+              <Navbar.Brand>
+                <Link to={"/"} className="nav-link">
+                  Home
                 </Link>
+              </Navbar.Brand>
+
+              <Nav className="justify-content-end">
+                <Nav>
+                  <Link to={"/create-obj"} className="nav-link">
+                    Post
+                  </Link>
+                </Nav>
+
+                <Nav>
+                  <Link to={"/list-obj"} className="nav-link">
+                    Gallery
+                  </Link>
+                </Nav>
+
+                <Nav>
+                  <Link to={"/search"} className="nav-link">
+                    Search
+                  </Link>
+                </Nav>
+
+                <Nav>
+                  <Link to={"/friends"} className="nav-link">
+                    Friends
+                  </Link>
+                </Nav>
+
+                <Nav>
+                  <Link to={"/logout"} className="nav-link">
+                    Logout
+                  </Link>
+                </Nav>
               </Nav>
-
-
-              <Nav>
-                <Link to={"/list-obj"} className="nav-link">
-                  Gallery
-                </Link>
-              </Nav>
-
-
-
-              <Nav>
-                <Link to={"/search"} className="nav-link">
-                  Search
-                </Link>
-              </Nav>
-
-              <Nav>
-                <Link to={"/friends"} className="nav-link">
-                  Friends
-                </Link>
-              </Nav>
-
-              <Nav>
-                <Link to={"/logout"} className="nav-link">
-                  Logout
-                </Link>
-              </Nav>
-
-
-
-            </Nav>
-
-          </Container>
-        </Navbar>
-      </header> */}
+            </Container>
+          </Navbar>
+        </header> */}
 
         {/* <Container> */}
         {/* <Row> */}
@@ -83,6 +76,7 @@ function App() {
         {/* <div className="wrapper"> */}
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/home" component={userHome} />
           <Route exact path="/create-obj" component={CreateObj} />
           <Route exact path="/list-obj" component={ListObj} />
           <Route exact path="/logout" component={Logout} />
