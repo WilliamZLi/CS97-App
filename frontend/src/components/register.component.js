@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./login.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
@@ -65,11 +66,12 @@ export default class Register extends Component {
       <div className="form-wrapper">
         <Form onSubmit={this.onSubmit}>
           <Form.Group controlId="Name">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
               value={this.state.name}
               onChange={this.onChangeName}
+              placeholder="Username"
             />
           </Form.Group>
 
@@ -79,10 +81,11 @@ export default class Register extends Component {
               type="password"
               value={this.state.password}
               onChange={this.onChangePassword}
+              placeholder="Password"
             />
           </Form.Group>
 
-          <Button variant="danger" size="lg" block="block" type="submit">
+          <Button size="lg" block="block" type="submit" className="button">
             Register
           </Button>
         </Form>
