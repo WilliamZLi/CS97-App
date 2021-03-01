@@ -10,7 +10,7 @@ const Out = props => ( // name, and 2 buttons
             Waiting For their Response
         </td>
         <td>
-            <Button onClick={props.onReject} id={props.name}>Undo Request</Button>
+            <Button onClick={props.onReject} id={props.id}>Undo Request</Button>
         </td>
     </tr>
 )
@@ -19,10 +19,10 @@ const In = props => ( // name, and 2 buttons
     <tr>
         <td>{props.name}</td>
         <td>
-            <Button onClick={props.onAccept} id={props.name}>Accept Request</Button>
+            <Button onClick={props.onAccept} id={props.id}>Accept Request</Button>
         </td>
         <td>
-            <Button onClick={props.onReject} id={props.name}>Reject Request</Button>
+            <Button onClick={props.onReject} id={props.id}>Reject Request</Button>
         </td>
     </tr>
 )
@@ -31,7 +31,10 @@ const Friend = props => ( // name, and 2 buttons
     <tr>
         <td>{props.name}</td>
         <td>
-            <Button onClick={props.onReject} id={props.name}>Unfriend</Button>
+            <Button id={props.id}>View Profile</Button>
+        </td>
+        <td>
+            <Button onClick={props.onReject} id={props.id}>Unfriend</Button>
         </td>
     </tr>
 )
@@ -70,13 +73,13 @@ export default class Friends extends Component {
             pending: [], // people you friended
             requests: [], // people who friended you
             accepted: [], // people that you accepted/they accepted friend reqs
+            testarr: []
         }
     }
-    fetchStatus() {
-        axios.post('http://localhost:5000/friend/showfriend')
+    async fetchStatus() {
+        await axios.post('http://localhost:5000/friend/showfriend')
             .then(res => { // only remove if complete successfully
                 console.log(res.data)
-
                 this.setState({
                     pending: res.data.throwFriends !== undefined ? res.data.throwFriends : [],
                     requests: res.data.catchFriends !== undefined ? res.data.catchFriends : [],
@@ -88,6 +91,22 @@ export default class Friends extends Component {
                 console.log(err)
                 alert(err)
             })
+        await axios.post('http://localhost:5000/name/getnames', this.state.accepted)
+            .then(res => {
+                console.log(res)
+                this.setState({ accepted: res.data })
+            })
+        await axios.post('http://localhost:5000/name/getnames', this.state.requests)
+            .then(res => {
+                console.log(res)
+                this.setState({ requests: res.data })
+            })
+        await axios.post('http://localhost:5000/name/getnames', this.state.pending)
+            .then(res => {
+                console.log(res)
+                this.setState({ pending: res.data })
+            })
+        console.log(this.state)
     }
     componentDidMount() {
         this.fetchStatus()
@@ -133,7 +152,6 @@ export default class Friends extends Component {
             })
     }
 
-
     rejectReq(e) {
         console.log('clicked reject!')
         console.log(e.target.id)
@@ -150,17 +168,17 @@ export default class Friends extends Component {
     outList() {
         if (this.state.pending.length !== 0) {
             return this.state.pending.map(friend => {
-                return <Out name={friend} onReject={this.undoReq} key={friend} />
+                return <Out name={friend.name} id={friend._id} onReject={this.undoReq} key={friend._id} />
             });
         }
         else { // if no matching users, means not found
-            return <NoIn />
+            return <NoIn    />
         }
     }
     inList() {
         if (this.state.requests.length !== 0) {
             return this.state.requests.map(friend => {
-                return <In name={friend} onAccept={this.acceptReq} onReject={this.rejectReq} key={friend} />
+                return <In name={friend.name} id={friend._id} onAccept={this.acceptReq} onReject={this.rejectReq} key={friend._id}  />
             });
         }
         else { // if no matching users, means not found
@@ -171,12 +189,28 @@ export default class Friends extends Component {
     friendList() {
         if (this.state.accepted.length !== 0) {
             return this.state.accepted.map(friend => {
-                return <Friend name={friend} onReject={this.unfriend} key={friend} />
+                return <Friend name={friend.name} id={friend._id} onAccept={this.acceptReq} onReject={this.unfriend} key={friend._id} />
             });
         }
         else { // if no matching users, means not found
             return <NoFren />
         }
+
+    }
+
+    async convertNames(arrayList) {
+        var newArr;
+        console.log('working', arrayList)
+        newArr = await axios.post('http://localhost:5000/name/getnames', arrayList)
+            .then(resol => {
+                newArr = resol.data
+                console.log(newArr)
+                console.log('done work')
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        return newArr;
     }
 
     render() {

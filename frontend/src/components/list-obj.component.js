@@ -10,24 +10,27 @@ export default class ListObj extends Component {
       array: null,
       image: null
     }
+  }
+  
+  componentDidMount() {
     axios.post('http://localhost:5000/objs/get-obj')
-      .then(arr => {
-        console.log('log arr', arr)
-        this.setState({ array: arr.data })
-        console.log('log data', arr.data)
-        var clone = []
-        for (var i = 0; i < arr.data.length; i++) {
-          var thumb = arr.data[i].photo;
-          clone.push(thumb)
-        }
-        this.setState({ image: clone })
-        console.log('done data')
-        console.log(this.state.image)
-      })
-      .catch(err => {
-        console.log(err)
-        alert(err)
-      })
+    .then(arr => {
+      console.log('log arr', arr)
+      this.setState({ array: arr.data })
+      console.log('log data', arr.data)
+      var clone = []
+      for (var i = 0; i < arr.data.length; i++) {
+        var thumb = arr.data[i].photo;
+        clone.push(thumb)
+      }
+      this.setState({ image: clone })
+      console.log('done data')
+      console.log(this.state.image)
+    })
+    .catch(err => {
+      console.log(err)
+      alert(err)
+    })
   }
 
 
