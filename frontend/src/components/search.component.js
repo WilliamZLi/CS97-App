@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Image from 'react-bootstrap/Image'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
@@ -61,6 +62,24 @@ var NoResult = props => (
   </tr>
 )
 
+var Post = props => ( // name, and 2 buttons
+    <tr>
+        <td>
+            <Image src={`data:image/jpeg;base64,${props.photo}`} style={{ maxWidth: 60, maxHeight: 60 }} alt="alt" />
+        </td>
+        <td>{props.caption}</td>
+        <td>
+            <Button onClick={props.onReject} id={props.id}>View</Button>
+        </td>
+    </tr>
+)
+
+var NoPost = props => (
+    <tr>
+        <td>Nothing here!</td>
+    </tr>
+)
+
 var IsMe = props => (
   <tr>
     <td>This is you!</td>
@@ -82,7 +101,8 @@ export default class Search extends Component {
     // Setting up state
     this.state = {
       query: '',
-      capture: null,
+      captureUser: null,
+      captureCapt: null,
       currentFriends: [],
       sentReqs: [],
       gotReqs: [],
@@ -199,17 +219,36 @@ export default class Search extends Component {
       alert('Cannot be an empty form')
       return;
     }
-    axios.post('http://localhost:5000/search/', searchString)
+    axios.post('http://localhost:5000/search/user', searchString)
       .then(res => { // only remove if complete successfully
         if (res.status === 204) { // if user not found, set array to blank
-          this.setState({ query: '', capture: [] })
+          this.setState({ query: '', captureUser: [] })
         }
         else { // otherwise empty array and swap
           let temp = []
           temp.push(res.data)
           console.log(temp)
-          this.setState({ query: '', capture: temp })
-          console.log(this.state.capture)
+          this.setState({ query: '', captureUser: temp })
+          console.log(this.state.captureUser)
+        }
+      })
+      .catch(err => { // if error, notify user
+        this.setState({ query: '' })
+        console.log(err)
+        alert(err)
+      })
+
+    axios.post('http://localhost:5000/search/post', searchString)
+      .then(res => { // only remove if complete successfully
+        if (res.status === 204) { // if keyword not found, set array to blank
+          this.setState({ query: '', captureCapt: [] })
+        }
+        else { // otherwise empty array and swap
+          let temp = []
+          temp = res.data
+          console.log(temp)
+          this.setState({ query: '', captureCapt: temp })
+          console.log(this.state.captureCapt)
         }
       })
       .catch(err => { // if error, notify user
@@ -219,9 +258,9 @@ export default class Search extends Component {
       })
   }
 
-  searchList() {
-    if (this.state.capture !== null && this.state.capture.length !== 0) { // once not null, swap depending on status
-      return this.state.capture.map(person => {
+  userList() {
+    if (this.state.captureUser !== null && this.state.captureUser.length !== 0) { // once not null, swap depending on status
+      return this.state.captureUser.map(person => {
         if (this.state.currentFriends.includes(person._id))
           return <CurrFriend result={person.name} id={person._id} unfriend={this.unfriend} key={person._id} />
         else if (this.state.sentReqs.includes(person._id))
@@ -235,8 +274,19 @@ export default class Search extends Component {
           return <NewPerson result={person.name} id={person._id} addFriend={this.addFriend} key={person._id} />
       });
     }
-    else if (this.state.capture !== null) { // if no matching users, means not found
+    else if (this.state.captureUser !== null) { // if no matching users, means not found
       return <NoResult />
+    }
+  }
+
+  postList() {
+    if (this.state.captureCapt !== null && this.state.captureCapt.length !== 0) {
+        return this.state.captureCapt.map(picture => {
+            return <Post caption={picture.caption} id={picture._id} photo={picture.photo} key={picture._id}  />
+        });
+    }
+    else if (this.state.captureCapt !== null) { // if no matching users, means not found
+        return <NoPost />
     }
   }
 
@@ -254,6 +304,7 @@ export default class Search extends Component {
         </Button>
       </Form>
       <h3>Search Results</h3>
+      <h4>Users</h4>
       <table className="table table-striped" style={{ marginTop: 20 }} >
         <thead>
           <tr>
@@ -262,7 +313,19 @@ export default class Search extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.searchList()}
+          {this.userList()}
+        </tbody>
+      </table>
+      <h4>Posts</h4>
+      <table className="table table-striped" style={{ marginTop: 20 }} >
+        <thead>
+          <tr>
+            <th>Preview</th>
+            <th>Caption</th>
+          </tr>
+        </thead>
+        <tbody>
+          {this.postList()}
         </tbody>
       </table>
     </div>);
