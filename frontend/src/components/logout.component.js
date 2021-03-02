@@ -10,14 +10,16 @@ export default class ObjList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      redirect: null
+      redirect: null,
+      disabled: false
     }
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit(e) {
     e.preventDefault()
-    axios.get('http://localhost:5000/auth/logout')
+    this.setState({disabled: true})
+    axios.post('http://localhost:5000/auth/logout')
       .then(res => { // only remove if complete successfully
         console.log(res)
         this.setState({ name: '', password: '' })
@@ -35,7 +37,7 @@ export default class ObjList extends Component {
     }
     return (<div className="form-wrapper">
       <Form onSubmit={this.onSubmit}>
-        <Button variant="danger" size="lg" block="block" type="submit">
+        <Button variant="danger" size="lg" disabled={this.state.disabled} block="block" type="submit">
           Logout
         </Button>
       </Form>

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
@@ -81,6 +82,8 @@ export default class Search extends Component {
     this.unfriend = this.unfriend.bind(this);
     // Setting up state
     this.state = {
+      loading: true,
+      logged: false,
       query: '',
       capture: null,
       currentFriends: [],
@@ -106,16 +109,23 @@ export default class Search extends Component {
         console.log(err)
         alert(err)
       })
-    axios.post('http://localhost:5000/auth/logged')
-      .then(resol => {
-        console.log(resol.data)
-        this.setState({ myId: resol.data.id })
-      })
   }
 
   componentDidMount() {
-    this.fetchStatus();
-  }
+    axios.post('http://localhost:5000/auth/logged')
+    .then(arr => {
+      console.log(arr)
+      this.setState({ logged: true, loading: false, myId: arr.data.id })
+      this.fetchStatus();
+    })
+    .catch(err => {
+      console.log(err)
+      this.setState({loading: false})
+    })
+
+}
+    
+
 
   onChangeQuery(e) {
     this.setState({ query: e.target.value })
@@ -241,6 +251,13 @@ export default class Search extends Component {
   }
 
   render() {
+    if(this.state.loading) {
+      return (<div>Loading...</div>)
+    }
+    else if (!this.state.logged) {
+      return (<Redirect to='/'/>)
+    }
+
     return (<div className="form-wrapper">
       <Form onSubmit={this.onSubmit}>
         <Form.Group controlId="Search">

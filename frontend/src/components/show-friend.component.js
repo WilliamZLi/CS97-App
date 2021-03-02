@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-import {Link} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 axios.defaults.withCredentials = true;
 
 const Out = props => ( // name, and 2 buttons
@@ -32,7 +33,7 @@ const Friend = props => ( // name, and 2 buttons
     <tr>
         <td>{props.name}</td>
         <td>
-            <Link to={"/profile/"+props.id} >Profile</Link>
+            <Link to={"/profile/" + props.id} >Profile</Link>
         </td>
         <td>
             <Button onClick={props.onReject} id={props.id}>Unfriend</Button>
@@ -71,6 +72,8 @@ export default class Friends extends Component {
         this.unfriend = this.unfriend.bind(this);
         // Setting up state
         this.state = {
+            loading: true,
+            logged: false,
             pending: [], // people you friended
             requests: [], // people who friended you
             accepted: [], // people that you accepted/they accepted friend reqs
@@ -110,7 +113,16 @@ export default class Friends extends Component {
         console.log(this.state)
     }
     componentDidMount() {
-        this.fetchStatus()
+        axios.post('http://localhost:5000/auth/logged')
+            .then(arr => {
+                console.log(arr)
+                this.setState({ logged: true, loading: false })
+                this.fetchStatus();
+            })
+            .catch(err => {
+                console.log(err)
+                this.setState({ loading: false })
+            })
     }
 
     unfriend(e) {
@@ -173,14 +185,14 @@ export default class Friends extends Component {
             });
         }
         else { // if no matching users, means not found
-            return <NoIn    />
+            return <NoIn />
         }
     }
-    
+
     inList() {
         if (this.state.requests.length !== 0) {
             return this.state.requests.map(friend => {
-                return <In name={friend.name} id={friend._id} onAccept={this.acceptReq} onReject={this.rejectReq} key={friend._id}  />
+                return <In name={friend.name} id={friend._id} onAccept={this.acceptReq} onReject={this.rejectReq} key={friend._id} />
             });
         }
         else { // if no matching users, means not found
@@ -217,6 +229,12 @@ export default class Friends extends Component {
 
     render() {
         console.log(this.state)
+        if(this.state.loading) {
+            return (<div>Loading...</div>)
+          }
+          else if (!this.state.logged) {
+            return (<Redirect to='/'/>)
+          }
         return (
             <div>
                 <h3>Sent Requests</h3>
