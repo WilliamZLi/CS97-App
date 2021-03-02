@@ -43,8 +43,7 @@ var mango = require('../db')
     }
     
     PostCol.createIndex({ caption: "text" });
-    var postMatch = await PostCol.find( { $text: { $search: req.body.query } } ,
-                                          {projection:{ caption: 1}}).toArray();
+    var postMatch = await PostCol.find( { $text: { $search: req.body.query } } , options).toArray();
 
     try {
       if (postMatch.length !== 0) {

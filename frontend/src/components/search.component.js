@@ -339,6 +339,7 @@ export default class Search extends Component {
           <tr>
             <th>Preview</th>
             <th>Caption</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
