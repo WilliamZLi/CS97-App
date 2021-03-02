@@ -27,50 +27,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* <header className="App-header">
-          <Navbar bg="dark" variant="dark">
-            <Container>
-              <Navbar.Brand>
-                <Link to={"/"} className="nav-link">
-                  Home
-                </Link>
-              </Navbar.Brand>
-
-              <Nav className="justify-content-end">
-                <Nav>
-                  <Link to={"/create-obj"} className="nav-link">
-                    Post
-                  </Link>
-                </Nav>
-
-                <Nav>
-                  <Link to={"/list-obj"} className="nav-link">
-                    Gallery
-                  </Link>
-                </Nav>
-
-                <Nav>
-                  <Link to={"/search"} className="nav-link">
-                    Search
-                  </Link>
-                </Nav>
-
-                <Nav>
-                  <Link to={"/friends"} className="nav-link">
-                    Friends
-                  </Link>
-                </Nav>
-
-                <Nav>
-                  <Link to={"/logout"} className="nav-link">
-                    Logout
-                  </Link>
-                </Nav>
-              </Nav>
-            </Container>
-          </Navbar>
-        </header> */}
-
         {/* <Container> */}
         {/* <Row> */}
         {/* <Col md={12}> */}
