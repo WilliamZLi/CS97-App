@@ -41,8 +41,14 @@ router.route('/get-obj').post(async function (req, res, next) {
     })
   console.log('exited loop', pictures, pictures.length) 
   console.log('done', picArr)
-  if (pictures.length !== 0) { // await bypass, will only pass if not empty array
+  if (pictures.length !== 0) { //insurance, send empty if length 0
+    console.log('sendoff')
     res.json(picArr) 
+  }
+  else
+  {
+    console.log('blanked')
+    res.json([])
   }
 
   //console.log(req.user, req.session)
@@ -81,8 +87,14 @@ router.route('/profile-obj').post(async function (req, res, next) {
     })
   console.log('exited loop', pictures, pictures.length) 
   console.log('done', picArr)
-  if (pictures.length !== 0) { // await bypass, will only pass if not empty array
-    res.json(picArr)
+  if (pictures.length !== 0) {  // insurance, send empty if length 0
+    console.log('sendoff')
+    res.json(picArr) 
+  }
+  else
+  {
+    console.log('blanked')
+    res.json([])
   }
 
   //console.log(req.user, req.session)

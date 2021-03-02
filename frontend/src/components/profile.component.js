@@ -3,7 +3,7 @@ import Image from 'react-bootstrap/Image'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 axios.defaults.withCredentials = true
 
 const Post = props => ( // name, and 2 buttons
@@ -32,6 +32,8 @@ class Profile extends Component {
 
         // Setting up state
         this.state = {
+            logged: false,
+            loading: true,
             found: false,
             id: null,
             name: null,
@@ -46,8 +48,8 @@ class Profile extends Component {
         array.push(uid)
         await axios.post('http://localhost:5000/log')
             .then(res => {
-                if(res.data.id === uid)
-                    this.setState({myProfile: true})
+                if (res.data.id === uid)
+                    this.setState({ myProfile: true })
             })
         await axios.post('http://localhost:5000/name/getname', array)
             .then(res => {
@@ -61,24 +63,33 @@ class Profile extends Component {
         if (this.state.found) {
             await axios.post('http://localhost:5000/objs/profile-obj', array)
                 .then(res => {
-                    console.log(res.data)
-                    this.setState({ gallery: res.data.sort((a, b) => new Date(b.date) - new Date(a.date))})
+                    console.log('success', res.data)
+                    this.setState({ gallery: res.data.sort((a, b) => new Date(b.date) - new Date(a.date)), loading: false})
                 })
                 .catch(err => {
-                    console.log(err)
+                    console.log('error', err)
                 })
         }
         console.log('afterload', this.state)
 
     }
     componentDidMount() {
-        this.getAll();
+        axios.post('http://localhost:5000/auth/logged')
+            .then(res => {
+                console.log('succ', res)
+                this.setState({ logged: true })
+                this.getAll()
+            })
+            .catch(err => {
+                console.log('fail', err)
+                this.setState({ loading: false })
+            })
     }
 
     postList() {
         if (this.state.gallery.length !== 0) {
             return this.state.gallery.map(picture => {
-                return <Post caption={picture.caption} id={picture._id} photo={picture.photo} key={picture._id}  />
+                return <Post caption={picture.caption} id={picture._id} photo={picture.photo} key={picture._id} />
             });
         }
         else { // if no matching users, means not found
@@ -87,6 +98,11 @@ class Profile extends Component {
     }
 
     render() {
+        if (this.state.loading) // initially just show loading
+            return (<div>Loading...</div>)
+        else if (!this.state.logged) { // once loading done, if logged false, don't show page
+            return (<Redirect to='/' />)
+        }
         if (this.state.found) {
             return (
                 <div className="form-wrapper">

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
+import { Redirect } from "react-router-dom";
 import axios from 'axios';
 axios.defaults.withCredentials = true
 
@@ -15,11 +16,27 @@ export default class CreateObj extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     // Setting up state
     this.state = {
+      loading: true,
+      logged: false,
       name: "",
       body: "",
       file: null,
       button: true
     }
+  }
+
+  componentDidMount() {
+
+    axios.post('http://localhost:5000/auth/logged')
+      .then(arr => {
+        console.log(arr)
+        this.setState({ logged: true, loading: false })
+      })
+      .catch(err => {
+        console.log(err)
+        this.setState({loading: false})
+      })
+
   }
 
   onChangeObjName(e) {
@@ -58,6 +75,13 @@ export default class CreateObj extends Component {
   }
 
   render() {
+    if(this.state.loading) {
+      return (<div>Loading...</div>)
+    }
+    else if (!this.state.logged) {
+      return <Redirect to='/' />
+    }
+
     return (<div className="form-wrapper">
       <Form onSubmit={this.onSubmit} encType="multipart/form-data">
         <Form.Group controlId="Name">
