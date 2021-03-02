@@ -27,7 +27,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* <header className="App-header">
+        <header className="App-header">
           <Navbar bg="dark" variant="dark">
             <Container>
               <Navbar.Brand>
@@ -69,7 +69,7 @@ function App() {
               </Nav>
             </Container>
           </Navbar>
-        </header> */}
+        </header>
 
         {/* <Container> */}
         {/* <Row> */}
