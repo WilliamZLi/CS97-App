@@ -45,22 +45,39 @@ class Post extends Component {
         }
         console.log(pid)
 
+        let upld = []
+
         await axios.post('http://localhost:5000/post', pid)
             .then(res => {
                 console.log("made it back to fetch")
                 console.log(res.data)
-
-                var upldName = this.convertName(res.data.uploader)
-                console.log("got past the convert")
-                console.log(upldName)
+                
+                // clean up date info
                 var newDate = res.data.date.slice(0,10)
+
+                upld.push(res.data.uploader)
 
                 this.setState({
                     caption: res.data.caption,
                     photo: res.data.photo,
                     date: newDate,
                     uploader: res.data.uploader,
-                    // uploader: upldName,
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+        // convert nameID to username
+
+        var upldName = await axios.post('http://localhost:5000/name/getname', upld)
+            .then(resol => {
+                upldName = resol.data.name
+                console.log(upldName)
+                console.log('done work')
+
+                this.setState({
+                    uploader: upldName
                 })
             })
             .catch(err => {
@@ -87,8 +104,7 @@ class Post extends Component {
         }
         else {
             return <NoPhoto />
-        }
-        
+        }  
     }
 
     async convertName(nameID) {
@@ -124,7 +140,7 @@ class Post extends Component {
                     {this.state.date}
                 </header>
                 <h4>
-                    Uploader ID:
+                    Uploader:
                 </h4>
                 <header>
                     {this.state.uploader}
