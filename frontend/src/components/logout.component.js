@@ -22,7 +22,6 @@ export default class ObjList extends Component {
     axios.post('http://localhost:5000/auth/logout')
       .then(res => { // only remove if complete successfully
         console.log(res)
-        this.setState({ name: '', password: '' })
         this.setState({ redirect: '/' })
       })
       .catch(err => { // if error, notify user
