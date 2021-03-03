@@ -29,6 +29,7 @@ var logRouter = require('./routes/log');
 var searchRouter = require('./routes/search');
 var friendRouter = require('./routes/friends')
 var nameRouter = require('./routes/name')
+var postRouter = require('./routes/post')
 
 var app = express();
 
@@ -64,6 +65,7 @@ app.use('/log', logRouter);
 app.use('/search', searchRouter);
 app.use('/friend', friendRouter)
 app.use('/name', nameRouter)
+app.use('/post', postRouter)
 
 //TO DELETE SESSION//
 //   req.session.destroy()
