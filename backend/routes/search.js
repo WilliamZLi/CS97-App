@@ -53,7 +53,7 @@ router.post('/post', async function (req, res) {
     }
     else {
       console.log("no matching caption found");
-      res.status(204).json();
+      console.log(postMatch)
     }
   }
   catch (err) {
