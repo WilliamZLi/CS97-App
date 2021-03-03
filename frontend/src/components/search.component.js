@@ -75,9 +75,6 @@ var Post = props => ( // name, and 2 buttons
     </tr>
 )
 
-// <Button onClick={props.onReject} id={props.id}>View</Button>
-// The button that the link replaced
-
 var NoPost = props => (
     <tr>
         <td>Nothing here!</td>
