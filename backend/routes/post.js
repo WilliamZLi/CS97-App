@@ -30,24 +30,7 @@ var ObjectId = require('mongodb').ObjectID;
                 console.log("Post backend error");
                 res.status(401).json(err.message);
             })
-        
 
-        
-    //     try {
-    //         if (postMatch !== null) {
-    //             console.log("found matching post")
-    //             console.log(postMatch)
-    //             res.json(postMatch)
-    //         }
-    //         else {
-    //             console.log("couldn't find the post")
-    //             res.status(401).json()
-    //         }
-    //     }
-    //     catch(err) {
-    //         console.log("Post backend error");
-    //         res.status(401).json(err.message);
-    //     }
     })
 
 
