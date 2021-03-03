@@ -109,7 +109,8 @@ export default class Search extends Component {
       currentFriends: [],
       sentReqs: [],
       gotReqs: [],
-      myId: ''
+      myId: '',
+      disabled: false
     }
   }
 
@@ -220,7 +221,7 @@ export default class Search extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-
+    this.setState({disabled: true})
     const searchString = {
       query: this.state.query,
     }
@@ -257,7 +258,7 @@ export default class Search extends Component {
           let temp = []
           temp = res.data
           console.log(temp)
-          this.setState({ query: '', captureCapt: temp })
+          this.setState({ query: '', captureCapt: temp, disabled: false })
           console.log(this.state.captureCapt)
         }
       })
@@ -312,12 +313,12 @@ export default class Search extends Component {
       <Form onSubmit={this.onSubmit}>
         <Form.Group controlId="Search">
           <Form.Label>Search</Form.Label>
-          <Form.Control type="text" placeholder="Enter user name"
+          <Form.Control type="text" placeholder="Enter search term"
             value={this.state.query} onChange={this.onChangeQuery} />
         </Form.Group>
 
-        <Button variant="danger" size="lg" block="block" type="submit">
-          Search
+        <Button variant="danger" size="lg" block="block" type="submit" disabled={this.state.disabled}>
+          {this.state.disabled ? 'Searching..' : 'Search'}
         </Button>
       </Form>
       <h3>Search Results</h3>

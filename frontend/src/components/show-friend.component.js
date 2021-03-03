@@ -212,21 +212,6 @@ export default class Friends extends Component {
 
     }
 
-    async convertNames(arrayList) {
-        var newArr;
-        console.log('working', arrayList)
-        newArr = await axios.post('http://localhost:5000/name/getnames', arrayList)
-            .then(resol => {
-                newArr = resol.data
-                console.log(newArr)
-                console.log('done work')
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        return newArr;
-    }
-
     render() {
         console.log(this.state)
         if(this.state.loading) {
