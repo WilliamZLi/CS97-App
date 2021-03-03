@@ -21,12 +21,14 @@ import Home from "./components/home.component";
 import Search from "./components/search.component"; // import Search
 import Friends from "./components/show-friend.component";
 import Profile from "./components/profile.component";
+
 axios.defaults.withCredentials = true;
 
 function App() {
   return (
     <Router>
       <div className="App">
+        {" "}
         {/* <Container> */}
         {/* <Row> */}
         {/* <Col md={12}> */}

@@ -1,75 +1,89 @@
 import React, { Component } from "react";
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button';
-import axios from 'axios';
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import axios from "axios";
+
+import Header from "../Header";
 axios.defaults.withCredentials = true;
 
-var NewPerson = props => ( // name, and 2 buttons
+var NewPerson = (
+  props // name, and 2 buttons
+) => (
   <tr>
     <td>{props.result}</td>
 
     <td>
-      <Button id={props.id} onClick={props.addFriend}>Friend</Button>
+      <Button id={props.id} onClick={props.addFriend}>
+        Friend
+      </Button>
     </td>
-
   </tr>
-)
+);
 
-var CurrFriend = props => ( // already friends
+var CurrFriend = (
+  props // already friends
+) => (
+  <tr>
+    <td>{props.result}</td>
+
+    <td>Already Friends!</td>
+    <td>
+      <Button id={props.id} onClick={props.unfriend}>
+        Unfriend
+      </Button>
+    </td>
+  </tr>
+);
+
+var SentReq = (
+  props // req you sent
+) => (
   <tr>
     <td>{props.result}</td>
 
     <td>
-      Already Friends!
+      <Button id={props.id} onClick={props.undo}>
+        Undo Req
+      </Button>
     </td>
-    <td>
-      <Button id={props.id} onClick={props.unfriend} >Unfriend</Button>
-    </td>
-
   </tr>
-)
+);
 
-var SentReq = props => ( // req you sent
+var GotReq = (
+  props // req you got
+) => (
   <tr>
     <td>{props.result}</td>
 
     <td>
-      <Button id={props.id} onClick={props.undo} >Undo Req</Button>
-    </td>
-
-  </tr>
-)
-
-var GotReq = props => ( // req you got
-  <tr>
-    <td>{props.result}</td>
-
-    <td>
-      <Button id={props.id} onClick={props.acceptReq}>Accept Req</Button>
+      <Button id={props.id} onClick={props.acceptReq}>
+        Accept Req
+      </Button>
     </td>
 
     <td>
-      <Button id={props.id}onClick={props.rejectReq} >Reject Req</Button>
+      <Button id={props.id} onClick={props.rejectReq}>
+        Reject Req
+      </Button>
     </td>
-
   </tr>
-)
+);
 
-var NoResult = props => (
+var NoResult = (props) => (
   <tr>
     <td>User Not Found! Please note names are case sensitive!</td>
   </tr>
-)
+);
 
-var IsMe = props => (
+var IsMe = (props) => (
   <tr>
     <td>This is you!</td>
   </tr>
-)
+);
 
 export default class Search extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     // Set up functions - set 'this' context to this class
     this.onChangeQuery = this.onChangeQuery.bind(this);
@@ -81,36 +95,41 @@ export default class Search extends Component {
     this.unfriend = this.unfriend.bind(this);
     // Setting up state
     this.state = {
-      query: '',
+      query: "",
       capture: null,
       currentFriends: [],
       sentReqs: [],
       gotReqs: [],
-      myId: ''
-    }
+      myId: "",
+    };
   }
 
   fetchStatus() {
-    axios.post('http://localhost:5000/friend/showfriend')
-      .then(res => { // only remove if complete successfully
-        console.log(res.data)
+    axios
+      .post("http://localhost:5000/friend/showfriend")
+      .then((res) => {
+        // only remove if complete successfully
+        console.log(res.data);
 
         this.setState({
-          sentReqs: res.data.throwFriends !== undefined ? res.data.throwFriends : [], // set up data structures
-          gotReqs: res.data.catchFriends !== undefined ? res.data.catchFriends : [],
-          currentFriends: res.data.friends !== undefined ? res.data.friends : []
-        })
-        console.log(this.state, 'check1')
+          sentReqs:
+            res.data.throwFriends !== undefined ? res.data.throwFriends : [], // set up data structures
+          gotReqs:
+            res.data.catchFriends !== undefined ? res.data.catchFriends : [],
+          currentFriends:
+            res.data.friends !== undefined ? res.data.friends : [],
+        });
+        console.log(this.state, "check1");
       })
-      .catch(err => { // if error, notify user
-        console.log(err)
-        alert(err)
-      })
-    axios.post('http://localhost:5000/auth/logged')
-      .then(resol => {
-        console.log(resol.data)
-        this.setState({ myId: resol.data.id })
-      })
+      .catch((err) => {
+        // if error, notify user
+        console.log(err);
+        alert(err);
+      });
+    axios.post("http://localhost:5000/auth/logged").then((resol) => {
+      console.log(resol.data);
+      this.setState({ myId: resol.data.id });
+    });
   }
 
   componentDidMount() {
@@ -118,153 +137,200 @@ export default class Search extends Component {
   }
 
   onChangeQuery(e) {
-    this.setState({ query: e.target.value })
+    this.setState({ query: e.target.value });
   }
 
   unfriend(e) {
-    console.log('clicked unfriend!')
-    console.log(e.target.id)
-    axios.post('http://localhost:5000/friend/unfriend', { id: e.target.id })
-    .then(res => {
-      console.log('successful!')
-      this.fetchStatus()
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    console.log("clicked unfriend!");
+    console.log(e.target.id);
+    axios
+      .post("http://localhost:5000/friend/unfriend", { id: e.target.id })
+      .then((res) => {
+        console.log("successful!");
+        this.fetchStatus();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   acceptReq(e) {
-    console.log('clicked accept!')
-    console.log(e.target.id)
-    axios.post('http://localhost:5000/friend/acceptreq', { id: e.target.id })
-    .then(res => {
-      console.log('successful!')
-      this.fetchStatus()
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    console.log("clicked accept!");
+    console.log(e.target.id);
+    axios
+      .post("http://localhost:5000/friend/acceptreq", { id: e.target.id })
+      .then((res) => {
+        console.log("successful!");
+        this.fetchStatus();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   rejectReq(e) {
-    console.log('clicked reject!')
-    console.log(e.target.id)
-    axios.post('http://localhost:5000/friend/rejectreq', { id: e.target.id })
-    .then(res => {
-      console.log('successful!')
-      this.fetchStatus()
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    console.log("clicked reject!");
+    console.log(e.target.id);
+    axios
+      .post("http://localhost:5000/friend/rejectreq", { id: e.target.id })
+      .then((res) => {
+        console.log("successful!");
+        this.fetchStatus();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   undoReq(e) {
-    console.log('clicked undo!')
-    console.log(e.target.id)
+    console.log("clicked undo!");
+    console.log(e.target.id);
 
-    axios.post('http://localhost:5000/friend/undorequest', { id: e.target.id })
-      .then(res => {
-        console.log('successful!')
-        this.fetchStatus()
+    axios
+      .post("http://localhost:5000/friend/undorequest", { id: e.target.id })
+      .then((res) => {
+        console.log("successful!");
+        this.fetchStatus();
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   addFriend(e) {
-    console.log('clicked add!')
-    console.log(e.target.id)
+    console.log("clicked add!");
+    console.log(e.target.id);
 
-    axios.post('http://localhost:5000/friend/addfriend', { id: e.target.id })
-      .then(res => {
-        console.log('successful!')
-        this.fetchStatus()
+    axios
+      .post("http://localhost:5000/friend/addfriend", { id: e.target.id })
+      .then((res) => {
+        console.log("successful!");
+        this.fetchStatus();
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   onSubmit(e) {
     e.preventDefault();
 
     const searchString = {
-      query: this.state.query
-    }
+      query: this.state.query,
+    };
 
     if (searchString === "") {
-      alert('Cannot be an empty form')
+      alert("Cannot be an empty form");
       return;
     }
-    axios.post('http://localhost:5000/search', searchString)
-      .then(res => { // only remove if complete successfully
-        if (res.status === 204) { // if user not found, set array to blank
-          this.setState({ query: '', capture: [] })
-        }
-        else { // otherwise empty array and swap
-          let temp = []
-          temp.push(res.data)
-          console.log(temp)
-          this.setState({ query: '', capture: temp })
-          console.log(this.state.capture)
+    axios
+      .post("http://localhost:5000/search", searchString)
+      .then((res) => {
+        // only remove if complete successfully
+        if (res.status === 204) {
+          // if user not found, set array to blank
+          this.setState({ query: "", capture: [] });
+        } else {
+          // otherwise empty array and swap
+          let temp = [];
+          temp.push(res.data);
+          console.log(temp);
+          this.setState({ query: "", capture: temp });
+          console.log(this.state.capture);
         }
       })
-      .catch(err => { // if error, notify user
-        this.setState({ query: '' })
-        console.log(err)
-        alert(err)
-      })
+      .catch((err) => {
+        // if error, notify user
+        this.setState({ query: "" });
+        console.log(err);
+        alert(err);
+      });
   }
 
   searchList() {
-    if (this.state.capture !== null && this.state.capture.length !== 0) { // once not null, swap depending on status
-      return this.state.capture.map(person => {
+    if (this.state.capture !== null && this.state.capture.length !== 0) {
+      // once not null, swap depending on status
+      return this.state.capture.map((person) => {
         if (this.state.currentFriends.includes(person._id))
-          return <CurrFriend result={person.name} id={person._id} unfriend={this.unfriend} key={person._id} />
+          return (
+            <CurrFriend
+              result={person.name}
+              id={person._id}
+              unfriend={this.unfriend}
+              key={person._id}
+            />
+          );
         else if (this.state.sentReqs.includes(person._id))
-          return <SentReq result={person.name} id={person._id} undo={this.undoReq} key={person._id} />
+          return (
+            <SentReq
+              result={person.name}
+              id={person._id}
+              undo={this.undoReq}
+              key={person._id}
+            />
+          );
         else if (this.state.gotReqs.includes(person._id))
-          return <GotReq result={person.name} id={person._id} rejectReq={this.rejectReq} acceptReq={this.acceptReq} key={person._id} />
+          return (
+            <GotReq
+              result={person.name}
+              id={person._id}
+              rejectReq={this.rejectReq}
+              acceptReq={this.acceptReq}
+              key={person._id}
+            />
+          );
         else if (this.state.myId === person._id) {
-          return <IsMe key={person._id} />
-        }
-        else
-          return <NewPerson result={person.name} id={person._id} addFriend={this.addFriend} key={person._id} />
+          return <IsMe key={person._id} />;
+        } else
+          return (
+            <NewPerson
+              result={person.name}
+              id={person._id}
+              addFriend={this.addFriend}
+              key={person._id}
+            />
+          );
       });
-    }
-    else if (this.state.capture !== null) { // if no matching users, means not found
-      return <NoResult />
+    } else if (this.state.capture !== null) {
+      // if no matching users, means not found
+      return <NoResult />;
     }
   }
 
   render() {
-    return (<div className="form-wrapper">
-      <Form onSubmit={this.onSubmit}>
-        <Form.Group controlId="Search">
-          <Form.Label>Search</Form.Label>
-          <Form.Control type="text" placeholder="Enter user name"
-            value={this.state.query} onChange={this.onChangeQuery} />
-        </Form.Group>
+    return (
+      <div className="user-home">
+        <Header />
+        <div className="user-container">
+          <div className="user-contents">
+            <Form onSubmit={this.onSubmit}>
+              <Form.Group controlId="Search">
+                <Form.Label>Search</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter user name"
+                  value={this.state.query}
+                  onChange={this.onChangeQuery}
+                />
+              </Form.Group>
 
-        <Button variant="danger" size="lg" block="block" type="submit">
-          Search
-        </Button>
-      </Form>
-      <h3>Search Results</h3>
-      <table className="table table-striped" style={{ marginTop: 20 }} >
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.searchList()}
-        </tbody>
-      </table>
-    </div>);
+              <Button variant="danger" size="lg" block="block" type="submit">
+                Search
+              </Button>
+            </Form>
+            <h3>Search Results</h3>
+            <table className="table table-striped" style={{ marginTop: 20 }}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>{this.searchList()}</tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
   }
 }

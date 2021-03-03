@@ -272,40 +272,44 @@ export default class Friends extends Component {
   render() {
     console.log(this.state);
     return (
-      <div>
+      <div className="user-home">
         <Header />
-        <h3>Sent Requests</h3>
-        <table className="table table-striped" style={{ marginTop: 20 }}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{this.outList()}</tbody>
-        </table>
+        <div className="user-container">
+          <div className="user-contents">
+            <h3>Sent Requests</h3>
+            <table className="table table-striped" style={{ marginTop: 20 }}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>{this.outList()}</tbody>
+            </table>
 
-        <h3>Incoming Requests</h3>
-        <table className="table table-striped" style={{ marginTop: 20 }}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{this.inList()}</tbody>
-        </table>
+            <h3>Incoming Requests</h3>
+            <table className="table table-striped" style={{ marginTop: 20 }}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>{this.inList()}</tbody>
+            </table>
 
-        <h3>Friends</h3>
-        <table className="table table-striped" style={{ marginTop: 20 }}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{this.friendList()}</tbody>
-        </table>
+            <h3>Friends</h3>
+            <table className="table table-striped" style={{ marginTop: 20 }}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>{this.friendList()}</tbody>
+            </table>
+          </div>
+        </div>
       </div>
     );
   }

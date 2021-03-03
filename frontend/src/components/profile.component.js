@@ -6,6 +6,7 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 
 import Header from "../Header";
+import "./profile.css";
 axios.defaults.withCredentials = true;
 
 const Post = (
@@ -109,23 +110,27 @@ class Profile extends Component {
   render() {
     if (this.state.found) {
       return (
-        <div className="form-wrapper">
+        <div className="user-home">
           <Header />
-          <header>
-            {this.state.name}'s Profile{" "}
-            {this.state.myProfile ? "(Your Profile)" : ""}
-          </header>
-          <hr />
-          <h3>Posts</h3>
-          <table className="table table-striped" style={{ marginTop: 20 }}>
-            <thead>
-              <tr>
-                <th>Preview</th>
-                <th>Caption</th>
-              </tr>
-            </thead>
-            <tbody>{this.postList()}</tbody>
-          </table>
+          <div className="user-container">
+            <div className="user-contents">
+              <header className="user__identity">
+                {this.state.name}'s Profile{" "}
+                {this.state.myProfile ? "(Your Profile)" : ""}
+              </header>
+              <hr />
+              <h3>Posts</h3>
+              <table className="table table-striped" style={{ marginTop: 20 }}>
+                <thead>
+                  <tr>
+                    <th>Preview</th>
+                    <th>Caption</th>
+                  </tr>
+                </thead>
+                <tbody>{this.postList()}</tbody>
+              </table>
+            </div>
+          </div>
         </div>
       );
     } else {
