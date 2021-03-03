@@ -94,7 +94,7 @@ export default class CreateObj extends Component {
           <Form.Control type="file" name="photo" value={this.state.body} onChange={this.onChangeObjBody} />
         </Form.Group>
 
-        <Button variant="danger" size="lg" block="block" type="submit" id="button">
+        <Button variant="danger" size="lg" block="block" type="submit" id="button" disabled={!this.state.button}>
           {this.state.button ? 'Upload' : 'Submitting...'}
         </Button>
       </Form>
