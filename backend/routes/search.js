@@ -62,8 +62,11 @@ router.post('/post', async function (req, res) {
   }
   await User.findOne({ _id: new ObjectId(req.session.passport.user) }, { projection: { friends: 1 } })
     .then(succ => {
-      console.log(succ)
-      friendArr = succ.friends
+      console.log(succ.friends)
+      if (succ.friends !== undefined)
+        friendArr = succ.friends
+      else
+        friendArr = []
     })
     .catch(err => {
       console.log("Search backend error");
