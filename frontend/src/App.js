@@ -17,9 +17,10 @@ import Register from "./components/register.component";
 import Login from "./components/login.component";
 import NotFound from "./components/notfound.component";
 import Home from "./components/home.component";
-import Search from "./components/search.component";   // import Search
+import Search from "./components/search.component";
 import Friends from "./components/show-friend.component";
 import Profile from "./components/profile.component";
+import Post from "./components/post.component";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -91,6 +92,7 @@ function App() {
                 <Route exact path="/search" component={Search} />
                 <Route exact path="/friends" component={Friends} />
                 <Route exact path="/profile/:id" component={Profile} />
+                <Route exact path="/post/:id" component={Post} />
                 <Route path="" component={NotFound} />
               </Switch>
             </div>

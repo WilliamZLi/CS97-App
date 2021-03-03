@@ -3,7 +3,7 @@ import Image from 'react-bootstrap/Image'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import { withRouter, Redirect } from 'react-router-dom'
+import { Link, withRouter, Redirect } from 'react-router-dom'
 axios.defaults.withCredentials = true
 
 const Post = props => ( // name, and 2 buttons
@@ -13,7 +13,7 @@ const Post = props => ( // name, and 2 buttons
         </td>
         <td>{props.caption}</td>
         <td>
-            <Button onClick={props.onReject} id={props.id}>View</Button>
+            <Link to={"/post/" + props.id} >View</Link>
         </td>
     </tr>
 )

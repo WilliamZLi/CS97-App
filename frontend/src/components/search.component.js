@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Image from 'react-bootstrap/Image';
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
@@ -70,7 +70,7 @@ var Post = props => ( // name, and 2 buttons
         </td>
         <td>{props.caption}</td>
         <td>
-            <Button onClick={props.onReject} id={props.id}>View</Button>
+            <Link to={"/post/" + props.id} >View</Link>
         </td>
     </tr>
 )
