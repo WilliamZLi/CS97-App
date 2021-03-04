@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Header from "../Header";
 axios.defaults.withCredentials = true;
 
@@ -84,6 +85,8 @@ export default class Friends extends Component {
     this.unfriend = this.unfriend.bind(this);
     // Setting up state
     this.state = {
+      loading: true,
+      logged: false,
       pending: [], // people you friended
       requests: [], // people who friended you
       accepted: [], // people that you accepted/they accepted friend reqs
@@ -137,7 +140,17 @@ export default class Friends extends Component {
     console.log(this.state);
   }
   componentDidMount() {
-    this.fetchStatus();
+    axios
+      .post("http://localhost:5000/auth/logged")
+      .then((arr) => {
+        console.log(arr);
+        this.setState({ logged: true, loading: false });
+        this.fetchStatus();
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({ loading: false });
+      });
   }
 
   unfriend(e) {
@@ -253,24 +266,13 @@ export default class Friends extends Component {
     }
   }
 
-  async convertNames(arrayList) {
-    var newArr;
-    console.log("working", arrayList);
-    newArr = await axios
-      .post("http://localhost:5000/name/getnames", arrayList)
-      .then((resol) => {
-        newArr = resol.data;
-        console.log(newArr);
-        console.log("done work");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    return newArr;
-  }
-
   render() {
     console.log(this.state);
+    if (this.state.loading) {
+      return <div>Loading...</div>;
+    } else if (!this.state.logged) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="user-home">
         <Header />

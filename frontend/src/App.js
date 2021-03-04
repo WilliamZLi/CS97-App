@@ -21,6 +21,7 @@ import Home from "./components/home.component";
 import Search from "./components/search.component"; // import Search
 import Friends from "./components/show-friend.component";
 import Profile from "./components/profile.component";
+import Post from "./components/post.component";
 
 axios.defaults.withCredentials = true;
 
@@ -28,7 +29,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {" "}
         {/* <Container> */}
         {/* <Row> */}
         {/* <Col md={12}> */}
@@ -44,6 +44,8 @@ function App() {
           <Route exact path="/friends" component={Friends} />
           <Route exact path="/MyProfile" component={MyProfile} />
           <Route exact path="/profile/:id" component={Profile} />
+          <Route exact path="/post/:id" component={Post} />
+
           <Route path="" component={NotFound} />
         </Switch>
         {/* </div> */}

@@ -20,10 +20,25 @@ export default class Register extends Component {
 
     // Setting up state
     this.state = {
+      logged: false,
+      loading: true,
       name: "",
       password: "",
       redirect: null,
     };
+  }
+
+  componentDidMount() {
+    axios
+      .post("http://localhost:5000/auth/logged")
+      .then((res) => {
+        console.log("succ", res); // if true, means logged in
+        this.setState({ logged: true, loading: false, redirect: "/" });
+      })
+      .catch((err) => {
+        console.log("fail", err); // if err, means not logged in, so valid for logging
+        this.setState({ loading: false, logged: false });
+      });
   }
 
   onChangeName(e) {
@@ -67,6 +82,10 @@ export default class Register extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return <div>Loading...</div>;
+    }
+
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }

@@ -11,18 +11,19 @@ export default class ObjList extends Component {
     super(props);
     this.state = {
       redirect: null,
+      disabled: false,
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit(e) {
     e.preventDefault();
+    this.setState({ disabled: true });
     axios
-      .get("http://localhost:5000/auth/logout")
+      .post("http://localhost:5000/auth/logout")
       .then((res) => {
         // only remove if complete successfully
         console.log(res);
-        this.setState({ name: "", password: "" });
         this.setState({ redirect: "/" });
       })
       .catch((err) => {
@@ -42,7 +43,13 @@ export default class ObjList extends Component {
         <div className="user-container">
           <div className="user-contents">
             <Form onSubmit={this.onSubmit}>
-              <Button variant="danger" size="lg" block="block" type="submit">
+              <Button
+                variant="danger"
+                size="lg"
+                disabled={this.state.disabled}
+                block="block"
+                type="submit"
+              >
                 Logout
               </Button>
             </Form>

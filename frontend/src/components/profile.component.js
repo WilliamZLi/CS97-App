@@ -3,8 +3,7 @@ import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import { withRouter } from "react-router-dom";
-
+import { Link, withRouter, Redirect } from "react-router-dom";
 import Header from "../Header";
 import "./profile.css";
 axios.defaults.withCredentials = true;
@@ -22,9 +21,7 @@ const Post = (
     </td>
     <td>{props.caption}</td>
     <td>
-      <Button onClick={props.onReject} id={props.id}>
-        View
-      </Button>
+      <Link to={"/post/" + props.id}>View</Link>
     </td>
   </tr>
 );
@@ -43,6 +40,8 @@ class Profile extends Component {
 
     // Setting up state
     this.state = {
+      logged: false,
+      loading: true,
       found: false,
       id: null,
       name: null,
@@ -72,21 +71,32 @@ class Profile extends Component {
       await axios
         .post("http://localhost:5000/objs/profile-obj", array)
         .then((res) => {
-          console.log(res.data);
+          console.log("success", res.data);
           this.setState({
             gallery: res.data.sort(
               (a, b) => new Date(b.date) - new Date(a.date)
             ),
+            loading: false,
           });
         })
         .catch((err) => {
-          console.log(err);
+          console.log("error", err);
         });
     }
     console.log("afterload", this.state);
   }
   componentDidMount() {
-    this.getAll();
+    axios
+      .post("http://localhost:5000/auth/logged")
+      .then((res) => {
+        console.log("succ", res);
+        this.setState({ logged: true });
+        this.getAll();
+      })
+      .catch((err) => {
+        console.log("fail", err);
+        this.setState({ loading: false });
+      });
   }
 
   postList() {
@@ -108,6 +118,13 @@ class Profile extends Component {
   }
 
   render() {
+    if (this.state.loading)
+      // initially just show loading
+      return <div>Loading...</div>;
+    else if (!this.state.logged) {
+      // once loading done, if logged false, don't show page
+      return <Redirect to="/" />;
+    }
     if (this.state.found) {
       return (
         <div className="user-home">

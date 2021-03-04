@@ -24,8 +24,8 @@ const Header = () => (
           </Nav>
 
           <Nav>
-            <Link to={"/list-obj"} className="nav-link">
-              Gallery
+            <Link to={"/myProfile"} className="nav-link">
+              My Profile
             </Link>
           </Nav>
 
