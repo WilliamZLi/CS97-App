@@ -6,6 +6,8 @@ import axios from "axios";
 import { Link, withRouter, Redirect } from "react-router-dom";
 import Header from "../Header";
 import "./profile.css";
+import { HiOutlineArrowsExpand } from "react-icons/hi";
+
 axios.defaults.withCredentials = true;
 
 const Post = (
@@ -21,7 +23,9 @@ const Post = (
     </td>
     <td>{props.caption}</td>
     <td>
-      <Link to={"/post/" + props.id}>View</Link>
+      <Link to={"/post/" + props.id} className="expand-icon-link">
+        <HiOutlineArrowsExpand className="expand__icon" />
+      </Link>
     </td>
   </tr>
 );
