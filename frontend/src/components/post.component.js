@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Header from "../Header";
+import "./post.css";
 axios.defaults.withCredentials = true;
 
 var Photo = (
@@ -144,17 +145,27 @@ class Post extends Component {
       <div className="user-home">
         <Header />
         <div className="user-container">
-          <div className="user-contents">
+          {/* <div className="user-contents">
             <h4>Date Uploaded:</h4>
-            <header>{this.state.date}</header>
+            
             <h4>Uploader:</h4>
-            <header>{this.state.uploader}</header>
+            
             <h4>Caption:</h4>
-            <header>{this.state.caption}</header>
+            
             <h4>Image:</h4>
-            <header>{this.renderPhoto()}</header>
-          </div>
-        </div>
+          </div>*/}
+          <Form className="all">
+              <header>{this.renderPhoto()}</header>
+              <Form.Group className="info">
+                <Form inline>
+                  <Form className="Uploader">{this.state.uploader}</Form>
+                  <Form className="Caption">{this.state.caption}</Form>
+                </Form>
+                <Form className="Date">{this.state.date}</Form>
+              </Form.Group>
+            </Form>
+        </div> 
+
       </div>
     );
   }
