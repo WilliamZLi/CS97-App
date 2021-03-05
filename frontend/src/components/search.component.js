@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Header from "../Header";
+import "./search.css";
 axios.defaults.withCredentials = true;
 
 var NewPerson = (
@@ -393,24 +394,22 @@ export default class Search extends Component {
           <div className="user-contents">
             <Form onSubmit={this.onSubmit}>
               <Form.Group controlId="Search">
-                <Form.Label>Search</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter search term"
-                  value={this.state.query}
-                  onChange={this.onChangeQuery}
-                />
+                  <Form.Label>Search</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Username"
+                    value={this.state.query}
+                    onChange={this.onChangeQuery}
+                  />
+                
+                <Button className="button2"
+                  size="sm"
+                  type="submit"
+                  disabled={this.state.disabled}
+                >
+                  {this.state.disabled ? "Searching.." : "Search"}
+                </Button>
               </Form.Group>
-
-              <Button
-                variant="danger"
-                size="lg"
-                block="block"
-                type="submit"
-                disabled={this.state.disabled}
-              >
-                {this.state.disabled ? "Searching.." : "Search"}
-              </Button>
             </Form>
             <h3>Search Results</h3>
             <h4>Users</h4>
