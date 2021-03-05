@@ -43,11 +43,8 @@ export default class ObjList extends Component {
         <div className="user-container">
           <div className="user-contents">
             <Form onSubmit={this.onSubmit}>
-              <Button
-                variant="danger"
-                size="lg"
+              <Button className="button3"
                 disabled={this.state.disabled}
-                block="block"
                 type="submit"
               >
                 Logout

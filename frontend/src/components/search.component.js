@@ -402,7 +402,7 @@ export default class Search extends Component {
                     onChange={this.onChangeQuery}
                   />
                 
-                <Button className="button2"
+                <Button className="button3"
                   size="sm"
                   type="submit"
                   disabled={this.state.disabled}
@@ -412,7 +412,7 @@ export default class Search extends Component {
               </Form.Group>
             </Form>
             <h3>Search Results</h3>
-            <h4>Users</h4>
+            <h4> Users</h4>
             <table className="table table-striped" style={{ marginTop: 20 }}>
               <thead>
                 <tr>
@@ -422,8 +422,8 @@ export default class Search extends Component {
               </thead>
               <tbody>{this.userList()}</tbody>
             </table>
-            <h4>Posts</h4>
-            <table className="table table-striped" style={{ marginTop: 20 }}>
+            <h4>   Posts</h4>
+            <table className="table table-striped" style={{ marginTop: 20}}>
               <thead>
                 <tr>
                   <th>Preview</th>

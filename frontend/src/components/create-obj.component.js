@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
+import "./create-obj.css"
 
 import Header from "../Header";
 axios.defaults.withCredentials = true;
@@ -90,9 +91,11 @@ export default class CreateObj extends Component {
           <div className="user-contents">
             <Form onSubmit={this.onSubmit} encType="multipart/form-data">
               <Form.Group controlId="Name">
-                <Form.Label>Caption</Form.Label>
-                <Form.Control
+                <Form.Label >Caption</Form.Label>
+                <Form.Control className="Caption1"
                   type="text"
+                  as="textarea"
+                  rows = "3"
                   value={this.state.name}
                   onChange={this.onChangeObjName}
                 />
@@ -108,14 +111,11 @@ export default class CreateObj extends Component {
                 />
               </Form.Group>
 
-              <Button
-                variant="danger"
-                size="lg"
-                block="block"
-                type="submit"
-                id="button"
-                disabled={!this.state.button}
-              >
+              <Button className="button3"
+                  size="sm"
+                  type="submit"
+                  disabled={this.state.disabled}
+                >
                 {this.state.button ? "Upload" : "Submitting..."}
               </Button>
             </Form>
