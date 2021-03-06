@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import Header from "../Header";
+import "./logout.css";
 axios.defaults.withCredentials = true;
 
 export default class ObjList extends Component {
@@ -41,9 +42,10 @@ export default class ObjList extends Component {
       <div className="user-home">
         <Header />
         <div className="user-container">
-          <div className="user-contents">
+          <div className="user-contents logout">
             <Form onSubmit={this.onSubmit}>
-              <Button className="button3"
+              <Button
+                className="button3"
                 disabled={this.state.disabled}
                 type="submit"
               >
