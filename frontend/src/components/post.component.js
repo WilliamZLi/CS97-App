@@ -25,7 +25,6 @@ class Post extends Component {
     constructor(props) {
         super(props)
         // Setting up functions - set 'this' context to this class
-        this.convertName = this.convertName.bind(this)
 
         // Setting up state
         this.state = {
@@ -105,23 +104,6 @@ class Post extends Component {
         else {
             return <NoPhoto />
         }  
-    }
-
-    async convertName(nameID) {
-        var newName;
-        var IDs = [];
-        IDs.push(nameID)
-        console.log('working', nameID)
-        newName = await axios.post('http://localhost:5000/name/getname', IDs)
-            .then(resol => {
-                newName = resol.data
-                console.log(newName)
-                console.log('done work')
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        return newName;
     }
 
     render() {
