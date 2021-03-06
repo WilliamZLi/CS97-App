@@ -1,0 +1,21 @@
+.button3{
+    background: #0ed2f7;
+    border: none;
+    border-radius: 20px;
+    margin-top: 10px;
+    padding: 10px;
+    font-family: "Open Sans", "sans-serif";
+    width: 125px;
+    margin-left: 10px;
+}
+
+.Caption1.form-control{
+    width: 750px; 
+    height: 200%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}

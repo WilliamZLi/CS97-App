@@ -1,0 +1,15 @@
+.Uploader{
+    font-size:larger;
+    font-weight:bold;
+    font-style: italic;
+    
+}
+.Uploader::after
+{
+    content: ": ";
+}
+
+.Caption{
+    margin-left: 5px;
+    font-size: large;
+}
