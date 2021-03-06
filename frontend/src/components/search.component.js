@@ -395,20 +395,22 @@ export default class Search extends Component {
             <Form onSubmit={this.onSubmit}>
               <Form.Group controlId="Search">
                   <Form.Label>Search</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Username"
-                    value={this.state.query}
-                    onChange={this.onChangeQuery}
-                  />
-                
-                <Button className="button3"
-                  size="sm"
-                  type="submit"
-                  disabled={this.state.disabled}
-                >
-                  {this.state.disabled ? "Searching.." : "Search"}
-                </Button>
+                  <div className="search__container">
+                      <Form.Control
+                        type="text"
+                        placeholder="Search..."
+                        value={this.state.query}
+                        onChange={this.onChangeQuery}
+                      />
+                    
+                    <Button className="button2"
+                      size="sm"
+                      type="submit"
+                      disabled={this.state.disabled}
+                    >
+                      {this.state.disabled ? "Searching.." : "Search"}
+                    </Button>
+                  </div>
               </Form.Group>
             </Form>
             <h3>Search Results</h3>

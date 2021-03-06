@@ -11,7 +11,6 @@
     margin:initial;
     position:relative;
     left:0;
-    width: 250px;
 }
 .button2
 {
@@ -22,6 +21,8 @@ background: #0ed2f7;
   padding: 10px;
   font-family: "Open Sans", "sans-serif";
   width: 125px;
+  position: relative;
+  float: right;
 }
 
 h3 {
@@ -29,4 +30,8 @@ h3 {
 }
 h4{
     margin-left: 10px;
+}
+
+.search__container{
+    width: 50%;
 }
