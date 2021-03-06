@@ -6,7 +6,7 @@ var ObjectId = require('mongodb').ObjectID;
 // Search user database for matching username
 router.post('/user', (req, res) => {
   console.log("made it to search.js");
-  console.log(req.body.query);      // holds the search string
+  console.log(req.body);      // holds the search string
 
   UserCol = mango.get().db('app').collection('users');
   UserCol.findOne({ "name": req.body.query }, { projection: { name: 1 } }) // return only name + friends array   

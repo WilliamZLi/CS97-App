@@ -51,7 +51,7 @@ var GotReq = props => ( // req you got
     </td>
 
     <td>
-      <Button id={props.id}onClick={props.rejectReq} >Reject Req</Button>
+      <Button id={props.id} onClick={props.rejectReq} >Reject Req</Button>
     </td>
 
   </tr>
@@ -64,21 +64,25 @@ var NoResult = props => (
 )
 
 var Post = props => ( // name, and 2 buttons
-    <tr>
-        <td>
-            <Image src={`data:image/jpeg;base64,${props.photo}`} style={{ maxWidth: 60, maxHeight: 60 }} alt="alt" />
-        </td>
-        <td>{props.caption}</td>
-        <td>
-            <Link to={"/post/" + props.id} >View</Link>
-        </td>
-    </tr>
+  <tr>
+    <td>
+      <Image src={`data:image/jpeg;base64,${props.photo}`} style={{ maxWidth: 60, maxHeight: 60 }} alt="alt" />
+    </td>
+
+    <td>{props.caption}</td>
+    <td>
+      <Link to={"/profile/" + props.uploader} >{props.poster} {props.isMe ? '(You)' : ''} </Link>
+    </td>
+    <td>
+      <Link to={"/post/" + props.id} >View Post</Link>
+    </td>
+  </tr>
 )
 
 var NoPost = props => (
-    <tr>
-        <td>Nothing here!</td>
-    </tr>
+  <tr>
+    <td>Nothing here!</td>
+  </tr>
 )
 
 var IsMe = props => (
@@ -134,18 +138,18 @@ export default class Search extends Component {
 
   componentDidMount() {
     axios.post('http://localhost:5000/auth/logged')
-    .then(arr => {
-      console.log(arr)
-      this.setState({ logged: true, loading: false, myId: arr.data.id })
-      this.fetchStatus();
-    })
-    .catch(err => {
-      console.log(err)
-      this.setState({loading: false})
-    })
+      .then(arr => {
+        console.log(arr)
+        this.setState({ logged: true, loading: false, myId: arr.data.id })
+        this.fetchStatus();
+      })
+      .catch(err => {
+        console.log(err)
+        this.setState({ loading: false })
+      })
 
-}
-    
+  }
+
 
 
   onChangeQuery(e) {
@@ -156,39 +160,39 @@ export default class Search extends Component {
     console.log('clicked unfriend!')
     console.log(e.target.id)
     axios.post('http://localhost:5000/friend/unfriend', { id: e.target.id })
-    .then(res => {
-      console.log('successful!')
-      this.fetchStatus()
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      .then(res => {
+        console.log('successful!')
+        this.fetchStatus()
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   acceptReq(e) {
     console.log('clicked accept!')
     console.log(e.target.id)
     axios.post('http://localhost:5000/friend/acceptreq', { id: e.target.id })
-    .then(res => {
-      console.log('successful!')
-      this.fetchStatus()
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      .then(res => {
+        console.log('successful!')
+        this.fetchStatus()
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   rejectReq(e) {
     console.log('clicked reject!')
     console.log(e.target.id)
     axios.post('http://localhost:5000/friend/rejectreq', { id: e.target.id })
-    .then(res => {
-      console.log('successful!')
-      this.fetchStatus()
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      .then(res => {
+        console.log('successful!')
+        this.fetchStatus()
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   undoReq(e) {
@@ -221,7 +225,7 @@ export default class Search extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.setState({disabled: true})
+    this.setState({ disabled: true })
     const searchString = {
       query: this.state.query,
     }
@@ -248,24 +252,34 @@ export default class Search extends Component {
         console.log(err)
         alert(err)
       })
-
+    let temp = []
     axios.post('http://localhost:5000/search/post', searchString)
       .then(res => { // only remove if complete successfully
         if (res.status === 204) { // if keyword not found, set array to blank
           this.setState({ query: '', captureCapt: [] })
         }
         else { // otherwise empty array and swap
-          let temp = []
           temp = res.data
           console.log(temp)
-          this.setState({ query: '', captureCapt: temp, disabled: false })
-          console.log(this.state.captureCapt)
+          this.setState({ query: '' })
+          this.getNames(temp)
+          console.log(temp)
         }
       })
       .catch(err => { // if error, notify user
         this.setState({ query: '' })
         console.log(err)
         alert(err)
+      })
+  }
+
+  async getNames(temp) {
+    await Promise.all(temp.map(async (post) => {
+      const poster = await axios.post('http://localhost:5000/name/getname', [post.uploader])
+      post.poster = poster.data.name // add name to poster
+    }))
+      .then(result => {
+        this.setState({ captureCapt: temp, disabled: false })
       })
   }
 
@@ -290,23 +304,27 @@ export default class Search extends Component {
     }
   }
 
+
   postList() {
     if (this.state.captureCapt !== null && this.state.captureCapt.length !== 0) {
-        return this.state.captureCapt.map(picture => {
-            return <Post caption={picture.caption} id={picture._id} photo={picture.photo} key={picture._id}  />
-        });
+      return this.state.captureCapt.map(picture => {
+        console.log('snap!', picture)
+        return <Post caption={picture.caption} id={picture._id} photo={picture.photo} 
+                              poster={picture.poster} uploader={picture.uploader} 
+                              isMe={picture.uploader === this.state.myId ? true : false} key={picture._id} />
+      });
     }
     else if (this.state.captureCapt !== null) { // if no matching users, means not found
-        return <NoPost />
+      return <NoPost />
     }
   }
 
   render() {
-    if(this.state.loading) {
+    if (this.state.loading) {
       return (<div>Loading...</div>)
     }
     else if (!this.state.logged) {
-      return (<Redirect to='/'/>)
+      return (<Redirect to='/' />)
     }
 
     return (<div className="form-wrapper">
@@ -340,6 +358,7 @@ export default class Search extends Component {
           <tr>
             <th>Preview</th>
             <th>Caption</th>
+            <th>Uploader</th>
             <th>Actions</th>
           </tr>
         </thead>
