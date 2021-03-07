@@ -108,11 +108,11 @@ router.route('/favorite-obj').post(async function (req, res, next) {
   pitch = 0;
   upld = mango.get().db('app').collection('users')
   col = mango.get().db('test').collection('col')
-  await User.findOne({ _id: new ObjectId(req.body[0]) }, {projection:{ favorites: 1}}) // async calls -> will do one after another,
+  await User.findOne({ _id: new ObjectId(req.body[0]) }, {projection:{ favoriteArray: 1}}) // async calls -> will do one after another,
     .then(usr => { // .then executes only after call done, then moves on
       console.log(usr)
-      if (usr.favorites !== undefined) {
-        pictures = usr.favorites // if found, copy to array
+      if (usr.favoriteArray !== undefined) {
+        pictures = usr.favoriteArray // if found, copy to array
       }
       else {
         pictures = [] //return resolution as empty array
@@ -145,5 +145,10 @@ router.route('/favorite-obj').post(async function (req, res, next) {
   //console.log(req.user, req.session)
 
 });
+
+// router.route('/add-favorite-obj').post(async function (req, res, next) {
+//   console.log("got to add favorite")
+
+// });
 
 module.exports = router;
