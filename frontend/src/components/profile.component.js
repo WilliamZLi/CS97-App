@@ -137,7 +137,8 @@ class Profile extends Component {
             <div className="user-contents">
               <header className="user__identity">
                 {this.state.name}'s Profile{" "}
-                {this.state.myProfile ? "(Your Profile)" : ""}
+                {this.state.myProfile ? "(Your Profile)" : ""}{" "}
+                {this.state.myProfile ? <Link to={"/likes"}>Likes</Link> : ``}{" "}
               </header>
               <hr />
               <h3>Posts</h3>

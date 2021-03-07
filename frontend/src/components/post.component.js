@@ -29,12 +29,26 @@ var NoPhoto = (props) => (
   </tr>
 );
 
+var Comment = (props) => (
+  <tr>
+    <td>{props.user}</td>
+    <td>{props.comment}</td>
+  </tr>
+);
+
+var NoComment = (props) => (
+  <tr>
+    <td>No comments!</td>
+  </tr>
+);
+
 class Post extends Component {
   constructor(props) {
     super(props);
     // Setting up functions - set 'this' context to this class
-    this.convertName = this.convertName.bind(this);
-
+    this.onChangeComment = this.onChangeComment.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.likePost = this.likePost.bind(this);
     // Setting up state
     this.state = {
       logged: false,
@@ -43,7 +57,62 @@ class Post extends Component {
       photo: null,
       uploader: null,
       date: null,
+      newComment: "",
+      commentArray: [],
+      disabled: false,
+      liked: false,
+      likes: undefined,
+      likeDisabled: false,
     };
+  }
+
+  onChangeComment(e) {
+    this.setState({ newComment: e.target.value });
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    this.setState({ disabled: true });
+
+    // get the name of current user session
+
+    const objObject = {
+      id: this.props.match.params.id,
+      comment: this.state.newComment,
+    };
+
+    if (objObject.comment === "") {
+      this.setState({ newComment: "", disabled: false });
+      return;
+    }
+    axios
+      .post("http://localhost:5000/post/addcomment", objObject)
+      .then((res) => {
+        this.fetchPost();
+        this.setState({ newComment: "", disabled: false });
+      })
+      .catch((err) => {
+        this.setState({ newComment: "", disabled: false });
+        console.log(err);
+        alert(err);
+      });
+  }
+
+  commentList() {
+    if (
+      this.state.commentArray === undefined ||
+      this.state.commentArray.length === 0
+    ) {
+      return <NoComment />;
+    } else if (
+      this.state.commentArray !== null &&
+      this.state.commentArray.length !== 0
+    ) {
+      return this.state.commentArray.map((comment) => {
+        console.log("comment", comment);
+        return <Comment user={comment.user} comment={comment.comment} />;
+      });
+    }
   }
 
   async fetchPost() {
@@ -56,7 +125,7 @@ class Post extends Component {
     let upld = [];
 
     await axios
-      .post("http://localhost:5000/post", pid)
+      .post("http://localhost:5000/post/fetch", pid)
       .then((res) => {
         console.log("made it back to fetch");
         console.log(res.data);
@@ -71,14 +140,31 @@ class Post extends Component {
           photo: res.data.photo,
           date: newDate,
           uploader: res.data.uploader,
+          commentArray: res.data.comments,
+          likes: res.data.likeArray,
         });
+        console.log(this.state);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    await axios
+      .post("http://localhost:5000/post/likeStatus")
+      .then((resol) => {
+        console.log("returned", resol.data.likeArray);
+        if (resol.data.likeArray !== undefined) {
+          if (resol.data.likeArray.includes(this.props.match.params.id))
+            this.setState({ liked: true });
+          else this.setState({ liked: false });
+        }
+        console.log("after check", this.state);
       })
       .catch((err) => {
         console.log(err);
       });
 
     // convert nameID to username
-
     var upldName = await axios
       .post("http://localhost:5000/name/getname", upld)
       .then((resol) => {
@@ -109,30 +195,30 @@ class Post extends Component {
       });
   }
 
+  likePost() {
+    this.setState({ likeDisabled: true });
+    axios
+      .post("http://localhost:5000/post/likePost", {
+        likeState: this.state.liked,
+        post: this.props.match.params.id,
+      })
+      .then((resol) => {
+        console.log("returned", resol);
+        console.log("after like", this.state);
+        this.setState({ likeDisabled: false });
+        this.fetchPost();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   renderPhoto() {
     if (this.state.photo !== null) {
       return <Photo photo={this.state.photo} />;
     } else {
       return <NoPhoto />;
     }
-  }
-
-  async convertName(nameID) {
-    var newName;
-    var IDs = [];
-    IDs.push(nameID);
-    console.log("working", nameID);
-    newName = await axios
-      .post("http://localhost:5000/name/getname", IDs)
-      .then((resol) => {
-        newName = resol.data;
-        console.log(newName);
-        console.log("done work");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    return newName;
   }
 
   render() {
@@ -142,30 +228,59 @@ class Post extends Component {
       return <Redirect to="/" />;
     }
     return (
-      <div className="user-home">
-        <Header />
-        <div className="user-container">
-          {/* <div className="user-contents">
-            <h4>Date Uploaded:</h4>
-            
-            <h4>Uploader:</h4>
-            
-            <h4>Caption:</h4>
-            
-            <h4>Image:</h4>
-          </div>*/}
-          <Form className="all">
-              <header>{this.renderPhoto()}</header>
-              <Form.Group className="info">
-                <Form inline>
-                  <Form className="Uploader">{this.state.uploader}</Form>
-                  <Form className="Caption">{this.state.caption}</Form>
-                </Form>
-                <Form className="Date">{this.state.date}</Form>
-              </Form.Group>
-            </Form>
-        </div> 
+      <div className="form-wrapper">
+        <h4>Date Uploaded:</h4>
+        <header>{this.state.date}</header>
+        <h4>Uploader:</h4>
+        <header>{this.state.uploader}</header>
+        <h4>Caption:</h4>
+        <header>{this.state.caption}</header>
+        <h4>Image:</h4>
+        <header>{this.renderPhoto()}</header>
+        <Button
+          variant="primary"
+          block="block"
+          disabled={this.state.likeDisabled}
+          onClick={this.likePost}
+        >
+          {this.state.liked ? "Liked" : "Like"}
+        </Button>
+        <p>
+          Likes:{" "}
+          {this.state.likes !== undefined ? this.state.likes.length : "0"}
+        </p>
+        <h4>Comments:</h4>
+        <table className="table table-striped" style={{ marginTop: 20 }}>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Comment</th>
+            </tr>
+          </thead>
+          <tbody>{this.commentList()}</tbody>
+        </table>
 
+        <Form onSubmit={this.onSubmit}>
+          <Form.Group controlId="Comment">
+            <Form.Label>Comment</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter a comment"
+              value={this.state.newComment}
+              onChange={this.onChangeComment}
+            />
+          </Form.Group>
+
+          <Button
+            variant="danger"
+            size="lg"
+            block="block"
+            type="submit"
+            disabled={this.state.disabled}
+          >
+            {this.state.disabled ? "Commenting.." : "Comment"}
+          </Button>
+        </Form>
       </div>
     );
   }

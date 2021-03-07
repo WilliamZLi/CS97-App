@@ -88,9 +88,15 @@ var Post = (
         alt="alt"
       />
     </td>
+
     <td>{props.caption}</td>
     <td>
-      <Link to={"/post/" + props.id}>View</Link>
+      <Link to={"/profile/" + props.uploader}>
+        {props.poster} {props.isMe ? "(You)" : ""}{" "}
+      </Link>
+    </td>
+    <td>
+      <Link to={"/post/" + props.id}>View Post</Link>
     </td>
   </tr>
 );
@@ -281,7 +287,7 @@ export default class Search extends Component {
         console.log(err);
         alert(err);
       });
-
+    let temp = [];
     axios
       .post("http://localhost:5000/search/post", searchString)
       .then((res) => {
@@ -291,11 +297,11 @@ export default class Search extends Component {
           this.setState({ query: "", captureCapt: [] });
         } else {
           // otherwise empty array and swap
-          let temp = [];
           temp = res.data;
           console.log(temp);
-          this.setState({ query: "", captureCapt: temp, disabled: false });
-          console.log(this.state.captureCapt);
+          this.setState({ query: "" });
+          this.getNames(temp);
+          console.log(temp);
         }
       })
       .catch((err) => {
@@ -304,6 +310,19 @@ export default class Search extends Component {
         console.log(err);
         alert(err);
       });
+  }
+
+  async getNames(temp) {
+    await Promise.all(
+      temp.map(async (post) => {
+        const poster = await axios.post("http://localhost:5000/name/getname", [
+          post.uploader,
+        ]);
+        post.poster = poster.data.name; // add name to poster
+      })
+    ).then((result) => {
+      this.setState({ captureCapt: temp, disabled: false });
+    });
   }
 
   userList() {
@@ -365,11 +384,15 @@ export default class Search extends Component {
       this.state.captureCapt.length !== 0
     ) {
       return this.state.captureCapt.map((picture) => {
+        console.log("snap!", picture);
         return (
           <Post
             caption={picture.caption}
             id={picture._id}
             photo={picture.photo}
+            poster={picture.poster}
+            uploader={picture.uploader}
+            isMe={picture.uploader === this.state.myId ? true : false}
             key={picture._id}
           />
         );
@@ -394,27 +417,27 @@ export default class Search extends Component {
           <div className="user-contents">
             <Form onSubmit={this.onSubmit}>
               <Form.Group controlId="Search">
-                  <Form.Label>Search</Form.Label>
-                  <div className="search__container">
-                      <Form.Control
-                        type="text"
-                        placeholder="Search..."
-                        value={this.state.query}
-                        onChange={this.onChangeQuery}
-                      />
-                    
-                    <Button className="button2"
-                      size="sm"
-                      type="submit"
-                      disabled={this.state.disabled}
-                    >
-                      {this.state.disabled ? "Searching.." : "Search"}
-                    </Button>
-                  </div>
+                <Form.Label>Search</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter search term"
+                  value={this.state.query}
+                  onChange={this.onChangeQuery}
+                />
               </Form.Group>
+
+              <Button
+                variant="danger"
+                size="lg"
+                block="block"
+                type="submit"
+                disabled={this.state.disabled}
+              >
+                {this.state.disabled ? "Searching.." : "Search"}
+              </Button>
             </Form>
             <h3>Search Results</h3>
-            <h4> Users</h4>
+            <h4>Users</h4>
             <table className="table table-striped" style={{ marginTop: 20 }}>
               <thead>
                 <tr>
@@ -424,12 +447,13 @@ export default class Search extends Component {
               </thead>
               <tbody>{this.userList()}</tbody>
             </table>
-            <h4>   Posts</h4>
-            <table className="table table-striped" style={{ marginTop: 20}}>
+            <h4>Posts</h4>
+            <table className="table table-striped" style={{ marginTop: 20 }}>
               <thead>
                 <tr>
                   <th>Preview</th>
                   <th>Caption</th>
+                  <th>Uploader</th>
                   <th>Actions</th>
                 </tr>
               </thead>
