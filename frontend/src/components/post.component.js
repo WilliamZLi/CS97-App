@@ -44,7 +44,7 @@ class Post extends Component {
         // Setting up functions - set 'this' context to this class
         this.onChangeComment = this.onChangeComment.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
+        this.likePost = this.likePost.bind(this);
         // Setting up state
         this.state = {
             logged: false,
@@ -56,6 +56,8 @@ class Post extends Component {
             newComment: '',
             commentArray: [],
             disabled: false,
+            liked: false,
+            likes: undefined
         }
     }
 
@@ -65,26 +67,26 @@ class Post extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.setState({disabled: true})
-        
+        this.setState({ disabled: true })
+
         // get the name of current user session
-        
+
         const objObject = {
             id: this.props.match.params.id,
             comment: this.state.newComment,
         }
 
         if (objObject.comment === "") {
-            this.setState({ newComment: '' , disabled: false})
+            this.setState({ newComment: '', disabled: false })
             return;
         }
         axios.post('http://localhost:5000/post/addcomment', objObject)
             .then(res => {
                 this.fetchPost()
-                this.setState({ newComment: '', disabled: false})                
+                this.setState({ newComment: '', disabled: false })
             })
             .catch(err => {
-                this.setState({ newComment: '' , disabled: false})
+                this.setState({ newComment: '', disabled: false })
                 console.log(err)
                 alert(err)
             })
@@ -115,9 +117,9 @@ class Post extends Component {
             .then(res => {
                 console.log("made it back to fetch")
                 console.log(res.data)
-                
+
                 // clean up date info
-                var newDate = res.data.date.slice(0,10)
+                var newDate = res.data.date.slice(0, 10)
 
                 upld.push(res.data.uploader)
 
@@ -127,14 +129,29 @@ class Post extends Component {
                     date: newDate,
                     uploader: res.data.uploader,
                     commentArray: res.data.comments,
+                    likes: res.data.likeArray
                 })
+                console.log(this.state)
             })
             .catch(err => {
                 console.log(err)
             })
 
         // convert nameID to username
-
+        await axios.post('http://localhost:5000/post/likeStatus')
+            .then(resol => {
+                console.log('returned', resol.data.likeArray)
+                if (resol.data.likeArray !== undefined) {
+                    if (resol.data.likeArray.includes(this.props.match.params.id))
+                        this.setState({ liked: true })
+                    else
+                        this.setState({liked: false})
+                }
+                console.log('after check', this.state)
+            })
+            .catch(err => {
+                console.log(err)
+            })
         var upldName = await axios.post('http://localhost:5000/name/getname', upld)
             .then(resol => {
                 upldName = resol.data.name
@@ -148,6 +165,7 @@ class Post extends Component {
             .catch(err => {
                 console.log(err)
             })
+
     }
 
     componentDidMount() {
@@ -163,22 +181,34 @@ class Post extends Component {
             })
     }
 
+    likePost() {
+        axios.post('http://localhost:5000/post/likePost', { likeState: this.state.liked, post:this.props.match.params.id})
+            .then(resol => {
+                console.log('returned', resol)
+                console.log('after like', this.state)
+                this.fetchPost()
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
     renderPhoto() {
         if (this.state.photo !== null) {
-            return <Photo  photo={this.state.photo} />
+            return <Photo photo={this.state.photo} />
         }
         else {
             return <NoPhoto />
-        }  
+        }
     }
 
     render() {
-        if(this.state.loading) {
+        if (this.state.loading) {
             return (<div>Loading...</div>)
-          }
-          else if (!this.state.logged) {
-            return (<Redirect to='/'/>)
-          }
+        }
+        else if (!this.state.logged) {
+            return (<Redirect to='/' />)
+        }
         return (
             <div className="form-wrapper">
                 <h4>
@@ -205,15 +235,19 @@ class Post extends Component {
                 <header>
                     {this.renderPhoto()}
                 </header>
+                <Button variant="primary" block="block" onClick={this.likePost}>
+                    {this.state.liked ? 'Liked' : 'Like'}
+                </Button>
+                <p>Likes: {this.state.likes !== undefined ? this.state.likes.length : '0'}</p>
                 <h4>
                     Comments:
                 </h4>
                 <table className="table table-striped" style={{ marginTop: 20 }} >
                     <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Comment</th>
-                    </tr>
+                        <tr>
+                            <th>User</th>
+                            <th>Comment</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {this.commentList()}
@@ -222,13 +256,13 @@ class Post extends Component {
 
                 <Form onSubmit={this.onSubmit}>
                     <Form.Group controlId="Comment">
-                    <Form.Label>Comment</Form.Label>
-                    <Form.Control type="text" placeholder="Enter a comment"
-                        value={this.state.newComment} onChange={this.onChangeComment} />
+                        <Form.Label>Comment</Form.Label>
+                        <Form.Control type="text" placeholder="Enter a comment"
+                            value={this.state.newComment} onChange={this.onChangeComment} />
                     </Form.Group>
 
                     <Button variant="danger" size="lg" block="block" type="submit" disabled={this.state.disabled}>
-                    {this.state.disabled ? 'Commenting..' : 'Comment'}
+                        {this.state.disabled ? 'Commenting..' : 'Comment'}
                     </Button>
                 </Form>
             </div>
