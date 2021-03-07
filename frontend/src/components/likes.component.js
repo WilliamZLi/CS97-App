@@ -18,7 +18,7 @@ const Post = (
     </td>
     <td>{props.caption}</td>
     <td>
-      <Link to={"/post/" + props.uploader}>{props.poster}</Link>
+      <Link to={"/profile/" + props.uploader}>{props.poster}</Link>
     </td>
     <td>
       <Link to={"/post/" + props.id}>View Post</Link>
