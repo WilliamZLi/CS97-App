@@ -57,7 +57,8 @@ class Post extends Component {
             commentArray: [],
             disabled: false,
             liked: false,
-            likes: undefined
+            likes: undefined,
+            likeDisabled: false
         }
     }
 
@@ -182,10 +183,12 @@ class Post extends Component {
     }
 
     likePost() {
+        this.setState({likeDisabled: true})
         axios.post('http://localhost:5000/post/likePost', { likeState: this.state.liked, post:this.props.match.params.id})
             .then(resol => {
                 console.log('returned', resol)
                 console.log('after like', this.state)
+                this.setState({likeDisabled: false})
                 this.fetchPost()
             })
             .catch(err => {
@@ -235,7 +238,7 @@ class Post extends Component {
                 <header>
                     {this.renderPhoto()}
                 </header>
-                <Button variant="primary" block="block" onClick={this.likePost}>
+                <Button variant="primary" block="block" disabled={this.state.likeDisabled}onClick={this.likePost}>
                     {this.state.liked ? 'Liked' : 'Like'}
                 </Button>
                 <p>Likes: {this.state.likes !== undefined ? this.state.likes.length : '0'}</p>
