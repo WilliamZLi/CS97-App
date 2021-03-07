@@ -80,6 +80,7 @@ class Post extends Component {
         }
         axios.post('http://localhost:5000/post/addcomment', objObject)
             .then(res => {
+                this.fetchPost()
                 this.setState({ newComment: '', disabled: false})                
             })
             .catch(err => {
