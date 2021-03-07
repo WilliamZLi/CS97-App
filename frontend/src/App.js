@@ -21,6 +21,7 @@ import Search from "./components/search.component";
 import Friends from "./components/show-friend.component";
 import Profile from "./components/profile.component";
 import Post from "./components/post.component";
+import Favorites from "./components/favorites.component";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -93,6 +94,7 @@ function App() {
                 <Route exact path="/friends" component={Friends} />
                 <Route exact path="/profile/:id" component={Profile} />
                 <Route exact path="/post/:id" component={Post} />
+                <Route exact path="/favorites" component={Favorites} />
                 <Route path="" component={NotFound} />
               </Switch>
             </div>

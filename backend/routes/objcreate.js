@@ -9,7 +9,7 @@ var uploadMem = multer({
   storage: storage,
   limits: { fileSize: 1024 * 1024 * 5 }, // 5MB?
   fileFilter: (req, file, cb) => {
-    if (file.mimetype == "image/png"  || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+    if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
       cb(null, true);
     } else {
       cb(null, false);
@@ -21,11 +21,11 @@ router.route('/create-obj').post((req, res) => {
   uploadMem(req, res, function (err) {
     if (err) {
       console.log(err)
-      return res.status(401).json({ message: "File must be smaller than 5MB!" })
+      return res.status(401).json({ message: `File must be smaller than 5MB!` })
     }
     else if (!req.file) {
       console.log('no file found')
-      return res.status(401).json({ message: "File not supported format" })
+      return res.status(401).json({ message: `File not supported format` })
     }
     else {
       console.log('got to objcrea')

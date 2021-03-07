@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import Image from 'react-bootstrap/Image'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { Link, withRouter, Redirect } from 'react-router-dom'
 axios.defaults.withCredentials = true
@@ -13,7 +11,10 @@ const Post = props => ( // name, and 2 buttons
         </td>
         <td>{props.caption}</td>
         <td>
-            <Link to={"/post/" + props.id} >View</Link>
+            <Link to={"/post/" + props.uploader} >{props.poster}</Link>
+        </td>
+        <td>
+            <Link to={"/post/" + props.id} >View Post</Link>
         </td>
     </tr>
 )
@@ -24,7 +25,7 @@ var NoPost = props => (
     </tr>
 )
 
-class Profile extends Component {
+class Favorites extends Component {
     constructor(props) {
         super(props)
 
@@ -35,61 +36,55 @@ class Profile extends Component {
             logged: false,
             loading: true,
             found: false,
-            id: null,
+            myId: null,
             name: null,
             gallery: [],
             myProfile: false
         }
     }
+
     async getAll() {
-        const uid = this.props.match.params.id
-        console.log(uid)
-        var array = []
-        array.push(uid)
         await axios.post('http://localhost:5000/log')
             .then(res => {
-                if (res.data.id === uid)
-                    this.setState({ myProfile: true })
+                this.setState({ myId: res.data.id, logged: true })
             })
-        await axios.post('http://localhost:5000/name/getname', array)
+        await axios.post('http://localhost:5000/objs/favorite-obj', [this.state.myId])
             .then(res => {
-                console.log(res)
-                if (res.status !== 204)
-                    this.setState({ id: res.data._id, name: res.data.name, found: true })
+                console.log('success', res.data)
+                this.setState({ gallery: res.data.sort((a, b) => new Date(b.date) - new Date(a.date)) })
             })
             .catch(err => {
-                console.log(err)
+                console.log('error', err)
             })
-        if (this.state.found) {
-            await axios.post('http://localhost:5000/objs/profile-obj', array)
-                .then(res => {
-                    console.log('success', res.data)
-                    this.setState({ gallery: res.data.sort((a, b) => new Date(b.date) - new Date(a.date)), loading: false})
-                })
-                .catch(err => {
-                    console.log('error', err)
-                })
-        }
+        let temp = this.state.gallery
+        await Promise.all(temp.map(async (post) => {
+            const poster = await axios.post('http://localhost:5000/name/getname', [post.uploader])
+            post.poster = poster.data.name // add name to poster
+        }))
+            .then(result => {
+                this.setState({ gallery: temp, found: true, loading: false })
+            })
         console.log('afterload', this.state)
-
     }
+
+
     componentDidMount() {
         axios.post('http://localhost:5000/auth/logged')
-            .then(res => {
-                console.log('succ', res)
-                this.setState({ logged: true })
-                this.getAll()
-            })
-            .catch(err => {
-                console.log('fail', err)
-                this.setState({ loading: false })
-            })
+        .then(arr => {
+          console.log(arr)
+          this.getAll()
+        })
+        .catch(err => {
+          console.log(err)
+          this.setState({loading: false, redirect: '/'})
+        })
+
     }
 
     postList() {
         if (this.state.gallery.length !== 0) {
             return this.state.gallery.map(picture => {
-                return <Post caption={picture.caption} id={picture._id} photo={picture.photo} key={picture._id} />
+                return <Post caption={picture.caption} id={picture._id} uploader={picture.uploader} poster={picture.poster} photo={picture.photo} key={picture._id} />
             });
         }
         else { // if no matching users, means not found
@@ -106,14 +101,15 @@ class Profile extends Component {
         if (this.state.found) {
             return (
                 <div className="form-wrapper">
-                    <header>{this.state.name}'s Profile {this.state.myProfile ? '(Your Profile)' : ''} {this.state.myProfile ? <Link to={"/favorites"}>Favorites</Link> : ``} </header>
+                    <header>Your Favorites <Link to={"/myProfile"} >Profile</Link></header>
                     <hr />
-                    <h3>Posts</h3>
+                    <h3>Favorites</h3>
                     <table className="table table-striped" style={{ marginTop: 20 }} >
                         <thead>
                             <tr>
                                 <th>Preview</th>
                                 <th>Caption</th>
+                                <th>Uploader</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -136,4 +132,4 @@ class Profile extends Component {
     }
 }
 
-export default withRouter(Profile);
+export default withRouter(Favorites);
