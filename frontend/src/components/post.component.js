@@ -21,10 +21,29 @@ var NoPhoto = props => (
     </tr>
 )
 
+var Comment = props => (
+    <tr>
+        <td>
+            {props.user}
+        </td>
+        <td>
+            {props.comment}
+        </td>
+    </tr>
+)
+
+var NoComment = props => (
+    <tr>
+        <td>No comments!</td>
+    </tr>
+)
+
 class Post extends Component {
     constructor(props) {
         super(props)
         // Setting up functions - set 'this' context to this class
+        this.onChangeComment = this.onChangeComment.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
 
         // Setting up state
         this.state = {
@@ -34,6 +53,51 @@ class Post extends Component {
             photo: null,
             uploader: null,
             date: null,
+            newComment: '',
+            commentArray: [],
+            disabled: false,
+        }
+    }
+
+    onChangeComment(e) {
+        this.setState({ newComment: e.target.value })
+    }
+
+    onSubmit(e) {
+        e.preventDefault();
+        this.setState({disabled: true})
+        
+        // get the name of current user session
+        
+        const objObject = {
+            id: this.props.match.params.id,
+            comment: this.state.newComment,
+        }
+
+        if (objObject.comment === "") {
+            this.setState({ newComment: '' , disabled: false})
+            return;
+        }
+        axios.post('http://localhost:5000/post/addcomment', objObject)
+            .then(res => {
+                this.setState({ newComment: '', disabled: false})                
+            })
+            .catch(err => {
+                this.setState({ newComment: '' , disabled: false})
+                console.log(err)
+                alert(err)
+            })
+    }
+
+    commentList() {
+        if (this.state.commentArray === undefined || this.state.commentArray.length === 0) {
+            return <NoComment />
+        }
+        else if (this.state.commentArray !== null && this.state.commentArray.length !== 0) {
+            return this.state.commentArray.map(comment => {
+                console.log('comment', comment)
+                return <Comment user={comment.user} comment={comment.comment} />
+            })
         }
     }
 
@@ -46,7 +110,7 @@ class Post extends Component {
 
         let upld = []
 
-        await axios.post('http://localhost:5000/post', pid)
+        await axios.post('http://localhost:5000/post/fetch', pid)
             .then(res => {
                 console.log("made it back to fetch")
                 console.log(res.data)
@@ -61,6 +125,7 @@ class Post extends Component {
                     photo: res.data.photo,
                     date: newDate,
                     uploader: res.data.uploader,
+                    commentArray: res.data.comments,
                 })
             })
             .catch(err => {
@@ -139,6 +204,32 @@ class Post extends Component {
                 <header>
                     {this.renderPhoto()}
                 </header>
+                <h4>
+                    Comments:
+                </h4>
+                <table className="table table-striped" style={{ marginTop: 20 }} >
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Comment</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {this.commentList()}
+                    </tbody>
+                </table>
+
+                <Form onSubmit={this.onSubmit}>
+                    <Form.Group controlId="Comment">
+                    <Form.Label>Comment</Form.Label>
+                    <Form.Control type="text" placeholder="Enter a comment"
+                        value={this.state.newComment} onChange={this.onChangeComment} />
+                    </Form.Group>
+
+                    <Button variant="danger" size="lg" block="block" type="submit" disabled={this.state.disabled}>
+                    {this.state.disabled ? 'Commenting..' : 'Comment'}
+                    </Button>
+                </Form>
             </div>
 
         )
