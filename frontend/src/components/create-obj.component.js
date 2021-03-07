@@ -3,9 +3,10 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import "./create-obj.css"
+import "./create-obj.css";
 
 import Header from "../Header";
+import { MdTextsms, MdPhoto } from "react-icons/md";
 axios.defaults.withCredentials = true;
 
 export default class CreateObj extends Component {
@@ -88,21 +89,28 @@ export default class CreateObj extends Component {
       <div className="user-home">
         <Header />
         <div className="user-container">
-          <div className="user-contents">
+          <div className="user-contents post">
             <Form onSubmit={this.onSubmit} encType="multipart/form-data">
               <Form.Group controlId="Name">
-                <Form.Label >Caption</Form.Label>
-                <Form.Control className="Caption1"
+                <Form.Label>
+                  {" "}
+                  Caption
+                  <MdTextsms className="caption-icon" />
+                </Form.Label>
+                <Form.Control
+                  className="post-caption-box"
                   type="text"
                   as="textarea"
-                  rows = "3"
+                  rows="3"
                   value={this.state.name}
                   onChange={this.onChangeObjName}
                 />
               </Form.Group>
 
               <Form.Group controlId="photo">
-                <Form.Label>Photo</Form.Label>
+                <Form.Label>
+                  Photo <MdPhoto />
+                </Form.Label>
                 <Form.Control
                   type="file"
                   name="photo"
@@ -111,12 +119,13 @@ export default class CreateObj extends Component {
                 />
               </Form.Group>
 
-              <Button className="button3"
-                  size="sm"
-                  type="submit"
-                  disabled={this.state.disabled}
-                >
-                {this.state.button ? "Upload" : "Submitting..."}
+              <Button
+                className="post__Button"
+                size="sm"
+                type="submit"
+                disabled={this.state.disabled}
+              >
+                {this.state.button ? "Post" : "Submitting..."}
               </Button>
             </Form>
           </div>
