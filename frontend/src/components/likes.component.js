@@ -25,7 +25,7 @@ var NoPost = props => (
     </tr>
 )
 
-class Favorites extends Component {
+class Likes extends Component {
     constructor(props) {
         super(props)
 
@@ -132,4 +132,4 @@ class Favorites extends Component {
     }
 }
 
-export default withRouter(Favorites);
+export default withRouter(Likes);

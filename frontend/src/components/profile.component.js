@@ -106,7 +106,7 @@ class Profile extends Component {
         if (this.state.found) {
             return (
                 <div className="form-wrapper">
-                    <header>{this.state.name}'s Profile {this.state.myProfile ? '(Your Profile)' : ''} {this.state.myProfile ? <Link to={"/favorites"}>Favorites</Link> : ``} </header>
+                    <header>{this.state.name}'s Profile {this.state.myProfile ? '(Your Profile)' : ''} {this.state.myProfile ? <Link to={"/likes"}>Likes</Link> : ``} </header>
                     <hr />
                     <h3>Posts</h3>
                     <table className="table table-striped" style={{ marginTop: 20 }} >
