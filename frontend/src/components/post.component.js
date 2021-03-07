@@ -45,7 +45,6 @@ class Post extends Component {
         this.onChangeComment = this.onChangeComment.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.likePost = this.likePost.bind(this);
-        this.favoritePost = this.favoritePost.bind(this);
         // Setting up state
         this.state = {
             logged: false,
@@ -60,9 +59,6 @@ class Post extends Component {
             liked: false,
             likes: undefined,
             likeDisabled: false,
-            favorited: false,
-            favorites: undefined,
-            favoriteDisabled: false,
         }
     }
 
@@ -135,7 +131,6 @@ class Post extends Component {
                     uploader: res.data.uploader,
                     commentArray: res.data.comments,
                     likes: res.data.likeArray,
-                    favorites: res.data.favoriteArray,
                 })
                 console.log(this.state)
             })
@@ -152,21 +147,6 @@ class Post extends Component {
                         this.setState({ liked: true })
                     else
                         this.setState({liked: false})
-                }
-                console.log('after check', this.state)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
-        await axios.post('http://localhost:5000/post/favoriteStatus')
-            .then(resol => {
-                console.log('returned', resol.data.favoriteArray)
-                if (resol.data.favoriteArray !== undefined) {
-                    if (resol.data.favoriteArray.includes(this.props.match.params.id))
-                        this.setState({ favorited: true })
-                    else
-                        this.setState({favorited: false})
                 }
                 console.log('after check', this.state)
             })
@@ -218,20 +198,6 @@ class Post extends Component {
             })
     }
 
-    favoritePost() {
-        this.setState({favoriteDisabled: true})
-        axios.post('http://localhost:5000/post/favoritePost', { favoriteState: this.state.favorited, post:this.props.match.params.id})
-        .then(resol => {
-            console.log('returned', resol)
-            console.log('after favorite', this.state)
-            this.setState({favoriteDisabled: false})
-            this.fetchPost()
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
-
     renderPhoto() {
         if (this.state.photo !== null) {
             return <Photo photo={this.state.photo} />
@@ -278,9 +244,6 @@ class Post extends Component {
                     {this.state.liked ? 'Liked' : 'Like'}
                 </Button>
                 <p>Likes: {this.state.likes !== undefined ? this.state.likes.length : '0'}</p>
-                <Button variant="primary" block="block" disabled={this.state.favoriteDisabled}onClick={this.favoritePost}>
-                    {this.state.favorited ? 'Favorited' : 'Favorite'}
-                </Button>
                 <h4>
                     Comments:
                 </h4>
