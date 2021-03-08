@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Header from "../Header";
 import "./search.css";
+import { FaSearch } from "react-icons/fa";
+
 axios.defaults.withCredentials = true;
 
 var NewPerson = (
@@ -416,49 +418,55 @@ export default class Search extends Component {
         <div className="user-container">
           <div className="user-contents">
             <Form onSubmit={this.onSubmit}>
-              <Form.Group controlId="Search">
+              <Form.Group className="form-group search" controlId="Search">
                 <Form.Label>Search</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter search term"
-                  value={this.state.query}
-                  onChange={this.onChangeQuery}
-                />
+                <div className="search__container">
+                  <Form.Control
+                    className="form-control search"
+                    type="text"
+                    placeholder="Enter search term"
+                    value={this.state.query}
+                    onChange={this.onChangeQuery}
+                  />{" "}
+                  <Button
+                    className="search__Button"
+                    size="sm"
+                    type="submit"
+                    disabled={this.state.disabled}
+                  >
+                    <FaSearch className="search-button-icon" />
+                    {this.state.disabled ? "Searching.." : "Search"}
+                  </Button>
+                </div>
               </Form.Group>
-
-              <Button
-                variant="danger"
-                size="lg"
-                block="block"
-                type="submit"
-                disabled={this.state.disabled}
-              >
-                {this.state.disabled ? "Searching.." : "Search"}
-              </Button>
             </Form>
-            <h3>Search Results</h3>
-            <h4>Users</h4>
-            <table className="table table-striped" style={{ marginTop: 20 }}>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>{this.userList()}</tbody>
-            </table>
-            <h4>Posts</h4>
-            <table className="table table-striped" style={{ marginTop: 20 }}>
-              <thead>
-                <tr>
-                  <th>Preview</th>
-                  <th>Caption</th>
-                  <th>Uploader</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>{this.postList()}</tbody>
-            </table>
+            <hr />
+            <div className="search-results">
+              <h3>Search Results</h3>
+              <hr />
+              <h4>Users</h4>
+              <table className="table table-striped" style={{ marginTop: 20 }}>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>{this.userList()}</tbody>
+              </table>
+              <h4>Posts</h4>
+              <table className="table table-striped" style={{ marginTop: 20 }}>
+                <thead>
+                  <tr>
+                    <th>Preview</th>
+                    <th>Caption</th>
+                    <th>Uploader</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>{this.postList()}</tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

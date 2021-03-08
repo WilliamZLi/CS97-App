@@ -1,37 +1,48 @@
-.user-contents > Form.Control{
-    display:inline-flex;
-    width: 500px;
+/* .user-contents > Form.Control {
+  display: inline-flex;
+  width: 500px;
+} */
+
+.form-group.search {
+  margin-top: 25px;
+  margin-left: 25px;
+  margin-right: 25px;
 }
 
-.form-group{
-    margin-left: 25px;
+.form-control.search {
+  margin: initial;
+  position: relative;
+  left: 0;
 }
-
-.form-control{
-    margin:initial;
-    position:relative;
-    left:0;
-}
-.button2
-{
-background: #0ed2f7;
+.search__Button {
+  background: #0ed2f7;
   border: none;
   border-radius: 20px;
   margin-top: 10px;
   padding: 10px;
   font-family: "Open Sans", "sans-serif";
+  font-weight: bold;
   width: 125px;
   position: relative;
   float: right;
 }
 
 h3 {
-    margin-left: 5px;
+  margin-left: 5px;
 }
-h4{
-    margin-left: 10px;
+h4 {
+  margin-left: 10px;
 }
 
-.search__container{
-    width: 50%;
+.search__container {
+  width: ;
+}
+
+.search-button-icon {
+  margin-right: 5px;
+}
+
+.search-results {
+  padding: 5px;
+  padding-top: 0;
 }
