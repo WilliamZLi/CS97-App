@@ -65,7 +65,7 @@ class Post extends Component {
       liked: false,
       likes: undefined,
       likeDisabled: false,
-      found: false
+      found: false,
     };
   }
 
@@ -145,12 +145,11 @@ class Post extends Component {
             uploader: res.data.uploader,
             commentArray: res.data.comments,
             likes: res.data.likeArray,
-            found: true
+            found: true,
           });
           console.log(this.state);
-        }
-        else {
-          this.setState({ found: false })
+        } else {
+          this.setState({ found: false });
         }
       })
       .catch((err) => {
@@ -258,7 +257,9 @@ class Post extends Component {
               <div className="like__btnContainer">
                 <p className="like__counter">
                   <AiTwotoneLike className="likeIcon__counter" />:{" "}
-                  {this.state.likes !== undefined ? this.state.likes.length : "0"}
+                  {this.state.likes !== undefined
+                    ? this.state.likes.length
+                    : "0"}
                 </p>{" "}
                 <Button
                   className="like__Button"
@@ -310,19 +311,21 @@ class Post extends Component {
           </div>
         </div>
       );
-    }
-    else {
+    } else {
       return (
-        <div className="form-wrapper">
+        <div className="user-home">
           <Header />
-          <header>No post found</header>
-          <header>Are you sure this is a post?</header>
-          <hr />
+          <div className="user-container">
+            <div className="user-contents no__page">
+              <header>No post found</header>
+              <header>Are you sure this is a post?</header>
+              <hr />
+            </div>
+          </div>
         </div>
       );
     }
   }
-
 }
 
 export default withRouter(Post);

@@ -157,10 +157,15 @@ class Likes extends Component {
       );
     } else {
       return (
-        <div className="form-wrapper">
-          <header>No profile found</header>
-          <header>Are you sure this is a user?</header>
-          <hr />
+        <div className="user-home">
+          <Header />
+          <div className="user-container">
+            <div className="user-contents no__page">
+              {" "}
+              <header>No profile found</header>
+              <header>Are you sure this is a user?</header>
+            </div>
+          </div>
         </div>
       );
     }
