@@ -5,22 +5,22 @@ var mango = require('../db')
 var ObjectId = require('mongodb').ObjectID;
 
 passport.serializeUser((user, done) => {
-    console.log('serializng')
-    console.log(user)
+    // console.log('serializng')
+    // console.log(user)
     done(null, user._id);
 });
 
 passport.deserializeUser((id, done) => {
-    console.log('deserializng')
+    // console.log('deserializng')
     User = mango.get().db('app').collection('users')
-    console.log('set user', id)
+    // console.log('set user', id)
     User.findOne({ "_id": new ObjectId(id) })
         .then(user => {
-            console.log(user)
+            // console.log(user)
             done(null, user);
         })
         .catch(err => {
-            console.log(err)
+            // console.log(err)
             done(err, null);
         })
 });
@@ -32,19 +32,19 @@ passport.use(
         User.findOne({ "name": name })
             .then(user => {
                 // check out user
-                console.log('localstrat')
-                console.log(user)
+                // console.log('localstrat')
+                // console.log(user)
                 if (user === null) {
-                    console.log('null usr, returning false')
+                    // console.log('null usr, returning false')
                     return done(null, false, { message: 'User not found' })
                 } else {
-                    console.log('usr found')
+                    // console.log('usr found')
                     // Match password
                     bcrypt.compare(password, user.password, (err, isMatch) => {
                         if (err) throw err;
 
                         if (isMatch) {
-                            console.log('usr math')
+                            // console.log('usr math')
                             return done(null, user);
                         } else {
                             return done(null, false, { message: "Wrong password" });

@@ -8,7 +8,7 @@ var ObjectId = require('mongodb').ObjectID;
 router.route('/getnames').post(async function (req, res, next) {
     const arrayList = [];
     const structure = req.body
-    console.log('got to getnames', req.body)
+    //console.log('got to getnames', req.body)
     names = mango.get().db('app').collection('users')
 
     await Promise.all(structure.map(async (name) => {
@@ -16,22 +16,22 @@ router.route('/getnames').post(async function (req, res, next) {
         arrayList.push(person);
     }))
         .catch(err => {
-            console.log('map throw', err)
+            //console.log('map throw', err)
             return next(err)
         })
-    console.log('exited loop', arrayList, arrayList.length)
+    //console.log('exited loop', arrayList, arrayList.length)
     res.json(arrayList)
 });
 
 router.route('/getname').post(async function (req, res, next) {
-    console.log(req.body)
+    //console.log(req.body)
     const structure = req.body[0]
-    console.log('got to getname', structure)
+    //console.log('got to getname', structure)
     if (ObjectId.isValid(structure)) {
         names = mango.get().db('app').collection('users')
         names.findOne({ _id: new ObjectId(structure) }, { projection: { name: 1 } })
             .then(resul => {
-                console.log('valid obj',resul)
+                //console.log('valid obj',resul)
                 if (resul === null) {
                     res.status(204).json()
                 }
@@ -40,7 +40,7 @@ router.route('/getname').post(async function (req, res, next) {
                 }
             })
             .catch(err => {
-                console.log(err)
+                res.status(204).json()
             })
     }
     else
