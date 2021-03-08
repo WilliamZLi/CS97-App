@@ -7,6 +7,9 @@ import { Link, withRouter, Redirect } from "react-router-dom";
 import Header from "../Header";
 import "./profile.css";
 import { HiOutlineArrowsExpand } from "react-icons/hi";
+import { AiTwotoneLike } from "react-icons/ai";
+
+import Nav from "react-bootstrap/Nav";
 
 axios.defaults.withCredentials = true;
 
@@ -108,6 +111,7 @@ class Profile extends Component {
       return this.state.gallery.map((picture) => {
         return (
           <Post
+            className="post"
             caption={picture.caption}
             id={picture._id}
             photo={picture.photo}
@@ -134,22 +138,34 @@ class Profile extends Component {
         <div className="user-home">
           <Header />
           <div className="user-container">
-            <div className="user-contents">
-              <header className="user__identity">
-                {this.state.name}'s Profile{" "}
-                {this.state.myProfile ? "(Your Profile)" : ""}{" "}
-                {this.state.myProfile ? <Link to={"/likes"}>Likes</Link> : ``}{" "}
-              </header>
-              <hr />
-              <h3>Posts</h3>
+            <div className="user-contents profile">
+              <div className="profile-header">
+                <header className="user__identity">
+                  {this.state.name}'s Profile{" "}
+                  {this.state.myProfile ? "(Your Profile)" : ""}{" "}
+                  {this.state.myProfile ? (
+                    <Nav>
+                      <Link to={"/likes"} className="like-page-link">
+                        <AiTwotoneLike />
+                        Likes
+                      </Link>
+                    </Nav>
+                  ) : (
+                    ``
+                  )}{" "}
+                </header>
+                <hr />
+                <h3>Posts</h3>
+              </div>
               <table className="table table-striped" style={{ marginTop: 20 }}>
-                <thead>
+                <thead className="profile-thead">
                   <tr>
                     <th>Preview</th>
                     <th>Caption</th>
+                    <th>View</th>
                   </tr>
                 </thead>
-                <tbody>{this.postList()}</tbody>
+                <tbody className="profile-tbody">{this.postList()}</tbody>
               </table>
             </div>
           </div>

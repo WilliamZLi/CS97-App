@@ -12,9 +12,10 @@
 }
 
 .user-container {
-  position: relative;
+  /* position: relative; */
   margin-top: 20px;
   flex: 1;
+  overflow: hidden;
 }
 
 .user-contents {
@@ -25,6 +26,7 @@
     rgb(255, 255, 255, 0.3)
   );
   border-radius: 1.5rem;
+  overflow-y: scroll;
 }
 
 .user__identity {
@@ -32,8 +34,16 @@
   font-size: 20px;
   font-weight: bold;
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* .profile-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+} */
 .expand__icon {
   font-size: 25px;
 }
@@ -41,3 +51,27 @@
 .expand-icon-link {
   color: white;
 }
+
+.like-page-link {
+  font-size: 18px;
+  color: white;
+  padding: 5px;
+  width: 90px;
+  background-color: #0ed2f7;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+  margin-top: 10px;
+}
+
+/* table tbody,
+table thead {
+  display: block;
+}
+
+table tbody {
+  overflow-y: scroll;
+  height: 385px;
+} */
