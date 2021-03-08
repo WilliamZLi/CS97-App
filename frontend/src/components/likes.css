@@ -1,0 +1,27 @@
+.likes__header {
+  font-family: "Open Sans", "sans-serif";
+  font-size: 20px;
+  font-weight: bold;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-page-link {
+  font-size: 18px;
+  color: white;
+  padding: 5px;
+  width: 95px;
+  background-color: #0ed2f7;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+  margin-top: 10px;
+}
+
+.likes__profileIcon {
+  margin-right: 5px;
+}

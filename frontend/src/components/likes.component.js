@@ -3,6 +3,10 @@ import Image from "react-bootstrap/Image";
 import axios from "axios";
 import { Link, withRouter, Redirect } from "react-router-dom";
 import Header from "../Header";
+import "./likes.css";
+import { FaUser } from "react-icons/fa";
+import { HiOutlineArrowsExpand } from "react-icons/hi";
+
 axios.defaults.withCredentials = true;
 
 const Post = (
@@ -21,7 +25,9 @@ const Post = (
       <Link to={"/profile/" + props.uploader}>{props.poster}</Link>
     </td>
     <td>
-      <Link to={"/post/" + props.id}>View Post</Link>
+      <Link to={"/post/" + props.id} className="expand-icon-link">
+        <HiOutlineArrowsExpand className="expand__icon" />
+      </Link>
     </td>
   </tr>
 );
@@ -126,17 +132,21 @@ class Likes extends Component {
           <Header />
           <div className="user-container">
             <div className="user-contents">
-              <header>
-                Your Favorites <Link to={"/myProfile"}>Profile</Link>
+              <header className="likes__header">
+                Your Likes{" "}
+                <Link to={"/myProfile"} className="profile-page-link">
+                  <FaUser className="likes__profileIcon" /> Profile
+                </Link>
               </header>
               <hr />
-              <h3>Favorites</h3>
+              <h3>Likes</h3>
               <table className="table table-striped" style={{ marginTop: 20 }}>
                 <thead>
                   <tr>
                     <th>Preview</th>
                     <th>Caption</th>
                     <th>Uploader</th>
+                    <th>View</th>
                   </tr>
                 </thead>
                 <tbody>{this.postList()}</tbody>

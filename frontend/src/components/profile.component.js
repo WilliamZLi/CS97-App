@@ -146,7 +146,7 @@ class Profile extends Component {
                   {this.state.myProfile ? (
                     <Nav>
                       <Link to={"/likes"} className="like-page-link">
-                        <AiTwotoneLike />
+                        <AiTwotoneLike className="profile__likesIcon" />
                         Likes
                       </Link>
                     </Nav>

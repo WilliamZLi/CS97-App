@@ -66,6 +66,9 @@
   margin-top: 10px;
 }
 
+.profile__likesIcon {
+  margin-right: 5px;
+}
 /* table tbody,
 table thead {
   display: block;
