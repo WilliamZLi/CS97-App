@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Header from "../Header";
 import "./post.css";
+import { AiTwotoneLike } from "react-icons/ai";
+
 axios.defaults.withCredentials = true;
 
 var Photo = (
@@ -232,26 +234,37 @@ class Post extends Component {
         <Header />
         <div className="user-container">
           <div className="user-contents">
-            <h4>Date Uploaded:</h4>
-            <header>{this.state.date}</header>
-            <h4>Uploader:</h4>
-            <header>{this.state.uploader}</header>
-            <h4>Caption:</h4>
-            <header>{this.state.caption}</header>
-            <h4>Image:</h4>
-            <header>{this.renderPhoto()}</header>
-            <Button
-              variant="primary"
-              block="block"
-              disabled={this.state.likeDisabled}
-              onClick={this.likePost}
-            >
-              {this.state.liked ? "Liked" : "Like"}
-            </Button>
-            <p>
-              Likes:{" "}
-              {this.state.likes !== undefined ? this.state.likes.length : "0"}
-            </p>
+            <div className="photo__container">
+              {/* <h4>Image:</h4> */}
+              <header>{this.renderPhoto()}</header>
+              <div className="photo__info">
+                <h4 className="upload__date">Date Uploaded:</h4>
+                <header className="upload__dateHeader">
+                  {this.state.date}
+                </header>
+                <h4 className="uploader__name">Uploader:</h4>
+                <header>{this.state.uploader}</header>
+              </div>
+              <h4>Caption:</h4>
+              <header>{this.state.caption}</header>
+            </div>
+            <div className="like__btnContainer">
+              <p className="like__counter">
+                <AiTwotoneLike className="likeIcon__counter" />:{" "}
+                {this.state.likes !== undefined ? this.state.likes.length : "0"}
+              </p>{" "}
+              <Button
+                className="like__Button"
+                // variant="primary"
+                block="block"
+                disabled={this.state.likeDisabled}
+                onClick={this.likePost}
+              >
+                <AiTwotoneLike className="post__likeIcon" />
+                {this.state.liked ? "Liked" : "Like"}
+              </Button>
+            </div>
+            <hr />
             <h4>Comments:</h4>
             <table className="table table-striped" style={{ marginTop: 20 }}>
               <thead>
@@ -262,27 +275,29 @@ class Post extends Component {
               </thead>
               <tbody>{this.commentList()}</tbody>
             </table>
-
             <Form onSubmit={this.onSubmit}>
-              <Form.Group controlId="Comment">
-                <Form.Label>Comment</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter a comment"
-                  value={this.state.newComment}
-                  onChange={this.onChangeComment}
-                />
-              </Form.Group>
+              <Form.Group className="form-group post" controlId="Comment">
+                <Form.Label className="form-label post">Comment</Form.Label>
+                <div className="comment__container">
+                  <Form.Control
+                    className="form-control post"
+                    type="text"
+                    placeholder="Enter a comment"
+                    value={this.state.newComment}
+                    onChange={this.onChangeComment}
+                  />
 
-              <Button
-                variant="danger"
-                size="lg"
-                block="block"
-                type="submit"
-                disabled={this.state.disabled}
-              >
-                {this.state.disabled ? "Commenting.." : "Comment"}
-              </Button>
+                  <Button
+                    className="comment__Button"
+                    size="lg"
+                    block="block"
+                    type="submit"
+                    disabled={this.state.disabled}
+                  >
+                    {this.state.disabled ? "Commenting.." : "Comment"}
+                  </Button>
+                </div>
+              </Form.Group>
             </Form>
           </div>
         </div>
