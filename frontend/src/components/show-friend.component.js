@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import Header from "../Header";
+import "./show-friends.css";
 axios.defaults.withCredentials = true;
 
 const Out = (
@@ -277,39 +278,45 @@ export default class Friends extends Component {
       <div className="user-home">
         <Header />
         <div className="user-container">
-          <div className="user-contents">
-            <h3>Sent Requests</h3>
-            <table className="table table-striped" style={{ marginTop: 20 }}>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>{this.outList()}</tbody>
-            </table>
-
-            <h3>Incoming Requests</h3>
-            <table className="table table-striped" style={{ marginTop: 20 }}>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>{this.inList()}</tbody>
-            </table>
-
-            <h3>Friends</h3>
-            <table className="table table-striped" style={{ marginTop: 20 }}>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>{this.friendList()}</tbody>
-            </table>
+          <div className="user-contents friends">
+            <div className="sent__requests">
+              <h3>Sent Requests</h3>
+              <table className="table table-striped" style={{ marginTop: 20 }}>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>{this.outList()}</tbody>
+              </table>
+            </div>
+            <div className="incoming__requests">
+              <hr />
+              <h3>Incoming Requests</h3>
+              <table className="table table-striped" style={{ marginTop: 20 }}>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>{this.inList()}</tbody>
+              </table>
+            </div>
+            <div className="current__friends">
+              <hr />
+              <h3>Friends</h3>
+              <table className="table table-striped" style={{ marginTop: 20 }}>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>{this.friendList()}</tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

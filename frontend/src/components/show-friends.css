@@ -1,0 +1,9 @@
+.user-contents.friends {
+  padding-top: 15px;
+}
+
+.sent__requests,
+.incoming__requests,
+.current__friends {
+  margin-bottom: 40px;
+}
