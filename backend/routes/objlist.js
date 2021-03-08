@@ -61,7 +61,7 @@ router.route("/profile-obj").post(async function (req, res, next) {
   pitch = 0;
   upld = mango.get().db("app").collection("users");
   col = mango.get().db("test").collection("col");
-  await User.findOne(
+  await upld.findOne(
     { _id: new ObjectId(req.body[0]) },
     { projection: { posts: 1 } }
   ) // async calls -> will do one after another,
