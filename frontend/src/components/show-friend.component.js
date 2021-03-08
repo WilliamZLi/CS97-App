@@ -5,6 +5,13 @@ import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import Header from "../Header";
 import "./show-friends.css";
+import {
+  FaUserMinus,
+  FaUndoAlt,
+  FaUserCheck,
+  FaUserTimes,
+} from "react-icons/fa";
+
 axios.defaults.withCredentials = true;
 
 const Out = (
@@ -14,7 +21,8 @@ const Out = (
     <td>{props.name}</td>
     <td>Waiting For their Response</td>
     <td>
-      <Button onClick={props.onReject} id={props.id}>
+      <Button onClick={props.onReject} id={props.id} className="undoReq__Btn">
+        <FaUndoAlt className="undo__req" />
         Undo Request
       </Button>
     </td>
@@ -27,12 +35,14 @@ const In = (
   <tr>
     <td>{props.name}</td>
     <td>
-      <Button onClick={props.onAccept} id={props.id}>
+      <Button onClick={props.onAccept} id={props.id} className="acceptReq__Btn">
+        <FaUserCheck className="accept__req" />
         Accept Request
       </Button>
     </td>
     <td>
-      <Button onClick={props.onReject} id={props.id}>
+      <Button onClick={props.onReject} id={props.id} className="rejectReq__Btn">
+        <FaUserTimes className="reject__req" />
         Reject Request
       </Button>
     </td>
@@ -48,7 +58,8 @@ const Friend = (
       <Link to={"/profile/" + props.id}>Profile</Link>
     </td>
     <td>
-      <Button onClick={props.onReject} id={props.id}>
+      <Button onClick={props.onReject} id={props.id} className="unfriend__Btn">
+        <FaUserMinus className="delete__friend" />
         Unfriend
       </Button>
     </td>

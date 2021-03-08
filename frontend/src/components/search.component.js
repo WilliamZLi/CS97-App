@@ -6,7 +6,14 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Header from "../Header";
 import "./search.css";
-import { FaSearch } from "react-icons/fa";
+import {
+  FaSearch,
+  FaUserPlus,
+  FaUserMinus,
+  FaUndoAlt,
+  FaUserCheck,
+  FaUserTimes,
+} from "react-icons/fa";
 
 axios.defaults.withCredentials = true;
 
@@ -17,8 +24,13 @@ var NewPerson = (
     <td>{props.result}</td>
 
     <td>
-      <Button id={props.id} onClick={props.addFriend}>
-        Friend
+      <Button
+        id={props.id}
+        onClick={props.addFriend}
+        className="add__friendBtn"
+      >
+        <FaUserPlus className="add__friend" />
+        Add Friend
       </Button>
     </td>
   </tr>
@@ -32,7 +44,8 @@ var CurrFriend = (
 
     <td>Already Friends!</td>
     <td>
-      <Button id={props.id} onClick={props.unfriend}>
+      <Button id={props.id} onClick={props.unfriend} className="unfriend__Btn">
+        <FaUserMinus className="delete__friend" />
         Unfriend
       </Button>
     </td>
@@ -46,8 +59,8 @@ var SentReq = (
     <td>{props.result}</td>
 
     <td>
-      <Button id={props.id} onClick={props.undo}>
-        Undo Req
+      <Button id={props.id} onClick={props.undo} className="undoReq__Btn">
+        <FaUndoAlt className="undo__req" /> Undo Req
       </Button>
     </td>
   </tr>
@@ -60,13 +73,23 @@ var GotReq = (
     <td>{props.result}</td>
 
     <td>
-      <Button id={props.id} onClick={props.acceptReq}>
+      <Button
+        id={props.id}
+        onClick={props.acceptReq}
+        className="acceptReq__Btn"
+      >
+        <FaUserCheck className="accept__req" />
         Accept Req
       </Button>
     </td>
 
     <td>
-      <Button id={props.id} onClick={props.rejectReq}>
+      <Button
+        id={props.id}
+        onClick={props.rejectReq}
+        className="rejectReq__Btn"
+      >
+        <FaUserTimes className="reject__req" />
         Reject Req
       </Button>
     </td>

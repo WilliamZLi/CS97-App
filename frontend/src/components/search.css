@@ -46,3 +46,26 @@ h4 {
   padding: 5px;
   padding-top: 0;
 }
+
+.add__friend,
+.delete__friend,
+.undo__req,
+.accept__req,
+.reject__req {
+  margin-right: 5px;
+}
+
+.add__friendBtn,
+.unfriend__Btn,
+.undoReq__Btn,
+.acceptReq__Btn,
+.rejectReq__Btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-family: "Open Sans", "sans-serif";
+  background: #0ed2f7;
+  border: none;
+  border-radius: 15px;
+}
