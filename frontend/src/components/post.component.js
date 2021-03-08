@@ -65,6 +65,7 @@ class Post extends Component {
       liked: false,
       likes: undefined,
       likeDisabled: false,
+      found: false
     };
   }
 
@@ -131,21 +132,26 @@ class Post extends Component {
       .then((res) => {
         console.log("made it back to fetch");
         console.log(res.data);
+        if (res.status !== 204) {
+          // clean up date info
+          var newDate = res.data.date.slice(0, 10);
 
-        // clean up date info
-        var newDate = res.data.date.slice(0, 10);
+          upld.push(res.data.uploader);
 
-        upld.push(res.data.uploader);
-
-        this.setState({
-          caption: res.data.caption,
-          photo: res.data.photo,
-          date: newDate,
-          uploader: res.data.uploader,
-          commentArray: res.data.comments,
-          likes: res.data.likeArray,
-        });
-        console.log(this.state);
+          this.setState({
+            caption: res.data.caption,
+            photo: res.data.photo,
+            date: newDate,
+            uploader: res.data.uploader,
+            commentArray: res.data.comments,
+            likes: res.data.likeArray,
+            found: true
+          });
+          console.log(this.state);
+        }
+        else {
+          this.setState({ found: false })
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -229,81 +235,94 @@ class Post extends Component {
     } else if (!this.state.logged) {
       return <Redirect to="/" />;
     }
-    return (
-      <div className="user-home">
-        <Header />
-        <div className="user-container">
-          <div className="user-contents">
-            <div className="photo__container">
-              {/* <h4>Image:</h4> */}
-              <header>{this.renderPhoto()}</header>
-              <div className="photo__info">
-                <h4 className="upload__date">Date Uploaded:</h4>
-                <header className="upload__dateHeader">
-                  {this.state.date}
-                </header>
-                <h4 className="uploader__name">Uploader:</h4>
-                <header>{this.state.uploader}</header>
-              </div>
-              <h4>Caption:</h4>
-              <header>{this.state.caption}</header>
-            </div>
-            <div className="like__btnContainer">
-              <p className="like__counter">
-                <AiTwotoneLike className="likeIcon__counter" />:{" "}
-                {this.state.likes !== undefined ? this.state.likes.length : "0"}
-              </p>{" "}
-              <Button
-                className="like__Button"
-                // variant="primary"
-                block="block"
-                disabled={this.state.likeDisabled}
-                onClick={this.likePost}
-              >
-                <AiTwotoneLike className="post__likeIcon" />
-                {this.state.liked ? "Liked" : "Like"}
-              </Button>
-            </div>
-            <hr />
-            <h4>Comments:</h4>
-            <table className="table table-striped" style={{ marginTop: 20 }}>
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Comment</th>
-                </tr>
-              </thead>
-              <tbody>{this.commentList()}</tbody>
-            </table>
-            <Form onSubmit={this.onSubmit}>
-              <Form.Group className="form-group post" controlId="Comment">
-                <Form.Label className="form-label post">Comment</Form.Label>
-                <div className="comment__container">
-                  <Form.Control
-                    className="form-control post"
-                    type="text"
-                    placeholder="Enter a comment"
-                    value={this.state.newComment}
-                    onChange={this.onChangeComment}
-                  />
-
-                  <Button
-                    className="comment__Button"
-                    size="lg"
-                    block="block"
-                    type="submit"
-                    disabled={this.state.disabled}
-                  >
-                    {this.state.disabled ? "Commenting.." : "Comment"}
-                  </Button>
+    if (this.state.found) {
+      return (
+        <div className="user-home">
+          <Header />
+          <div className="user-container">
+            <div className="user-contents">
+              <div className="photo__container">
+                {/* <h4>Image:</h4> */}
+                <header>{this.renderPhoto()}</header>
+                <div className="photo__info">
+                  <h4 className="upload__date">Date Uploaded:</h4>
+                  <header className="upload__dateHeader">
+                    {this.state.date}
+                  </header>
+                  <h4 className="uploader__name">Uploader:</h4>
+                  <header>{this.state.uploader}</header>
                 </div>
-              </Form.Group>
-            </Form>
+                <h4>Caption:</h4>
+                <header>{this.state.caption}</header>
+              </div>
+              <div className="like__btnContainer">
+                <p className="like__counter">
+                  <AiTwotoneLike className="likeIcon__counter" />:{" "}
+                  {this.state.likes !== undefined ? this.state.likes.length : "0"}
+                </p>{" "}
+                <Button
+                  className="like__Button"
+                  // variant="primary"
+                  block="block"
+                  disabled={this.state.likeDisabled}
+                  onClick={this.likePost}
+                >
+                  <AiTwotoneLike className="post__likeIcon" />
+                  {this.state.liked ? "Liked" : "Like"}
+                </Button>
+              </div>
+              <hr />
+              <h4>Comments:</h4>
+              <table className="table table-striped" style={{ marginTop: 20 }}>
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Comment</th>
+                  </tr>
+                </thead>
+                <tbody>{this.commentList()}</tbody>
+              </table>
+              <Form onSubmit={this.onSubmit}>
+                <Form.Group className="form-group post" controlId="Comment">
+                  <Form.Label className="form-label post">Comment</Form.Label>
+                  <div className="comment__container">
+                    <Form.Control
+                      className="form-control post"
+                      type="text"
+                      placeholder="Enter a comment"
+                      value={this.state.newComment}
+                      onChange={this.onChangeComment}
+                    />
+
+                    <Button
+                      className="comment__Button"
+                      size="lg"
+                      block="block"
+                      type="submit"
+                      disabled={this.state.disabled}
+                    >
+                      {this.state.disabled ? "Commenting.." : "Comment"}
+                    </Button>
+                  </div>
+                </Form.Group>
+              </Form>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+    else {
+      return (
+        <div className="form-wrapper">
+          <Header />
+          <header>No post found</header>
+          <header>Are you sure this is a post?</header>
+          <hr />
+        </div>
+      );
+    }
   }
+
 }
 
 export default withRouter(Post);

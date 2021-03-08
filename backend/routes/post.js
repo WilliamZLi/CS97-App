@@ -11,25 +11,29 @@ router.post('/fetch', async function (req, res) {
     const proj = {
         projection: { _id: 1, caption: 1, photo: 1, uploader: 1, date: 1, comments: 1, likeArray: 1 }
     }
-
-    PostCol = mango.get().db('test').collection('col');
-    PostCol.findOne({ _id: new ObjectId(req.body.id) }, proj)
-        .then(post => {
-            console.log(post)
-            if (post !== null) {
-                console.log("found matching post")
+    if (ObjectId.isValid(req.body.id)) {
+        PostCol = mango.get().db('test').collection('col');
+        PostCol.findOne({ _id: new ObjectId(req.body.id) }, proj)
+            .then(post => {
                 console.log(post)
-                res.json(post)
-            }
-            else {
-                console.log("couldn't find the post")
-                res.status(401).json()
-            }
-        })
-        .catch(err => {
-            console.log("Post backend error");
-            res.status(401).json(err.message);
-        })
+                if (post !== null) {
+                    console.log("found matching post")
+                    console.log(post)
+                    res.json(post)
+                }
+                else {
+                    console.log("couldn't find the post")
+                    res.status(401).json()
+                }
+            })
+            .catch(err => {
+                console.log("Post backend error");
+                res.status(401).json(err.message);
+            })
+    }
+    else {
+        res.status(204).json()
+    }
 
 });
 
@@ -103,12 +107,12 @@ router.post('/likePost', async function (req, res) {
     }
     else { // otherwise, like post
         await PostCol.updateOne({ _id: new ObjectId(req.body.post) }, { $push: { likeArray: userId } }, { upsert: true })
-        .then(resul => {
-            console.log('post_updated', resul)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+            .then(resul => {
+                console.log('post_updated', resul)
+            })
+            .catch(err => {
+                console.log(err)
+            })
         await names.updateOne({ _id: new ObjectId(userId) }, { $push: { likeArray: req.body.post } }, { upsert: true })
             .then(resul => {
                 console.log('updated to', resul)
