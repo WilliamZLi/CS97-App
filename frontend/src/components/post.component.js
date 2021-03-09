@@ -96,7 +96,7 @@ class Post extends Component {
       })
       .catch((err) => {
         this.setState({ newComment: "", disabled: false });
-        console.log(err);
+        // console.log(err);
         alert(err);
       });
   }
@@ -112,26 +112,26 @@ class Post extends Component {
       this.state.commentArray.length !== 0
     ) {
       return this.state.commentArray.map((comment) => {
-        console.log("comment", comment);
+        // console.log("comment", comment);
         return <Comment user={comment.user} comment={comment.comment} />;
       });
     }
   }
 
   async fetchPost() {
-    console.log("made it to fetchpost");
+    // console.log("made it to fetchpost");
     const pid = {
       id: this.props.match.params.id, // holds id of post
     };
-    console.log(pid);
+    // console.log(pid);
 
     let upld = [];
 
     await axios
       .post("http://localhost:5000/post/fetch", pid)
       .then((res) => {
-        console.log("made it back to fetch");
-        console.log(res.data);
+        // console.log("made it back to fetch");
+        // console.log(res.data);
         if (res.status !== 204) {
           // clean up date info
           var newDate = res.data.date.slice(0, 10);
@@ -147,28 +147,28 @@ class Post extends Component {
             likes: res.data.likeArray,
             found: true,
           });
-          console.log(this.state);
+          // console.log(this.state);
         } else {
           this.setState({ found: false });
         }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
 
     await axios
       .post("http://localhost:5000/post/likeStatus")
       .then((resol) => {
-        console.log("returned", resol.data.likeArray);
+        // console.log("returned", resol.data.likeArray);
         if (resol.data.likeArray !== undefined) {
           if (resol.data.likeArray.includes(this.props.match.params.id))
             this.setState({ liked: true });
           else this.setState({ liked: false });
         }
-        console.log("after check", this.state);
+        // console.log("after check", this.state);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
 
     // convert nameID to username
@@ -176,15 +176,15 @@ class Post extends Component {
       .post("http://localhost:5000/name/getname", upld)
       .then((resol) => {
         upldName = resol.data.name;
-        console.log(upldName);
-        console.log("done work");
+        // console.log(upldName);
+        // console.log("done work");
 
         this.setState({
           uploader: upldName,
         });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
@@ -192,12 +192,12 @@ class Post extends Component {
     axios
       .post("http://localhost:5000/auth/logged")
       .then((res) => {
-        console.log("succ", res);
+        // console.log("succ", res);
         this.setState({ logged: true, loading: false });
         this.fetchPost();
       })
       .catch((err) => {
-        console.log("fail", err);
+        // console.log("fail", err);
         this.setState({ loading: false });
       });
   }
@@ -210,13 +210,13 @@ class Post extends Component {
         post: this.props.match.params.id,
       })
       .then((resol) => {
-        console.log("returned", resol);
-        console.log("after like", this.state);
+        // console.log("returned", resol);
+        // console.log("after like", this.state);
         this.setState({ likeDisabled: false });
         this.fetchPost();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 

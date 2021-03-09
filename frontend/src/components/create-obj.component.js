@@ -32,11 +32,11 @@ export default class CreateObj extends Component {
     axios
       .post("http://localhost:5000/auth/logged")
       .then((arr) => {
-        console.log(arr);
+        // console.log(arr);
         this.setState({ logged: true, loading: false });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         this.setState({ loading: false });
       });
   }
@@ -46,7 +46,7 @@ export default class CreateObj extends Component {
   }
 
   onChangeObjBody(e) {
-    console.log(e);
+    // console.log(e);
     this.setState({ file: e.target.files[0], body: e.target.value });
   }
 
@@ -58,23 +58,23 @@ export default class CreateObj extends Component {
     }
     this.setState({ button: false });
 
-    console.log(this.state.file);
+    // console.log(this.state.file);
     const formData = new FormData();
     formData.append("photo", this.state.file);
     formData.append("caption", this.state.name);
-    console.log(formData);
+    // console.log(formData);
 
     axios
       .post("http://localhost:5000/objs/create-obj", formData, {
         headers: { "content-type": "multipart/form-data" },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.setState({ name: "", body: "", button: true, file: null });
       })
       .catch((err) => {
         this.setState({ button: true });
-        console.log(err);
+        // console.log(err);
         alert(err.response.data.message);
       });
   }

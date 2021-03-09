@@ -24,12 +24,12 @@ export default class ObjList extends Component {
       .post("http://localhost:5000/auth/logout")
       .then((res) => {
         // only remove if complete successfully
-        console.log(res);
+        // console.log(res);
         this.setState({ redirect: "/" });
       })
       .catch((err) => {
         // if error, notify user
-        console.log(err);
+        // console.log(err);
         alert(JSON.stringify(err));
       });
   }

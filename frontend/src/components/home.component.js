@@ -22,11 +22,11 @@ export default class Home extends Component {
     axios
       .post("http://localhost:5000/auth/logged")
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.setState({ redirect: "/myProfile", loading_done: true });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         this.setState({ loading_done: true });
       });
   }

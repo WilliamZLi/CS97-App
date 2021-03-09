@@ -110,7 +110,7 @@ export default class Friends extends Component {
       .post("http://localhost:5000/friend/showfriend")
       .then((res) => {
         // only remove if complete successfully
-        console.log(res.data);
+        // console.log(res.data);
         this.setState({
           pending:
             res.data.throwFriends !== undefined ? res.data.throwFriends : [],
@@ -118,17 +118,17 @@ export default class Friends extends Component {
             res.data.catchFriends !== undefined ? res.data.catchFriends : [],
           accepted: res.data.friends !== undefined ? res.data.friends : [],
         });
-        console.log(this.state, "check1");
+        // console.log(this.state, "check1");
       })
       .catch((err) => {
         // if error, notify user
-        console.log(err);
+        // console.log(err);
         alert(err);
       });
     await axios
       .post("http://localhost:5000/name/getnames", this.state.accepted)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.setState({
           accepted: res.data.sort((a, b) => (a.name > b.name ? 1 : -1)),
         }); // sort alphabetically
@@ -136,7 +136,7 @@ export default class Friends extends Component {
     await axios
       .post("http://localhost:5000/name/getnames", this.state.requests)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.setState({
           requests: res.data.sort((a, b) => (a.name > b.name ? 1 : -1)),
         }); // sort alphabetically
@@ -144,81 +144,81 @@ export default class Friends extends Component {
     await axios
       .post("http://localhost:5000/name/getnames", this.state.pending)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.setState({
           pending: res.data.sort((a, b) => (a.name > b.name ? 1 : -1)),
         }); // sort alphabetically
       });
-    console.log(this.state);
+    // console.log(this.state);
   }
   componentDidMount() {
     axios
       .post("http://localhost:5000/auth/logged")
       .then((arr) => {
-        console.log(arr);
+        // console.log(arr);
         this.setState({ logged: true, loading: false });
         this.fetchStatus();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         this.setState({ loading: false });
       });
   }
 
   unfriend(e) {
-    console.log("clicked unfriend!");
-    console.log(e.target.id);
+    // console.log("clicked unfriend!");
+    // console.log(e.target.id);
     axios
       .post("http://localhost:5000/friend/unfriend", { id: e.target.id })
       .then((res) => {
-        console.log("successful!");
+        // console.log("successful!");
         this.fetchStatus();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
   undoReq(e) {
-    console.log("clicked undo!");
-    console.log(e.target.id);
+    // console.log("clicked undo!");
+    // console.log(e.target.id);
 
     axios
       .post("http://localhost:5000/friend/undorequest", { id: e.target.id })
       .then((res) => {
-        console.log("successful!");
+        // console.log("successful!");
         this.fetchStatus();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
   acceptReq(e) {
-    console.log("clicked accept!");
-    console.log(e.target.id);
+    // console.log("clicked accept!");
+    // console.log(e.target.id);
     axios
       .post("http://localhost:5000/friend/acceptreq", { id: e.target.id })
       .then((res) => {
-        console.log("successful!");
+        // console.log("successful!");
         this.fetchStatus();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
   rejectReq(e) {
-    console.log("clicked reject!");
-    console.log(e.target.id);
+    // console.log("clicked reject!");
+    // console.log(e.target.id);
     axios
       .post("http://localhost:5000/friend/rejectreq", { id: e.target.id })
       .then((res) => {
-        console.log("successful!");
+        // console.log("successful!");
         this.fetchStatus();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
@@ -279,7 +279,7 @@ export default class Friends extends Component {
   }
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     if (this.state.loading) {
       return <div>Loading...</div>;
     } else if (!this.state.logged) {

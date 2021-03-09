@@ -17,11 +17,11 @@ export default class ListObj extends Component {
     axios
       .post("http://localhost:5000/auth/logged")
       .then((arr) => {
-        console.log(arr);
+        // console.log(arr);
         this.setState({ redirect: "/profile/" + arr.data.id, loading: false });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         this.setState({ loading: false, redirect: "/" });
       });
   }

@@ -58,7 +58,7 @@ class Profile extends Component {
   }
   async getAll() {
     const uid = this.props.match.params.id;
-    console.log(uid);
+    // console.log(uid);
     var array = [];
     array.push(uid);
     await axios.post("http://localhost:5000/log").then((res) => {
@@ -67,19 +67,19 @@ class Profile extends Component {
     await axios
       .post("http://localhost:5000/name/getname", array)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status !== 204)
           this.setState({ id: res.data._id, name: res.data.name, found: true });
         else this.setState({ loading: false }); // if is 204, meaning prof not found
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     if (this.state.found) {
       await axios
         .post("http://localhost:5000/objs/profile-obj", array)
         .then((res) => {
-          console.log("success", res.data);
+          // console.log("success", res.data);
           this.setState({
             gallery: res.data.sort(
               (a, b) => new Date(b.date) - new Date(a.date)
@@ -88,21 +88,21 @@ class Profile extends Component {
           });
         })
         .catch((err) => {
-          console.log("error", err);
+          // console.log("error", err);
         });
     }
-    console.log("afterload", this.state);
+    // console.log("afterload", this.state);
   }
   componentDidMount() {
     axios
       .post("http://localhost:5000/auth/logged")
       .then((res) => {
-        console.log("succ", res);
+        // console.log("succ", res);
         this.setState({ logged: true });
         this.getAll();
       })
       .catch((err) => {
-        console.log("fail", err);
+        // console.log("fail", err);
         this.setState({ loading: false });
       });
   }

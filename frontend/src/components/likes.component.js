@@ -63,13 +63,13 @@ class Likes extends Component {
     await axios
       .post("http://localhost:5000/objs/favorite-obj", [this.state.myId])
       .then((res) => {
-        console.log("success", res.data);
+        // console.log("success", res.data);
         this.setState({
           gallery: res.data.sort((a, b) => new Date(b.date) - new Date(a.date)),
         });
       })
       .catch((err) => {
-        console.log("error", err);
+        // console.log("error", err);
       });
     let temp = this.state.gallery;
     await Promise.all(
@@ -82,18 +82,18 @@ class Likes extends Component {
     ).then((result) => {
       this.setState({ gallery: temp, found: true, loading: false });
     });
-    console.log("afterload", this.state);
+    // console.log("afterload", this.state);
   }
 
   componentDidMount() {
     axios
       .post("http://localhost:5000/auth/logged")
       .then((arr) => {
-        console.log(arr);
+        // console.log(arr);
         this.getAll();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         this.setState({ loading: false, redirect: "/" });
       });
   }

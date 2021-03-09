@@ -32,11 +32,11 @@ export default class Register extends Component {
     axios
       .post("http://localhost:5000/auth/logged")
       .then((res) => {
-        console.log("succ", res); // if true, means logged in
+        // console.log("succ", res); // if true, means logged in
         this.setState({ logged: true, loading: false, redirect: "/" });
       })
       .catch((err) => {
-        console.log("fail", err); // if err, means not logged in, so valid for logging
+        // console.log("fail", err); // if err, means not logged in, so valid for logging
         this.setState({ loading: false, logged: false });
       });
   }
@@ -71,7 +71,7 @@ export default class Register extends Component {
       .post("http://localhost:5000/auth/regis", objObject)
       .then((res) => {
         // only remove if complete successfully
-        console.log(res);
+        // console.log(res);
         this.setState({ name: "", password: "" });
         this.setState({ redirect: "/login" });
       })

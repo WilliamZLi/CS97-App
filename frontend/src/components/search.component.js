@@ -170,7 +170,7 @@ export default class Search extends Component {
       .post("http://localhost:5000/friend/showfriend")
       .then((res) => {
         // only remove if complete successfully
-        console.log(res.data);
+        // console.log(res.data);
 
         this.setState({
           sentReqs:
@@ -180,11 +180,11 @@ export default class Search extends Component {
           currentFriends:
             res.data.friends !== undefined ? res.data.friends : [],
         });
-        console.log(this.state, "check1");
+        // console.log(this.state, "check1");
       })
       .catch((err) => {
         // if error, notify user
-        console.log(err);
+        // console.log(err);
         alert(err);
       });
   }
@@ -193,12 +193,12 @@ export default class Search extends Component {
     axios
       .post("http://localhost:5000/auth/logged")
       .then((arr) => {
-        console.log(arr);
+        // console.log(arr);
         this.setState({ logged: true, loading: false, myId: arr.data.id });
         this.fetchStatus();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         this.setState({ loading: false });
       });
   }
@@ -208,74 +208,74 @@ export default class Search extends Component {
   }
 
   unfriend(e) {
-    console.log("clicked unfriend!");
-    console.log(e.target.id);
+    // console.log("clicked unfriend!");
+    // console.log(e.target.id);
     axios
       .post("http://localhost:5000/friend/unfriend", { id: e.target.id })
       .then((res) => {
-        console.log("successful!");
+        // console.log("successful!");
         this.fetchStatus();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
   acceptReq(e) {
-    console.log("clicked accept!");
-    console.log(e.target.id);
+    // console.log("clicked accept!");
+    // console.log(e.target.id);
     axios
       .post("http://localhost:5000/friend/acceptreq", { id: e.target.id })
       .then((res) => {
-        console.log("successful!");
+        // console.log("successful!");
         this.fetchStatus();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
   rejectReq(e) {
-    console.log("clicked reject!");
-    console.log(e.target.id);
+    // console.log("clicked reject!");
+    // console.log(e.target.id);
     axios
       .post("http://localhost:5000/friend/rejectreq", { id: e.target.id })
       .then((res) => {
-        console.log("successful!");
+        // console.log("successful!");
         this.fetchStatus();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
   undoReq(e) {
-    console.log("clicked undo!");
-    console.log(e.target.id);
+    // console.log("clicked undo!");
+    // console.log(e.target.id);
 
     axios
       .post("http://localhost:5000/friend/undorequest", { id: e.target.id })
       .then((res) => {
-        console.log("successful!");
+        // console.log("successful!");
         this.fetchStatus();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
   addFriend(e) {
-    console.log("clicked add!");
-    console.log(e.target.id);
+    // console.log("clicked add!");
+    // console.log(e.target.id);
 
     axios
       .post("http://localhost:5000/friend/addfriend", { id: e.target.id })
       .then((res) => {
-        console.log("successful!");
+        // console.log("successful!");
         this.fetchStatus();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
@@ -301,15 +301,15 @@ export default class Search extends Component {
           // otherwise empty array and swap
           let temp = [];
           temp.push(res.data);
-          console.log(temp);
+          // console.log(temp);
           this.setState({ query: "", captureUser: temp });
-          console.log(this.state.captureUser);
+          // console.log(this.state.captureUser);
         }
       })
       .catch((err) => {
         // if error, notify user
         this.setState({ query: "" });
-        console.log(err);
+        // console.log(err);
         alert(err);
       });
     let temp = [];
@@ -323,16 +323,16 @@ export default class Search extends Component {
         } else {
           // otherwise empty array and swap
           temp = res.data;
-          console.log(temp);
+          // console.log(temp);
           this.setState({ query: "" });
           this.getNames(temp);
-          console.log(temp);
+          // console.log(temp);
         }
       })
       .catch((err) => {
         // if error, notify user
         this.setState({ query: "" });
-        console.log(err);
+        // console.log(err);
         alert(err);
       });
   }
@@ -409,7 +409,7 @@ export default class Search extends Component {
       this.state.captureCapt.length !== 0
     ) {
       return this.state.captureCapt.map((picture) => {
-        console.log("snap!", picture);
+        // console.log("snap!", picture);
         return (
           <Post
             caption={picture.caption}
