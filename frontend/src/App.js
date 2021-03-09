@@ -24,10 +24,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* <Container> */}
-        {/* <Row> */}
-        {/* <Col md={12}> */}
-        {/* <div className="wrapper"> */}
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/create-obj" component={CreateObj} />
@@ -43,10 +39,6 @@ function App() {
 
           <Route path="" component={NotFound} />
         </Switch>
-        {/* </div> */}
-        {/* </Col> */}
-        {/* </Row> */}
-        {/* </Container> */}
       </div>
     </Router>
   );
