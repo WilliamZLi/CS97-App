@@ -23,7 +23,9 @@ Running the app on your local machine:
     - go to the CS97-App directory and run `cd backend`
     - run the command `npm install` to get node_modules
     - run the command `npm start`
-    - There should be a message thats says "Connected to port 5000 \nListening on port 5000..."
+    - There should be a message thats says 
+        "Connected to port 5000 
+         Listening on port 5000..."
     - This means the backend/database is running successfully and is listening to the frontend.
 
 Now, the app is ready to go!
