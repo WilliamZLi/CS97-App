@@ -1,18 +1,11 @@
 .user-home {
   height: 80vh;
   width: 75%;
-  /* background: linear-gradient(
-    to right bottom,
-    rgb(255, 255, 255, 0.7),
-    rgb(255, 255, 255, 0.3)
-  );
-  border-radius: 1.5rem; */
   display: flex;
   flex-direction: column;
 }
 
 .user-container {
-  /* position: relative; */
   margin-top: 20px;
   flex: 1;
   overflow: hidden;
@@ -39,11 +32,6 @@
   align-items: center;
 }
 
-/* .profile-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-} */
 .expand__icon {
   font-size: 25px;
 }
@@ -69,15 +57,6 @@
 .profile__likesIcon {
   margin-right: 5px;
 }
-/* table tbody,
-table thead {
-  display: block;
-}
-
-table tbody {
-  overflow-y: scroll;
-  height: 385px;
-} */
 
 .user-contents.no__page {
   display: flex;

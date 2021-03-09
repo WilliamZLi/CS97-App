@@ -1,17 +1,3 @@
-/* .Uploader {
-  font-size: larger;
-  font-weight: bold;
-  font-style: italic;
-}
-.Uploader::after {
-  content: ": ";
-}
-
-.Caption {
-  margin-left: 5px;
-  font-size: large;
-} */
-
 .photo__container {
   margin-top: 30px;
   display: flex;
@@ -39,7 +25,6 @@
 }
 
 .like__Button {
-  /* margin-top: 25px; */
   font-weight: bold;
   font-family: "Open Sans", "sans-serif";
   background: #0ed2f7;
@@ -75,7 +60,6 @@
 }
 
 .likeIcon__counter {
-  /* margin: 5px; */
   font-size: 25px;
   color: #0ed2f7;
 }
