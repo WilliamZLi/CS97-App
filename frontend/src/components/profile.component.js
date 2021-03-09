@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import Image from "react-bootstrap/Image";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { Link, withRouter, Redirect } from "react-router-dom";
 import Header from "../Header";
