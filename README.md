@@ -10,7 +10,14 @@ Running the app on your local machine:
     - run the command `git clone <copied url>`
     - run the command `cd CS97-App`
 
-2. Run the frontend of the app
+
+2. Installing node
+If node is not already installed on your machine
+    - Go to https://nodejs.org/en/download/
+    - Download the installer matching your OS
+    - once it's downloaded, install node
+
+3. Run the frontend of the app
     - run the command `cd frontend`
     - run the command `npm install` to get node_modules
     - run the command `npm start`
@@ -18,7 +25,7 @@ Running the app on your local machine:
     - This means the frontend is running successfully and you can connect to it in your browser.
     - Follow the link "http://localhost:3000" in terminal or input this link in your browser.
 
-3. Run the backend of the app
+4. Run the backend of the app
     - open another terminal and cd into the backend directory
     - go to the CS97-App directory and run `cd backend`
     - run the command `npm install` to get node_modules
