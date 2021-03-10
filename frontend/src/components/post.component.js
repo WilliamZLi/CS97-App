@@ -249,7 +249,9 @@ class Post extends Component {
             <div className="user-contents">
               <div className="photo__container">
                 {/* <h4>Image:</h4> */}
-                <header>{this.renderPhoto()}</header>
+                <table>
+                  <tbody>{this.renderPhoto()}</tbody>
+                </table>
                 <div className="photo__info">
                   <h4 className="upload__date">Date Uploaded:</h4>
                   <header className="upload__dateHeader">
