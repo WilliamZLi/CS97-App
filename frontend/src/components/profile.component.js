@@ -52,6 +52,7 @@ class Profile extends Component {
       name: null,
       gallery: [],
       myProfile: false,
+      myId: null
     };
   }
   async getAll() {
@@ -60,15 +61,19 @@ class Profile extends Component {
     var array = [];
     array.push(uid);
     await axios.post("http://localhost:5000/log").then((res) => {
-      if (res.data.id === uid) this.setState({ myProfile: true });
+      if (res.data.id === uid)
+        this.setState({ myProfile: true });
+      else
+        this.setState({ myId: res.data.id })
     });
     await axios
       .post("http://localhost:5000/name/getname", array)
-      .then((res) => {
-        // console.log(res);
-        if (res.status !== 204)
+      .then((res) => { 
+        if ((res.status !== 204 && res.data.friends.includes(this.state.myId)) || this.state.myProfile)
+          // block viewing if not friends with you
           this.setState({ id: res.data._id, name: res.data.name, found: true });
-        else this.setState({ loading: false }); // if is 204, meaning prof not found
+        else
+          this.setState({ loading: false }); // if is 204, meaning prof not found
       })
       .catch((err) => {
         // console.log(err);

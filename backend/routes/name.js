@@ -29,7 +29,7 @@ router.route('/getname').post(async function (req, res, next) {
     //console.log('got to getname', structure)
     if (ObjectId.isValid(structure)) {
         names = mango.get().db('app').collection('users')
-        names.findOne({ _id: new ObjectId(structure) }, { projection: { name: 1 } })
+        names.findOne({ _id: new ObjectId(structure) }, { projection: { name: 1, friends: 1 } })
             .then(resul => {
                 //console.log('valid obj',resul)
                 if (resul === null) {

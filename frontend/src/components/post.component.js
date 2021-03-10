@@ -66,6 +66,7 @@ class Post extends Component {
       likes: undefined,
       likeDisabled: false,
       found: false,
+      myId: null
     };
   }
 
@@ -145,11 +146,10 @@ class Post extends Component {
             uploader: res.data.uploader,
             commentArray: res.data.comments,
             likes: res.data.likeArray,
-            found: true,
           });
           // console.log(this.state);
         } else {
-          this.setState({ found: false });
+          this.setState({ loading: false });
         }
       })
       .catch((err) => {
@@ -159,11 +159,12 @@ class Post extends Component {
     await axios
       .post("http://localhost:5000/post/likeStatus")
       .then((resol) => {
-        // console.log("returned", resol.data.likeArray);
+        console.log("returned", resol.data);
         if (resol.data.likeArray !== undefined) {
           if (resol.data.likeArray.includes(this.props.match.params.id))
-            this.setState({ liked: true });
-          else this.setState({ liked: false });
+            this.setState({ liked: true, myId: resol.data._id });
+          else
+            this.setState({ liked: false, myId: resol.data._id });
         }
         // console.log("after check", this.state);
       })
@@ -178,10 +179,16 @@ class Post extends Component {
         upldName = resol.data.name;
         // console.log(upldName);
         // console.log("done work");
-
-        this.setState({
-          uploader: upldName,
-        });
+        if (resol.data._id === this.state.myId || resol.data.friends.includes(this.state.myId)) {
+          this.setState({
+            uploader: upldName,
+            found: true,
+            loading: false
+          });
+        }
+        else {
+          this.setState({ loading: false })
+        }
       })
       .catch((err) => {
         // console.log(err);
@@ -193,7 +200,7 @@ class Post extends Component {
       .post("http://localhost:5000/auth/logged")
       .then((res) => {
         // console.log("succ", res);
-        this.setState({ logged: true, loading: false });
+        this.setState({ logged: true });
         this.fetchPost();
       })
       .catch((err) => {

@@ -127,7 +127,7 @@ router.post('/likePost', async function (req, res) {
 router.post('/likeStatus', function (req, res) {
     names = mango.get().db('app').collection('users')
     var userId = req.session.passport.user  // current user
-    names.findOne({ _id: new ObjectId(userId) }, { projection: { likeArray: 1 } })
+    names.findOne({ _id: new ObjectId(userId) }, { projection: { likeArray: 1, friends: 1 } })
         .then(resul => {
             // console.log('likestatus', resul)
             res.json(resul)
