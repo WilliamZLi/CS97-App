@@ -52,7 +52,7 @@ export default class CreateObj extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state.body.trim())
+    //console.log(this.state.body.trim())
     if (this.state.name === "" || this.state.body === "" || this.state.name.trim() === "") {
       alert("Cannot submit an empty form");
       return;

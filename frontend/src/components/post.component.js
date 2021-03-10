@@ -159,7 +159,7 @@ class Post extends Component {
     await axios
       .post("http://localhost:5000/post/likeStatus")
       .then((resol) => {
-        console.log("returned", resol.data);
+        // console.log("returned", resol.data);
         if (resol.data.likeArray !== undefined) {
           if (resol.data.likeArray.includes(this.props.match.params.id))
             this.setState({ liked: true, myId: resol.data._id });
