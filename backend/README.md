@@ -1,34 +1,17 @@
+# Getting Started 
 
-CS97-App
-HBCXGYMO
 
-Public API Key for MongoDB > The public key acts as the username when making API requests.
-f1bb802e-cf8f-4383-b002-269ba03e7da8
+### Note: run `npm install` to get modules
 
-private key > The private key acts as the password when making API requests.
+## Available Scripts
 
-Run with windows powershell:
+In the project directory, you can run:
 
-SET DEBUG=backend:*
+### `yarn start` or `npm start` for usage mode
 
-npm run dev
+### `npm run dev` for dev mode
+Runs the app in the development mode.\
+Open [http://localhost:5000](http://localhost:5000) to see if it's running in the browser.
 
-Notes:
-using nodemon (run dev) as apparently it helps restart the server if changes are made
-run with npm run dev -V (verbose mode) if you want to check if it's working
 
-routing: from what i can tell, to route (make a new page) you need:
 
-in app.js:
-
-var \<name\>Router = require('./routes/\<name\>');
-
-app.use('/users', \<name\>Router);
-
-and in ./routes (sub-directory)
-
-create the \<name\> file
-
-(use the ones already there for reference)
-
-### now running on server port 5000
