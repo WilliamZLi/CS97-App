@@ -40,7 +40,8 @@ var Comment = (props) => (
 
 var NoComment = (props) => (
   <tr>
-    <td>No comments!</td>
+    <td>No comments yet!</td>
+    <td>Why not post one youself?</td>
   </tr>
 );
 
@@ -132,7 +133,7 @@ class Post extends Component {
       .post("http://localhost:5000/post/fetch", pid)
       .then((res) => {
         // console.log("made it back to fetch");
-        // console.log(res.data);
+        //console.log(res);
         if (res.status !== 204) {
           // clean up date info
           var newDate = res.data.date.slice(0, 10);
@@ -143,7 +144,6 @@ class Post extends Component {
             caption: res.data.caption,
             photo: res.data.photo,
             date: newDate,
-            uploader: res.data.uploader,
             commentArray: res.data.comments,
             likes: res.data.likeArray,
           });
@@ -153,7 +153,7 @@ class Post extends Component {
         }
       })
       .catch((err) => {
-        // console.log(err);
+        this.setState({ loading: false });
       });
 
     await axios
@@ -328,6 +328,10 @@ class Post extends Component {
             <div className="user-contents no__page">
               <header>No post found</header>
               <header>Are you sure this is a post?</header>
+              <header>
+                If you're not friends with the poster,
+                this will display instead of the post as well
+              </header>
               <hr />
             </div>
           </div>

@@ -183,6 +183,10 @@ class Profile extends Component {
             <div className="user-contents no__page">
               <header>No profile found</header>
               <header>Are you sure this is a user?</header>
+              <header>
+                If you're not friends with the user,
+                this will display as well
+              </header>
             </div>
           </div>
         </div>

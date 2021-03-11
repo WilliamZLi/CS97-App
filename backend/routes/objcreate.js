@@ -25,7 +25,7 @@ router.route('/create-obj').post((req, res) => {
     }
     else if (!req.file) {
       //console.log('no file found')
-      return res.status(401).json({ message: `File not supported format` })
+      return res.status(401).json({ message: `File not supported; Accepted formats: png, jpg, or jpeg` })
     }
     else {
       //console.log('got to objcrea')

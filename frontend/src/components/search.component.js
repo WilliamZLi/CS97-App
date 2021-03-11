@@ -128,7 +128,7 @@ var Post = (
 
 var NoPost = (props) => (
   <tr>
-    <td>Nothing here!</td>
+    <td>No posts found with search term in caption</td>
   </tr>
 );
 

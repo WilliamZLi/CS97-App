@@ -53,8 +53,12 @@ export default class CreateObj extends Component {
   onSubmit(e) {
     e.preventDefault();
     //console.log(this.state.body.trim())
-    if (this.state.name === "" || this.state.body === "" || this.state.name.trim() === "") {
-      alert("Cannot submit an empty form");
+    if (this.state.name === "" || this.state.name.trim() === "") {
+      alert("Your post must have a caption!");
+      return;
+    }
+    else if (this.state.body === "") {
+      alert("Your post must contain a picture!  ");
       return;
     }
     this.setState({ button: false });
