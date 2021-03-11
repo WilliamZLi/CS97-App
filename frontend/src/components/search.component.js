@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Header from "../Header";
 import "./search.css";
+import { HiOutlineArrowsExpand } from "react-icons/hi";
 import {
   FaSearch,
   FaUserPlus,
@@ -121,7 +122,9 @@ var Post = (
       </Link>
     </td>
     <td>
-      <Link to={"/post/" + props.id}>View Post</Link>
+      <Link to={"/post/" + props.id} className="expand-icon-link">
+        <HiOutlineArrowsExpand className="expand__icon" />
+      </Link>
     </td>
   </tr>
 );
@@ -484,7 +487,7 @@ export default class Search extends Component {
                     <th>Preview</th>
                     <th>Caption</th>
                     <th>Uploader</th>
-                    <th>Actions</th>
+                    <th>View</th>
                   </tr>
                 </thead>
                 <tbody>{this.postList()}</tbody>
